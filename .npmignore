@@ -1,0 +1,21 @@
+﻿#dev stuff
+*.ts
+!*.d.ts
+/.github
+/config
+/coverage
+/node_modules
+/obj/Debug
+.bithoundrc
+.gitignore
+.gitattributes
+.npmignore
+.travis.yml
+appveyor.yml
+gulpfile.js
+karma.conf.js
+nglibs.metadata.csproj
+nglibs.metadata.csproj.user
+npm-debug.log
+tsconfig.json
+tslint.json

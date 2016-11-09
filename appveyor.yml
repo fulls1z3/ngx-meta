@@ -1,0 +1,29 @@
+# Test against this version of Node.js
+environment:
+  matrix:
+    - nodejs_version: "6"
+cache:
+  # local npm modules
+  - node_modules -> package.json
+  # Don't actually build.
+build: off
+
+# Fix line endings on Windows
+init:
+  - git config --global core.autocrlf true
+# Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js
+  - ps: Install-Product node $env:nodejs_version
+  - npm install -g npm
+  # install modules
+  - npm install
+# Post-install test scripts
+test_script:
+  # Output useful info for debugging.
+  - node --version && npm --version
+  # We test multiple Windows shells because of prior stdout buffering issues
+  # filed against Grunt. https://github.com/joyent/node/issues/3584
+  - ps: "npm test # PowerShell" # Pass comment to PS for easier debugging
+  # run tests
+  - cmd: npm test
