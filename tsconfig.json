@@ -18,9 +18,9 @@
   "files": [
     "index.ts",
     "src/models/page-title-positioning.ts",
-    "src/models/metadata-settings.ts",
-    "src/metadata.loader.ts",
-    "src/metadata.service.ts"
+    "src/models/meta-settings.ts",
+    "src/meta.loader.ts",
+    "src/meta.service.ts"
   ],
   "exclude": [
     "node_modules"

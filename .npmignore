@@ -14,8 +14,8 @@
 appveyor.yml
 gulpfile.js
 karma.conf.js
-nglibs.metadata.csproj
-nglibs.metadata.csproj.user
+nglibs.meta.csproj
+nglibs.meta.csproj.user
 npm-debug.log
 tsconfig.json
 tslint.json
