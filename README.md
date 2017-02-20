@@ -12,13 +12,14 @@
 - [Getting started](#getting-started)
     - [Installation](#installation)
 	- [Examples](#examples)
-	- [@nglibs packages](#nglibs-packages)
-	- [Adding @nglibs/metadata to your project (SystemJS)](#adding-nglibsmetadata-to-your-project-systemjs)
+	- [`@nglibs` packages](#nglibs-packages)
+	- [Adding `@nglibs/metadata` to your project (SystemJS)](#adding-nglibsmetadata-to-your-project-systemjs)
 	- [Route configuration](#route-configuration)
     - [app.module configuration](#appmodule-configuration)
 	- [app.component configuration](#appcomponent-configuration)
 - [Settings](#settings)
-	- [Set metadata programmatically](#set-metadata-programmatically)
+	- [Setting up `MetadataModule` to use `MetadataStaticLoader`](#setting-up-metadatamodule-to-use-metadatastaticloader)
+- [Set metadata programmatically](#set-metadata-programmatically)
 - [Credits](#credits)
 - [License](#license)
 
@@ -37,14 +38,14 @@ npm install @nglibs/metadata --save
 ### Examples
 - [@nglibs/example-app] is an officially maintained example application showcasing best practices for **[@nglibs]** utilities.
 
-### @nglibs packages
+### `@nglibs` packages
 
 - [@nglibs/config]
 - [@nglibs/metadata]
 - [@nglibs/i18n-router]
 - [@nglibs/i18n-router-config-loader]
 
-### Adding @nglibs/metadata to your project (SystemJS)
+### Adding `@nglibs/metadata` to your project (SystemJS)
 Add `map` for **`@nglibs/metadata`** in your `systemjs.config`
 ```javascript
 '@nglibs/metadata': 'node_modules/@nglibs/metadata/bundles/metadata.umd.min.js'
@@ -55,6 +56,7 @@ Add metadata inside the `data` property of routes.
 
 **Note:** meta properties such as `title`, `description`, `author` and `publisher` are duplicated as `og:title`, `og:description`, `og:author` and `og:publisher`, so there's no need to declare them again in this context.
 
+#### app.routes.ts
 ```TypeScript
 export const routes: Routes = [
   {
@@ -95,6 +97,7 @@ export const routes: Routes = [
 ### app.module configuration
 Import `MetadataModule` using the mapping `'@nglibs/metadata'` and append `MetadataModule.forRoot({...})` within the imports property of **app.module** (*considering the app.module is the core module in Angular application*).
 
+#### app.module.ts
 ```TypeScript
 ...
 import { MetadataModule } from '@nglibs/metadata';
@@ -117,6 +120,7 @@ import { MetadataModule } from '@nglibs/metadata';
 ### app.component configuration
 Import `MetadataService` using the mapping `'@nglibs/metadata'` and **inject** it in the constructor of **app.component** (*considering the app.component is the bootstrap component in Angular application*).
 
+#### app.component.ts
 ```TypeScript
 ...
 import { MetadataService } from '@nglibs/metadata';
@@ -132,22 +136,22 @@ export class AppComponent {
 }
 ```
 
-
-Holy cow! **`@nglibs/metadata`** will update the **page title** and **meta tags** every time the route changes.
-
 ## Settings
-You can call the [forRoot] static method using the `MetadataStaticLoader`. By default, it is configured to **`prepend page titles`** after the `application name` (if any set). These **default metadata settings** are used when a route doesn't contain any metadata in its `data` property.
+You can call the [forRoot] static method using the `MetadataStaticLoader`. By default, it is configured to **prepend page titles** after the **application name** (*if any set*). These **default metadata settings** are used when a route doesn't contain any `metadata` in its `data` property.
 
-You can customize this behavior (*and ofc other settings*) by supplying metadata settings to `MetadataStaticLoader`.
+> You can customize this behavior (*and ofc other settings*) by supplying **metadata settings** to `MetadataStaticLoader`.
 
 The following example shows the use of an exported function (*instead of an inline function*) for [AoT compilation].
 
+### Setting up `MetadataModule` to use `MetadataStaticLoader`
+
+#### app.module.ts
 ```TypeScript
 ...
 import { MetadataModule, MetadataLoader, MetadataStaticLoader, PageTitlePositioning } from '@nglibs/metadata';
 ...
 
-export function metadataFactory() {
+export function metadataFactory(): MetadataLoader {
   return new MetadataStaticLoader({
     pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
     pageTitleSeparator: ' - ',
@@ -182,7 +186,13 @@ export function metadataFactory() {
 })
 ```
 
-### Set metadata programmatically
+`MetadataStaticLoader` has one parameter:
+
+- **settings**: `MetadataSettings` : metadata settings (*by default, prepend page titles*)
+
+> :+1: Holy cow! **`@nglibs/metadata`** will update the **page title** and **meta tags** every time the route changes.
+
+## Set metadata programmatically
 ```TypeScript
 ...
 import { Component, OnInit } from '@angular/core';
