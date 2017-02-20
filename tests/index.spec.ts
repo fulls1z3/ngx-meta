@@ -6,7 +6,7 @@ import { Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 // module
-import { MetadataModule, MetadataSettings, PageTitlePositioning } from '../index';
+import { MetaModule, MetaSettings, PageTitlePositioning } from '../index';
 
 export const getAttribute = (doc: any, name: string, attribute: string) => {
     let selector = `meta[name="${name}"]`;
@@ -30,7 +30,7 @@ const testRoutes: Routes = [
                 path: 'duck',
                 component: TestComponent,
                 data: {
-                    metadata: {
+                    meta: {
                         disabled: true,
                         title: 'Rubber duckie',
                         description: 'Have you seen my rubber duckie?'
@@ -41,7 +41,7 @@ const testRoutes: Routes = [
                 path: 'toothpaste',
                 component: TestComponent,
                 data: {
-                    metadata: {
+                    meta: {
                         title: 'Toothpaste',
                         override: true, // prevents appending/prepending the application name to the title attribute
                         description: 'Eating toothpaste is considered to be too healthy!',
@@ -55,7 +55,7 @@ const testRoutes: Routes = [
                 component: TestComponent
             },
             {
-                path: 'no-metadata',
+                path: 'no-meta',
                 component: TestComponent,
                 data: {
                     dummy: 'yummy'
@@ -63,7 +63,7 @@ const testRoutes: Routes = [
             }
         ],
         data: {
-            metadata: {
+            meta: {
                 title: 'Sweet home',
                 description: 'Home, home sweet home... and what?'
             }
@@ -71,17 +71,17 @@ const testRoutes: Routes = [
     }
 ];
 
-export const defaultSettings: MetadataSettings = {
+export const defaultSettings: MetaSettings = {
     pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
     defaults: {}
 };
 
-export const emptySettings: MetadataSettings = {
+export const emptySettings: MetaSettings = {
     pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
     defaults: undefined
 };
 
-export const testSettings: MetadataSettings = {
+export const testSettings: MetaSettings = {
     pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
     pageTitleSeparator: ' - ',
     applicationName: 'Tour of (lazy/busy) heroes',
@@ -110,7 +110,7 @@ export const testModuleConfig = (moduleOptions?: any) => {
             ],
             imports: [
                 RouterTestingModule.withRoutes(testRoutes),
-                MetadataModule.forRoot(moduleOptions)
+                MetaModule.forRoot(moduleOptions)
             ]
         });
 };

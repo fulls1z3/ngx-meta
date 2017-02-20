@@ -60,10 +60,10 @@ module.exports = {
          *
          * See: http://webpack.github.io/docs/configuration.html#output-filename
          */
-        filename: 'metadata.umd.min.js',
+        filename: 'meta.umd.min.js',
 
         libraryTarget: 'umd',
-        library: 'metadata'
+        library: 'meta'
     },
 
     /**

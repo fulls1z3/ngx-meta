@@ -1,7 +1,7 @@
 // module
 import { PageTitlePositioning } from './page-title-positioning';
 
-export interface MetadataSettings {
+export interface MetaSettings {
     /**
      * represents whether title attributes are positioned before/after the application name
      */
