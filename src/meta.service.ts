@@ -8,20 +8,20 @@ import 'rxjs/add/operator/filter';
 
 // module
 import { PageTitlePositioning } from './models/page-title-positioning';
-import { MetadataLoader } from './metadata.loader';
+import { MetaLoader } from './meta.loader';
 
 @Injectable()
-export class MetadataService {
-    private readonly metadataSettings: any;
-    private readonly isMetadataSet: any;
+export class MetaService {
+    private readonly metaSettings: any;
+    private readonly isMetaSet: any;
 
-    constructor(public loader: MetadataLoader,
+    constructor(public loader: MetaLoader,
                 private readonly router: Router,
                 @Inject(DOCUMENT) private readonly document: any,
                 private readonly titleService: Title,
                 private readonly activatedRoute: ActivatedRoute) {
-        this.metadataSettings = loader.getSettings();
-        this.isMetadataSet = {};
+        this.metaSettings = loader.getSettings();
+        this.isMetaSet = {};
 
         this.router.events
             .filter(event => (event instanceof NavigationEnd))
@@ -32,10 +32,10 @@ export class MetadataService {
                     route = route.firstChild;
 
                     if (!!route.snapshot.routeConfig.data) {
-                        const metadata = route.snapshot.routeConfig.data['metadata'];
+                        const meta = route.snapshot.routeConfig.data['meta'];
 
-                        if (!!metadata)
-                            this.updateMetadata(metadata, routeData.url);
+                        if (!!meta)
+                            this.updateMeta(meta, routeData.url);
                     }
                 }
             });
@@ -44,25 +44,25 @@ export class MetadataService {
     setTitle(title: string, override = false): void {
         const ogTitleElement = this.getOrCreateMetaTag('og:title');
 
-        switch (this.metadataSettings.pageTitlePositioning) {
+        switch (this.metaSettings.pageTitlePositioning) {
             case PageTitlePositioning.AppendPageTitle:
                 title = (!override
-                        && !!this.metadataSettings.pageTitleSeparator
-                        && !!this.metadataSettings.applicationName
-                        ? (this.metadataSettings.applicationName + this.metadataSettings.pageTitleSeparator)
+                        && !!this.metaSettings.pageTitleSeparator
+                        && !!this.metaSettings.applicationName
+                        ? (this.metaSettings.applicationName + this.metaSettings.pageTitleSeparator)
                         : '')
-                    + (!!title ? title : (this.metadataSettings.defaults['title'] || ''));
+                    + (!!title ? title : (this.metaSettings.defaults['title'] || ''));
                 break;
             case PageTitlePositioning.PrependPageTitle:
-                title = (!!title ? title : (this.metadataSettings.defaults['title'] || ''))
+                title = (!!title ? title : (this.metaSettings.defaults['title'] || ''))
                     + (!override
-                        && !!this.metadataSettings.pageTitleSeparator
-                        && !!this.metadataSettings.applicationName
-                        ? (this.metadataSettings.pageTitleSeparator + this.metadataSettings.applicationName)
+                        && !!this.metaSettings.pageTitleSeparator
+                        && !!this.metaSettings.applicationName
+                        ? (this.metaSettings.pageTitleSeparator + this.metaSettings.applicationName)
                         : '');
                 break;
             default:
-                throw new Error(`Invalid pageTitlePositioning specified [${this.metadataSettings.pageTitlePositioning}]!`);
+                throw new Error(`Invalid pageTitlePositioning specified [${this.metaSettings.pageTitlePositioning}]!`);
         }
 
         if (!title)
@@ -75,16 +75,16 @@ export class MetadataService {
     setTag(tag: string, value: string): void {
         if (tag === 'title')
             throw new Error(`Attempt to set ${tag} through 'setTag': 'title' is a reserved tag name. `
-                + `Please use 'MetadataService.setTitle' instead.`);
+                + `Please use 'MetaService.setTitle' instead.`);
 
         value = !!value
             ? value
-            : !!this.metadataSettings.defaults ? this.metadataSettings.defaults[tag] : '';
+            : !!this.metaSettings.defaults ? this.metaSettings.defaults[tag] : '';
 
         const tagElement = this.getOrCreateMetaTag(tag);
 
         tagElement.setAttribute('content', tag === 'og:locale' ? value.replace(/-/g, '_') : value);
-        this.isMetadataSet[tag] = true;
+        this.isMetaSet[tag] = true;
 
         if (tag === 'description') {
             const ogDescriptionElement = this.getOrCreateMetaTag('og:description');
@@ -96,18 +96,18 @@ export class MetadataService {
             const ogPublisherElement = this.getOrCreateMetaTag('og:publisher');
             ogPublisherElement.setAttribute('content', value);
         } else if (tag === 'og:locale') {
-            const availableLocales = !!this.metadataSettings.defaults
-                ? this.metadataSettings.defaults['og:locale:alternate']
+            const availableLocales = !!this.metaSettings.defaults
+                ? this.metaSettings.defaults['og:locale:alternate']
                 : '';
 
             this.updateLocales(value, availableLocales);
-            this.isMetadataSet['og:locale:alternate'] = true;
+            this.isMetaSet['og:locale:alternate'] = true;
         } else if (tag === 'og:locale:alternate') {
             const ogLocaleElement = this.getOrCreateMetaTag('og:locale');
             const currentLocale = ogLocaleElement.getAttribute('content');
 
             this.updateLocales(currentLocale, value);
-            this.isMetadataSet['og:locale'] = true;
+            this.isMetaSet['og:locale'] = true;
         }
     }
 
@@ -135,8 +135,8 @@ export class MetadataService {
 
     private updateLocales(currentLocale: string, availableLocales: any): void {
         if (!currentLocale)
-            currentLocale = !!this.metadataSettings.defaults
-                ? this.metadataSettings.defaults['og:locale']
+            currentLocale = !!this.metaSettings.defaults
+                ? this.metaSettings.defaults['og:locale']
                 : '';
 
         const html = this.document.querySelector('html');
@@ -163,23 +163,23 @@ export class MetadataService {
         }
     }
 
-    private updateMetadata(metadata: any, currentUrl: string): void {
-        if (metadata.disabled)
+    private updateMeta(meta: any, currentUrl: string): void {
+        if (meta.disabled)
             return;
 
-        this.setTitle(metadata.title, metadata.override);
+        this.setTitle(meta.title, meta.override);
 
-        Object.keys(metadata)
+        Object.keys(meta)
             .forEach(key => {
-                let value = metadata[key];
+                let value = meta[key];
 
                 if (key === 'title' || key === 'override')
                     return;
                 else if (key === 'og:locale')
                     value = value.replace(/-/g, '_');
                 else if (key === 'og:locale:alternate') {
-                    const currentLocale = metadata['og:locale'];
-                    this.updateLocales(currentLocale, metadata[key]);
+                    const currentLocale = meta['og:locale'];
+                    this.updateLocales(currentLocale, meta[key]);
 
                     return;
                 }
@@ -187,19 +187,19 @@ export class MetadataService {
                 this.setTag(key, value);
             });
 
-        if (!!this.metadataSettings.defaults)
-            Object.keys(this.metadataSettings.defaults)
+        if (!!this.metaSettings.defaults)
+            Object.keys(this.metaSettings.defaults)
                 .forEach(key => {
 
-                    let value = this.metadataSettings.defaults[key];
+                    let value = this.metaSettings.defaults[key];
 
-                    if (key in this.isMetadataSet || key in metadata || key === 'title' || key === 'override')
+                    if (key in this.isMetaSet || key in meta || key === 'title' || key === 'override')
                         return;
                     else if (key === 'og:locale')
                         value = value.replace(/-/g, '_');
                     else if (key === 'og:locale:alternate') {
-                        const currentLocale = metadata['og:locale'];
-                        this.updateLocales(currentLocale, this.metadataSettings.defaults[key]);
+                        const currentLocale = meta['og:locale'];
+                        this.updateLocales(currentLocale, this.metaSettings.defaults[key]);
 
                         return;
                     }
@@ -207,6 +207,6 @@ export class MetadataService {
                     this.setTag(key, value);
                 });
 
-        this.setTag('og:url', (this.metadataSettings.applicationUrl || '/')  + currentUrl.replace(/\/$/g, ''));
+        this.setTag('og:url', (this.metaSettings.applicationUrl || '/')  + currentUrl.replace(/\/$/g, ''));
     }
 }
