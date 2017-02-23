@@ -10,9 +10,7 @@ import { getAttribute, TestComponent, testSettings, defaultSettings, emptySettin
 describe('@nglibs/metadata:',
     () => {
         beforeEach(() => {
-            function metadataFactory(): MetadataLoader {
-                return new MetadataStaticLoader(testSettings);
-            }
+            const metadataFactory = () => new MetadataStaticLoader(testSettings);
 
             testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
         });
@@ -90,9 +88,7 @@ describe('@nglibs/metadata:',
                 it('should be able to set metadata using routes w/o default settings',
                     inject([Title, DOCUMENT],
                         fakeAsync((title: Title, doc: any) => {
-                            function metadataFactory(): MetadataLoader {
-                                return new MetadataStaticLoader(emptySettings);
-                            }
+                            const metadataFactory = () => new MetadataStaticLoader(emptySettings);
 
                             testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
 
@@ -137,9 +133,7 @@ describe('@nglibs/metadata:',
                             const appendedSettings = testSettings;
                             appendedSettings.pageTitlePositioning = PageTitlePositioning.AppendPageTitle;
 
-                            function metadataFactory(): MetadataLoader {
-                                return new MetadataStaticLoader(appendedSettings);
-                            }
+                            const metadataFactory = () => new MetadataStaticLoader(appendedSettings);
 
                             testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
 
@@ -162,12 +156,10 @@ describe('@nglibs/metadata:',
                 it('should be able to set `title` w/o default settings',
                     inject([Title],
                         (title: Title) => {
-                            function metadataFactory(): MetadataLoader {
-                                return new MetadataStaticLoader({
-                                    pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
-                                    defaults: {}
-                                });
-                            }
+                            const metadataFactory = () => new MetadataStaticLoader({
+                                pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
+                                defaults: {}
+                            });
 
                             testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
 
@@ -181,12 +173,10 @@ describe('@nglibs/metadata:',
                 it('should be able to set `title` w/o default settings (appended)',
                     inject([Title],
                         (title: Title) => {
-                            function metadataFactory(): MetadataLoader {
-                                return new MetadataStaticLoader({
-                                    pageTitlePositioning: PageTitlePositioning.AppendPageTitle,
-                                    defaults: {}
-                                });
-                            }
+                            const metadataFactory = () => new MetadataStaticLoader({
+                                pageTitlePositioning: PageTitlePositioning.AppendPageTitle,
+                                defaults: {}
+                            });
 
                             testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
 
@@ -203,25 +193,18 @@ describe('@nglibs/metadata:',
                             const invalidSettings = testSettings;
                             invalidSettings.pageTitlePositioning = undefined;
 
-                            function metadataFactory(): MetadataLoader {
-                                return new MetadataStaticLoader(invalidSettings);
-                            }
+                            const metadataFactory = () => new MetadataStaticLoader(invalidSettings);
 
                             testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
 
-                            expect(() => {
-                                    metadata.setTitle('');
-                                })
-                                .toThrowError('Error: Invalid pageTitlePositioning specified [undefined]!');
+                            expect(() => metadata.setTitle('')).toThrowError('Invalid pageTitlePositioning specified [undefined]!');
                         }));
 
                 it('should throw if you attempt to set `title` through `setTag` method',
                     inject([MetadataService],
                         (metadata: MetadataService) => {
-                            expect(() => {
-                                    metadata.setTag('title', '');
-                                })
-                                .toThrowError(`Error: Attempt to set title through 'setTag': 'title' is a reserved tag name. `
+                            expect(() => metadata.setTag('title', ''))
+                                .toThrowError(`Attempt to set title through 'setTag': 'title' is a reserved tag name. `
                                     + `Please use 'MetadataService.setTitle' instead.`);
                         }));
 
@@ -241,9 +224,7 @@ describe('@nglibs/metadata:',
                 it('should be able to set meta `description` w/o default settings',
                     inject([DOCUMENT],
                         (doc: any) => {
-                            function metadataFactory(): MetadataLoader {
-                                return new MetadataStaticLoader(emptySettings);
-                            }
+                            const metadataFactory = () => new MetadataStaticLoader(emptySettings);
 
                             testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
 
@@ -323,9 +304,7 @@ describe('@nglibs/metadata:',
                 it('should be able to set `og:locale` w/o default settings',
                     inject([DOCUMENT],
                         (doc: any) => {
-                            function metadataFactory(): MetadataLoader {
-                                return new MetadataStaticLoader(emptySettings);
-                            }
+                            const metadataFactory = () => new MetadataStaticLoader(emptySettings);
 
                             testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
 
@@ -352,9 +331,7 @@ describe('@nglibs/metadata:',
                             const settings = defaultSettings;
                             settings.defaults['og:locale:alternate'] = 'en-US';
 
-                            function metadataFactory(): MetadataLoader {
-                                return new MetadataStaticLoader(settings);
-                            }
+                            const metadataFactory = () => new MetadataStaticLoader(settings);
 
                             testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
 
