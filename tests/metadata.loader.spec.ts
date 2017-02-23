@@ -8,9 +8,7 @@ import { testSettings, defaultSettings, emptySettings, testModuleConfig } from '
 describe('@nglibs/metadata:',
     () => {
         beforeEach(() => {
-            function metadataFactory(): MetadataLoader {
-                return new MetadataStaticLoader(testSettings);
-            }
+            const metadataFactory = () => new MetadataStaticLoader(testSettings);
 
             testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
         });
@@ -27,9 +25,7 @@ describe('@nglibs/metadata:',
 
                 it('should be able to provide `MetadataStaticLoader`',
                     () => {
-                        function metadataFactory(): MetadataLoader {
-                            return new MetadataStaticLoader(testSettings);
-                        }
+                        const metadataFactory = () => new MetadataStaticLoader(testSettings);
 
                         testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
 
