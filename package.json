@@ -1,16 +1,15 @@
 {
-  "name": "@nglibs/metadata",
-  "version": "0.2.0-rc.1",
+  "name": "@nglibs/meta",
+  "version": "0.2.0-rc.2",
   "description": "Dynamic page title & meta tags utility for Angular",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nglibs/metadata.git"
+    "url": "https://github.com/nglibs/meta.git"
   },
   "keywords": [
     "open graph",
     "page title",
     "meta tags",
-    "meta",
     "dom",
     "seo",
     "meta",
@@ -22,13 +21,13 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nglibs/metadata/issues"
+    "url": "https://github.com/nglibs/meta/issues"
   },
-  "homepage": "https://github.com/nglibs/metadata#readme",
+  "homepage": "https://github.com/nglibs/meta#readme",
   "scripts": {
     "test": "karma start"
   },
-  "main": "bundles/metadata.umd.min.js",
+  "main": "bundles/meta.umd.min.js",
   "module": "index.js",
   "typings": "index.d.ts",
   "dependencies": {
