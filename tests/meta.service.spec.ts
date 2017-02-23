@@ -4,37 +4,37 @@ import { fakeAsync, getTestBed, inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 // module
-import { MetadataLoader, MetadataStaticLoader, MetadataService, PageTitlePositioning } from '../index';
+import { MetaLoader, MetaStaticLoader, MetaService, PageTitlePositioning } from '../index';
 import { getAttribute, TestComponent, testSettings, defaultSettings, emptySettings, testModuleConfig } from './index.spec';
 
-describe('@nglibs/metadata:',
+describe('@nglibs/meta:',
     () => {
         beforeEach(() => {
-            const metadataFactory = () => new MetadataStaticLoader(testSettings);
+            const metaFactory = () => new MetaStaticLoader(testSettings);
 
-            testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
+            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
         });
 
-        describe('MetadataService',
+        describe('MetaService',
             () => {
                 it('is defined',
-                    inject([MetadataService],
-                        (metadata: MetadataService) => {
-                            expect(MetadataService).toBeDefined();
-                            expect(metadata).toBeDefined();
-                            expect(metadata instanceof MetadataService).toBeTruthy();
+                    inject([MetaService],
+                        (meta: MetaService) => {
+                            expect(MetaService).toBeDefined();
+                            expect(meta).toBeDefined();
+                            expect(meta instanceof MetaService).toBeTruthy();
                         }));
 
-                it('should be able to set metadata using routes',
+                it('should be able to set meta using routes',
                     inject([Title, DOCUMENT],
                         fakeAsync((title: Title, doc: any) => {
                             const injector = getTestBed();
-                            const metadata = injector.get(MetadataService);
+                            const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
-                            expect(metadata).toBeDefined();
-                            expect(metadata.loader).toBeDefined();
-                            expect(metadata.loader instanceof MetadataStaticLoader).toBeTruthy();
+                            expect(meta).toBeDefined();
+                            expect(meta.loader).toBeDefined();
+                            expect(meta.loader instanceof MetaStaticLoader).toBeTruthy();
 
                             TestBed.createComponent(TestComponent);
 
@@ -53,7 +53,7 @@ describe('@nglibs/metadata:',
                                                 .toEqual('Eating toothpaste is considered to be too healthy!');
                                             expect(getAttribute(doc, 'og:url', 'content')).toEqual('http://localhost:3000/toothpaste');
 
-                                            // disable metadata
+                                            // disable meta
                                             router.navigate(['/duck'])
                                                 .then(() => {
                                                     expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
@@ -69,15 +69,15 @@ describe('@nglibs/metadata:',
                                                             expect(getAttribute(doc, 'og:url', 'content'))
                                                                 .toEqual('http://localhost:3000/no-data');
 
-                                                            // no-metadata
-                                                            router.navigate(['/no-metadata'])
+                                                            // no-meta
+                                                            router.navigate(['/no-meta'])
                                                                 .then(() => {
                                                                     expect(title.getTitle())
                                                                         .toEqual('Sweet home - Tour of (lazy/busy) heroes');
                                                                     expect(getAttribute(doc, 'description', 'content'))
                                                                         .toEqual('Home, home sweet home... and what?');
                                                                     expect(getAttribute(doc, 'og:url', 'content'))
-                                                                        .toEqual('http://localhost:3000/no-metadata');
+                                                                        .toEqual('http://localhost:3000/no-meta');
                                                                 });
                                                         });
                                                 });
@@ -85,20 +85,20 @@ describe('@nglibs/metadata:',
                                 });
                         })));
 
-                it('should be able to set metadata using routes w/o default settings',
+                it('should be able to set meta using routes w/o default settings',
                     inject([Title, DOCUMENT],
                         fakeAsync((title: Title, doc: any) => {
-                            const metadataFactory = () => new MetadataStaticLoader(emptySettings);
+                            const metaFactory = () => new MetaStaticLoader(emptySettings);
 
-                            testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const metadata = injector.get(MetadataService);
+                            const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
-                            expect(metadata).toBeDefined();
-                            expect(metadata.loader).toBeDefined();
-                            expect(metadata.loader instanceof MetadataStaticLoader).toBeTruthy();
+                            expect(meta).toBeDefined();
+                            expect(meta.loader).toBeDefined();
+                            expect(meta.loader instanceof MetaStaticLoader).toBeTruthy();
 
                             TestBed.createComponent(TestComponent);
 
@@ -112,18 +112,18 @@ describe('@nglibs/metadata:',
                         })));
 
                 it('should be able to set `title`',
-                    inject([MetadataService, Title],
-                        (metadata: MetadataService, title: Title) => {
+                    inject([MetaService, Title],
+                        (meta: MetaService, title: Title) => {
                             // default title
-                            metadata.setTitle('');
+                            meta.setTitle('');
                             expect(title.getTitle()).toEqual('Mighty mighty mouse - Tour of (lazy/busy) heroes');
 
                             // given title
-                            metadata.setTitle('Mighty tiny mouse');
+                            meta.setTitle('Mighty tiny mouse');
                             expect(title.getTitle()).toEqual('Mighty tiny mouse - Tour of (lazy/busy) heroes');
 
                             // override applicationName
-                            metadata.setTitle('Mighty tiny mouse', true);
+                            meta.setTitle('Mighty tiny mouse', true);
                             expect(title.getTitle()).toEqual('Mighty tiny mouse');
                         }));
 
@@ -133,149 +133,149 @@ describe('@nglibs/metadata:',
                             const appendedSettings = testSettings;
                             appendedSettings.pageTitlePositioning = PageTitlePositioning.AppendPageTitle;
 
-                            const metadataFactory = () => new MetadataStaticLoader(appendedSettings);
+                            const metaFactory = () => new MetaStaticLoader(appendedSettings);
 
-                            testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const metadata = injector.get(MetadataService);
+                            const meta = injector.get(MetaService);
 
                             // default title
-                            metadata.setTitle('');
+                            meta.setTitle('');
                             expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes - Mighty mighty mouse');
 
                             // given title
-                            metadata.setTitle('Mighty tiny mouse');
+                            meta.setTitle('Mighty tiny mouse');
                             expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes - Mighty tiny mouse');
 
                             // override applicationName
-                            metadata.setTitle('Mighty tiny mouse', true);
+                            meta.setTitle('Mighty tiny mouse', true);
                             expect(title.getTitle()).toEqual('Mighty tiny mouse');
                         }));
 
                 it('should be able to set `title` w/o default settings',
                     inject([Title],
                         (title: Title) => {
-                            const metadataFactory = () => new MetadataStaticLoader({
+                            const metaFactory = () => new MetaStaticLoader({
                                 pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
                                 defaults: {}
                             });
 
-                            testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const metadata = injector.get(MetadataService);
+                            const meta = injector.get(MetaService);
 
-                            metadata.setTitle('');
+                            meta.setTitle('');
                             expect(title.getTitle()).toEqual('');
                         }));
 
                 it('should be able to set `title` w/o default settings (appended)',
                     inject([Title],
                         (title: Title) => {
-                            const metadataFactory = () => new MetadataStaticLoader({
+                            const metaFactory = () => new MetaStaticLoader({
                                 pageTitlePositioning: PageTitlePositioning.AppendPageTitle,
                                 defaults: {}
                             });
 
-                            testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const metadata = injector.get(MetadataService);
+                            const meta = injector.get(MetaService);
 
-                            metadata.setTitle('');
+                            meta.setTitle('');
                             expect(title.getTitle()).toEqual('');
                         }));
 
                 it('should throw if you provide an invalid `PageTitlePositioning`',
-                    inject([MetadataService],
-                        (metadata: MetadataService) => {
+                    inject([MetaService],
+                        (meta: MetaService) => {
                             const invalidSettings = testSettings;
                             invalidSettings.pageTitlePositioning = undefined;
 
-                            const metadataFactory = () => new MetadataStaticLoader(invalidSettings);
+                            const metaFactory = () => new MetaStaticLoader(invalidSettings);
 
-                            testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
-                            expect(() => metadata.setTitle('')).toThrowError('Invalid pageTitlePositioning specified [undefined]!');
+                            expect(() => meta.setTitle('')).toThrowError('Invalid pageTitlePositioning specified [undefined]!');
                         }));
 
                 it('should throw if you attempt to set `title` through `setTag` method',
-                    inject([MetadataService],
-                        (metadata: MetadataService) => {
-                            expect(() => metadata.setTag('title', ''))
+                    inject([MetaService],
+                        (meta: MetaService) => {
+                            expect(() => meta.setTag('title', ''))
                                 .toThrowError(`Attempt to set title through 'setTag': 'title' is a reserved tag name. `
-                                    + `Please use 'MetadataService.setTitle' instead.`);
+                                    + `Please use 'MetaService.setTitle' instead.`);
                         }));
 
                 it('should be able to set meta `description`',
-                    inject([MetadataService, DOCUMENT],
-                        (metadata: MetadataService, doc: any) => {
+                    inject([MetaService, DOCUMENT],
+                        (meta: MetaService, doc: any) => {
                             // default meta description
-                            metadata.setTag('description', '');
+                            meta.setTag('description', '');
                             expect(getAttribute(doc, 'description', 'content'))
                                 .toEqual('Mighty Mouse is an animated superhero mouse character');
 
                             // given meta description
-                            metadata.setTag('description', 'Mighty Mouse is a cool character');
+                            meta.setTag('description', 'Mighty Mouse is a cool character');
                             expect(getAttribute(doc, 'description', 'content')).toEqual('Mighty Mouse is a cool character');
                         }));
 
                 it('should be able to set meta `description` w/o default settings',
                     inject([DOCUMENT],
                         (doc: any) => {
-                            const metadataFactory = () => new MetadataStaticLoader(emptySettings);
+                            const metaFactory = () => new MetaStaticLoader(emptySettings);
 
-                            testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const metadata = injector.get(MetadataService);
+                            const meta = injector.get(MetaService);
 
-                            metadata.setTag('description', '');
+                            meta.setTag('description', '');
                             expect(getAttribute(doc, 'description', 'content')).toEqual('');
                         }));
 
                 it('should be able to set meta `author`',
-                    inject([MetadataService, DOCUMENT],
-                        (metadata: MetadataService, doc: any) => {
+                    inject([MetaService, DOCUMENT],
+                        (meta: MetaService, doc: any) => {
                             // default meta author
-                            metadata.setTag('author', '');
+                            meta.setTag('author', '');
                             expect(getAttribute(doc, 'author', 'content')).toEqual('Mighty Mouse');
 
                             // given meta author
-                            metadata.setTag('author', 'Mickey Mouse');
+                            meta.setTag('author', 'Mickey Mouse');
                             expect(getAttribute(doc, 'author', 'content')).toEqual('Mickey Mouse');
                         }));
 
                 it('should be able to set meta `publisher`',
-                    inject([MetadataService, DOCUMENT],
-                        (metadata: MetadataService, doc: any) => {
+                    inject([MetaService, DOCUMENT],
+                        (meta: MetaService, doc: any) => {
                             // default meta publisher
-                            metadata.setTag('publisher', '');
+                            meta.setTag('publisher', '');
                             expect(getAttribute(doc, 'publisher', 'content')).toEqual('a superhero');
 
                             // given meta publisher
-                            metadata.setTag('publisher', 'another superhero');
+                            meta.setTag('publisher', 'another superhero');
                             expect(getAttribute(doc, 'publisher', 'content')).toEqual('another superhero');
                         }));
 
                 it('should be able to set `og:locale`',
-                    inject([MetadataService, DOCUMENT],
-                        (metadata: MetadataService, doc: any) => {
+                    inject([MetaService, DOCUMENT],
+                        (meta: MetaService, doc: any) => {
                             // default og:locale
-                            metadata.setTag('og:locale', '');
+                            meta.setTag('og:locale', '');
                             expect(getAttribute(doc, 'og:locale', 'content')).toEqual('en_US');
 
                             // given og:locale
-                            metadata.setTag('og:locale', 'tr-TR');
+                            meta.setTag('og:locale', 'tr-TR');
                             expect(getAttribute(doc, 'og:locale', 'content')).toEqual('tr_TR');
                         }));
 
                 it('should be able to set `og:locale:alternate` w/ `og:locale`',
-                    inject([MetadataService, DOCUMENT],
-                        (metadata: MetadataService, doc: any) => {
+                    inject([MetaService, DOCUMENT],
+                        (meta: MetaService, doc: any) => {
                             // default og:locale
-                            metadata.setTag('og:locale', '');
+                            meta.setTag('og:locale', '');
 
                             const elements = doc.querySelectorAll('meta[property="og:locale:alternate"]');
 
@@ -285,10 +285,10 @@ describe('@nglibs/metadata:',
                         }));
 
                 it('should be able to set `og:locale:alternate` w/ `og:locale:alternate`',
-                    inject([MetadataService, DOCUMENT],
-                        (metadata: MetadataService, doc: any) => {
+                    inject([MetaService, DOCUMENT],
+                        (meta: MetaService, doc: any) => {
                             // default og:locale:alternate
-                            metadata.setTag('og:locale:alternate', '');
+                            meta.setTag('og:locale:alternate', '');
 
                             const elements = doc.querySelectorAll('meta[property="og:locale:alternate"]');
 
@@ -297,31 +297,31 @@ describe('@nglibs/metadata:',
                             expect(elements[1].getAttribute('content')).toEqual('tr_TR');
 
                             // given og:locale:alternate
-                            metadata.setTag('og:locale:alternate', 'tr-TR');
+                            meta.setTag('og:locale:alternate', 'tr-TR');
                             expect(getAttribute(doc, 'og:locale:alternate', 'content')).toEqual('tr_TR');
                         }));
 
                 it('should be able to set `og:locale` w/o default settings',
                     inject([DOCUMENT],
                         (doc: any) => {
-                            const metadataFactory = () => new MetadataStaticLoader(emptySettings);
+                            const metaFactory = () => new MetaStaticLoader(emptySettings);
 
-                            testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const metadata = injector.get(MetadataService);
+                            const meta = injector.get(MetaService);
 
-                            metadata.setTag('og:locale', '');
+                            meta.setTag('og:locale', '');
                             expect(getAttribute(doc, 'og:locale', 'content')).toEqual('');
                         }));
 
                 it('should be able to do not set `og:locale:alternate` as current `og:locale`',
-                    inject([MetadataService],
-                        (metadata: MetadataService) => {
+                    inject([MetaService],
+                        (meta: MetaService) => {
                             const injector = getTestBed();
                             const doc = injector.get(DOCUMENT);
 
-                            metadata.setTag('og:locale:alternate', 'en-US');
+                            meta.setTag('og:locale:alternate', 'en-US');
                             expect(getAttribute(doc, 'og:locale:alternate', 'content')).toBeUndefined();
                         }));
 
@@ -331,17 +331,17 @@ describe('@nglibs/metadata:',
                             const settings = defaultSettings;
                             settings.defaults['og:locale:alternate'] = 'en-US';
 
-                            const metadataFactory = () => new MetadataStaticLoader(settings);
+                            const metaFactory = () => new MetaStaticLoader(settings);
 
-                            testModuleConfig({ provide: MetadataLoader, useFactory: (metadataFactory) });
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const metadata = injector.get(MetadataService);
+                            const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
-                            expect(metadata).toBeDefined();
-                            expect(metadata.loader).toBeDefined();
-                            expect(metadata.loader instanceof MetadataStaticLoader).toBeTruthy();
+                            expect(meta).toBeDefined();
+                            expect(meta.loader).toBeDefined();
+                            expect(meta.loader instanceof MetaStaticLoader).toBeTruthy();
 
                             TestBed.createComponent(TestComponent);
 
@@ -356,14 +356,14 @@ describe('@nglibs/metadata:',
                         })));
 
                 it('should be able to set any other meta tag',
-                    inject([MetadataService, DOCUMENT],
-                        (metadata: MetadataService, doc: any) => {
+                    inject([MetaService, DOCUMENT],
+                        (meta: MetaService, doc: any) => {
                             // default og:type
-                            metadata.setTag('og:type', '');
+                            meta.setTag('og:type', '');
                             expect(getAttribute(doc, 'og:type', 'content')).toEqual('website');
 
                             // given og:type
-                            metadata.setTag('og:type', 'blog');
+                            meta.setTag('og:type', 'blog');
                             expect(getAttribute(doc, 'og:type', 'content')).toEqual('blog');
                         }));
             });
