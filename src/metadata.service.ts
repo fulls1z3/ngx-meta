@@ -15,11 +15,11 @@ export class MetadataService {
     private readonly metadataSettings: any;
     private readonly isMetadataSet: any;
 
-    constructor(private readonly router: Router,
+    constructor(public loader: MetadataLoader,
+                private readonly router: Router,
                 @Inject(DOCUMENT) private readonly document: any,
                 private readonly titleService: Title,
-                private readonly activatedRoute: ActivatedRoute,
-                public loader: MetadataLoader) {
+                private readonly activatedRoute: ActivatedRoute) {
         this.metadataSettings = loader.getSettings();
         this.isMetadataSet = {};
 
@@ -62,7 +62,7 @@ export class MetadataService {
                         : '');
                 break;
             default:
-                throw new Error(`Error: Invalid pageTitlePositioning specified [${this.metadataSettings.pageTitlePositioning}]!`);
+                throw new Error(`Invalid pageTitlePositioning specified [${this.metadataSettings.pageTitlePositioning}]!`);
         }
 
         if (!title)
@@ -74,7 +74,7 @@ export class MetadataService {
 
     setTag(tag: string, value: string): void {
         if (tag === 'title')
-            throw new Error(`Error: Attempt to set ${tag} through 'setTag': 'title' is a reserved tag name. `
+            throw new Error(`Attempt to set ${tag} through 'setTag': 'title' is a reserved tag name. `
                 + `Please use 'MetadataService.setTitle' instead.`);
 
         value = !!value

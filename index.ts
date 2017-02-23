@@ -10,6 +10,7 @@ export * from './src/models/metadata-settings';
 export * from './src/metadata.loader';
 export * from './src/metadata.service';
 
+// for AoT compilation
 export function metadataFactory(): MetadataLoader {
     return new MetadataStaticLoader();
 }
