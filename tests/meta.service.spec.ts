@@ -5,7 +5,18 @@ import { Router } from '@angular/router';
 
 // module
 import { MetaLoader, MetaStaticLoader, MetaService, PageTitlePositioning } from '../index';
-import { getAttribute, TestComponent, testSettings, defaultSettings, emptySettings, testModuleConfig } from './index.spec';
+import { TestBootstrapComponent, TestComponent, testSettings, defaultSettings, emptySettings, testModuleConfig } from './index.spec';
+
+const getAttribute = (doc: any, name: string, attribute: string) => {
+    let selector = `meta[name="${name}"]`;
+
+    if (name.lastIndexOf('og:', 0) === 0)
+        selector = `meta[property="${name}"]`;
+
+    const el = doc.querySelector(selector);
+
+    return !!el ? el.getAttribute(attribute) : undefined;
+};
 
 describe('@nglibs/meta:',
     () => {
@@ -25,18 +36,15 @@ describe('@nglibs/meta:',
                             expect(meta instanceof MetaService).toBeTruthy();
                         }));
 
-                it('should be able to set meta using routes',
-                    inject([Title, DOCUMENT],
-                        fakeAsync((title: Title, doc: any) => {
+                it('should be able to set meta tags using routes',
+                    fakeAsync(inject([Title, DOCUMENT],
+                        (title: Title, doc: any) => {
                             const injector = getTestBed();
                             const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
-                            expect(meta).toBeDefined();
-                            expect(meta.loader).toBeDefined();
-                            expect(meta.loader instanceof MetaStaticLoader).toBeTruthy();
-
-                            TestBed.createComponent(TestComponent);
+                            const fixture = TestBed.createComponent(TestBootstrapComponent);
+                            fixture.detectChanges();
 
                             // initial navigation
                             router.navigate(['/'])
@@ -56,26 +64,27 @@ describe('@nglibs/meta:',
                                             // disable meta
                                             router.navigate(['/duck'])
                                                 .then(() => {
-                                                    expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
+                                                    expect(title.getTitle()).toEqual('Mighty mighty mouse');
                                                     expect(getAttribute(doc, 'description', 'content'))
-                                                        .toEqual('Home, home sweet home... and what?');
+                                                        .toEqual('Mighty Mouse is an animated superhero mouse character');
+                                                    expect(getAttribute(doc, 'og:url', 'content'))
+                                                        .toEqual('http://localhost:3000/duck');
 
                                                     // no-data
                                                     router.navigate(['/no-data'])
                                                         .then(() => {
-                                                            expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
+                                                            expect(title.getTitle()).toEqual('Mighty mighty mouse');
                                                             expect(getAttribute(doc, 'description', 'content'))
-                                                                .toEqual('Home, home sweet home... and what?');
+                                                                .toEqual('Mighty Mouse is an animated superhero mouse character');
                                                             expect(getAttribute(doc, 'og:url', 'content'))
                                                                 .toEqual('http://localhost:3000/no-data');
 
                                                             // no-meta
                                                             router.navigate(['/no-meta'])
                                                                 .then(() => {
-                                                                    expect(title.getTitle())
-                                                                        .toEqual('Sweet home - Tour of (lazy/busy) heroes');
+                                                                    expect(title.getTitle()).toEqual('Mighty mighty mouse');
                                                                     expect(getAttribute(doc, 'description', 'content'))
-                                                                        .toEqual('Home, home sweet home... and what?');
+                                                                        .toEqual('Mighty Mouse is an animated superhero mouse character');
                                                                     expect(getAttribute(doc, 'og:url', 'content'))
                                                                         .toEqual('http://localhost:3000/no-meta');
                                                                 });
@@ -85,9 +94,29 @@ describe('@nglibs/meta:',
                                 });
                         })));
 
-                it('should be able to set meta using routes w/o default settings',
-                    inject([Title, DOCUMENT],
-                        fakeAsync((title: Title, doc: any) => {
+                it('should be able to set meta tags using routes w/o `meta` property',
+                    fakeAsync(inject([Title, DOCUMENT],
+                        (title: Title, doc: any) => {
+                            const injector = getTestBed();
+                            const meta = injector.get(MetaService);
+                            const router = injector.get(Router);
+
+                            const fixture = TestBed.createComponent(TestBootstrapComponent);
+                            fixture.detectChanges();
+
+                            // initial navigation
+                            router.navigate(['/no-data'])
+                                .then(() => {
+                                    expect(title.getTitle()).toEqual('Mighty mighty mouse');
+                                    expect(getAttribute(doc, 'description', 'content'))
+                                        .toEqual('Mighty Mouse is an animated superhero mouse character');
+                                    expect(getAttribute(doc, 'og:url', 'content')).toEqual('http://localhost:3000/no-data');
+                                });
+                        })));
+
+                it('should be able to set meta tags using routes w/o default settings',
+                    fakeAsync(inject([Title, DOCUMENT],
+                        (title: Title, doc: any) => {
                             const metaFactory = () => new MetaStaticLoader(emptySettings);
 
                             testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
@@ -96,11 +125,8 @@ describe('@nglibs/meta:',
                             const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
-                            expect(meta).toBeDefined();
-                            expect(meta.loader).toBeDefined();
-                            expect(meta.loader instanceof MetaStaticLoader).toBeTruthy();
-
-                            TestBed.createComponent(TestComponent);
+                            const fixture = TestBed.createComponent(TestBootstrapComponent);
+                            fixture.detectChanges();
 
                             // initial navigation
                             router.navigate(['/'])
@@ -108,6 +134,58 @@ describe('@nglibs/meta:',
                                     expect(title.getTitle()).toEqual('Sweet home');
                                     expect(getAttribute(doc, 'description', 'content')).toEqual('Home, home sweet home... and what?');
                                     expect(getAttribute(doc, 'og:url', 'content')).toEqual('/');
+                                });
+                        })));
+
+                it('should be able to set meta tags using routes w/o default `title` w/o `meta` property',
+                    fakeAsync(inject([Title, DOCUMENT],
+                        (title: Title, doc: any) => {
+                            const settings = defaultSettings;
+                            settings.applicationName = 'Tour of (lazy/busy) heroes';
+                            settings.defaults = {
+                                'description': 'Mighty Mouse is an animated superhero mouse character'
+                            };
+
+                            const metaFactory = () => new MetaStaticLoader(settings);
+
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
+
+                            const injector = getTestBed();
+                            const meta = injector.get(MetaService);
+                            const router = injector.get(Router);
+
+                            const fixture = TestBed.createComponent(TestBootstrapComponent);
+                            fixture.detectChanges();
+
+                            // initial navigation
+                            router.navigate(['/no-data'])
+                                .then(() => {
+                                    expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes');
+                                    expect(getAttribute(doc, 'description', 'content'))
+                                        .toEqual('Mighty Mouse is an animated superhero mouse character');
+                                    expect(getAttribute(doc, 'og:url', 'content')).toEqual('/no-data');
+                                });
+                        })));
+
+                it('should be able to set meta tags using routes w/o default settings w/o `meta` property',
+                    fakeAsync(inject([Title, DOCUMENT],
+                        (title: Title, doc: any) => {
+                            const metaFactory = () => new MetaStaticLoader(emptySettings);
+
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
+
+                            const injector = getTestBed();
+                            const meta = injector.get(MetaService);
+                            const router = injector.get(Router);
+
+                            const fixture = TestBed.createComponent(TestBootstrapComponent);
+                            fixture.detectChanges();
+
+                            // initial navigation
+                            router.navigate(['/no-data'])
+                                .then(() => {
+                                    expect(title.getTitle()).toEqual('');
+                                    expect(getAttribute(doc, 'og:url', 'content')).toEqual('/no-data');
                                 });
                         })));
 
@@ -326,8 +404,8 @@ describe('@nglibs/meta:',
                         }));
 
                 it('should be able to do not set `og:locale:alternate` using routes w/o default settings & w/o `og:locale`',
-                    inject([Title, DOCUMENT],
-                        fakeAsync((title: Title, doc: any) => {
+                    fakeAsync(inject([Title, DOCUMENT],
+                        (title: Title, doc: any) => {
                             const settings = defaultSettings;
                             settings.defaults['og:locale:alternate'] = 'en-US';
 
@@ -339,11 +417,8 @@ describe('@nglibs/meta:',
                             const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
-                            expect(meta).toBeDefined();
-                            expect(meta.loader).toBeDefined();
-                            expect(meta.loader instanceof MetaStaticLoader).toBeTruthy();
-
-                            TestBed.createComponent(TestComponent);
+                            const fixture = TestBed.createComponent(TestBootstrapComponent);
+                            fixture.detectChanges();
 
                             // initial navigation
                             router.navigate(['/'])
