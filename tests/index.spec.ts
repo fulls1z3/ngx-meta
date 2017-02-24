@@ -8,23 +8,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 // module
 import { MetaModule, MetaSettings, PageTitlePositioning } from '../index';
 
-export const getAttribute = (doc: any, name: string, attribute: string) => {
-    let selector = `meta[name="${name}"]`;
-
-    if (name.lastIndexOf('og:', 0) === 0)
-        selector = `meta[property="${name}"]`;
-
-    const el = doc.querySelector(selector);
-
-    return !!el ? el.getAttribute(attribute) : undefined;
-};
-
 @Component({ template: '<router-outlet></router-outlet>' })
+export class TestBootstrapComponent {}
+
+@Component({ template: '' })
 export class TestComponent {}
 
 const testRoutes: Routes = [
     {
         path: '',
+        component: TestBootstrapComponent,
         children: [
             {
                 path: 'duck',
@@ -106,6 +99,7 @@ export const testModuleConfig = (moduleOptions?: any) => {
     TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting())
         .configureTestingModule({
             declarations: [
+                TestBootstrapComponent,
                 TestComponent
             ],
             imports: [
