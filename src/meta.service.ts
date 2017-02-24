@@ -34,15 +34,18 @@ export class MetaService {
                     if (!!route.snapshot.routeConfig.data) {
                         const meta = route.snapshot.routeConfig.data['meta'];
 
-                        if (!!meta)
-                            this.updateMeta(meta, routeData.url);
+                        this.updateMeta(routeData.url, meta);
                     }
+                    else
+                        this.updateMeta(routeData.url);
                 }
             });
     }
 
     setTitle(title: string, override = false): void {
         const ogTitleElement = this.getOrCreateMetaTag('og:title');
+
+        const defaultTitle = !!this.metaSettings.defaults ? this.metaSettings.defaults['title'] : '';
 
         switch (this.metaSettings.pageTitlePositioning) {
             case PageTitlePositioning.AppendPageTitle:
@@ -51,10 +54,10 @@ export class MetaService {
                         && !!this.metaSettings.applicationName
                         ? (this.metaSettings.applicationName + this.metaSettings.pageTitleSeparator)
                         : '')
-                    + (!!title ? title : (this.metaSettings.defaults['title'] || ''));
+                    + (!!title ? title : (defaultTitle || ''));
                 break;
             case PageTitlePositioning.PrependPageTitle:
-                title = (!!title ? title : (this.metaSettings.defaults['title'] || ''))
+                title = (!!title ? title : (defaultTitle || ''))
                     + (!override
                         && !!this.metaSettings.pageTitleSeparator
                         && !!this.metaSettings.applicationName
@@ -163,42 +166,52 @@ export class MetaService {
         }
     }
 
-    private updateMeta(meta: any, currentUrl: string): void {
-        if (meta.disabled)
-            return;
+    private updateMeta(currentUrl: string, meta?: any): void {
+        if (!meta) {
+            const fallbackTitle = !!this.metaSettings.defaults
+                ? (this.metaSettings.defaults['title'] || this.metaSettings['applicationName'])
+                : this.metaSettings['applicationName'];
 
-        this.setTitle(meta.title, meta.override);
+            this.setTitle(fallbackTitle, true);
+        }
+        else {
+            if (meta.disabled) {
+                this.updateMeta(currentUrl);
+                return;
+            }
 
-        Object.keys(meta)
-            .forEach(key => {
-                let value = meta[key];
+            this.setTitle(meta.title, meta.override);
 
-                if (key === 'title' || key === 'override')
-                    return;
-                else if (key === 'og:locale')
-                    value = value.replace(/-/g, '_');
-                else if (key === 'og:locale:alternate') {
-                    const currentLocale = meta['og:locale'];
-                    this.updateLocales(currentLocale, meta[key]);
-
-                    return;
-                }
-
-                this.setTag(key, value);
-            });
-
-        if (!!this.metaSettings.defaults)
-            Object.keys(this.metaSettings.defaults)
+            Object.keys(meta)
                 .forEach(key => {
+                    let value = meta[key];
 
-                    let value = this.metaSettings.defaults[key];
-
-                    if (key in this.isMetaSet || key in meta || key === 'title' || key === 'override')
+                    if (key === 'title' || key === 'override')
                         return;
                     else if (key === 'og:locale')
                         value = value.replace(/-/g, '_');
                     else if (key === 'og:locale:alternate') {
                         const currentLocale = meta['og:locale'];
+                        this.updateLocales(currentLocale, meta[key]);
+
+                        return;
+                    }
+
+                    this.setTag(key, value);
+                });
+        }
+
+        if (!!this.metaSettings.defaults)
+            Object.keys(this.metaSettings.defaults)
+                .forEach(key => {
+                    let value = this.metaSettings.defaults[key];
+
+                    if ((!!meta && (key in this.isMetaSet || key in meta)) || key === 'title' || key === 'override')
+                        return;
+                    else if (key === 'og:locale')
+                        value = value.replace(/-/g, '_');
+                    else if (key === 'og:locale:alternate') {
+                        const currentLocale = !!meta ? meta['og:locale'] : undefined;
                         this.updateLocales(currentLocale, this.metaSettings.defaults[key]);
 
                         return;
@@ -207,6 +220,10 @@ export class MetaService {
                     this.setTag(key, value);
                 });
 
-        this.setTag('og:url', (this.metaSettings.applicationUrl || '/')  + currentUrl.replace(/\/$/g, ''));
+        const url = ((this.metaSettings.applicationUrl || '/') + currentUrl)
+            .replace(/(https?:\/\/)|(\/)+/g, '$1$2')
+            .replace(/\/$/g, '');
+
+        this.setTag('og:url', url || '/');
     }
 }
