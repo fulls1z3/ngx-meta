@@ -1,6 +1,6 @@
 {
   "name": "@nglibs/meta",
-  "version": "0.2.0-rc.2",
+  "version": "0.2.0-rc.3",
   "description": "Dynamic page title & meta tags utility for Angular",
   "repository": {
     "type": "git",
