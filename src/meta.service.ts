@@ -34,10 +34,10 @@ export class MetaService {
                     if (!!route.snapshot.routeConfig.data) {
                         const meta = route.snapshot.routeConfig.data['meta'];
 
-                        this.updateMeta(routeData.url, meta);
+                        this.updateMeta(routeData.urlAfterRedirects, meta);
                     }
                     else
-                        this.updateMeta(routeData.url);
+                        this.updateMeta(routeData.urlAfterRedirects);
                 }
             });
     }
