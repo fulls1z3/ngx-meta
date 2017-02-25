@@ -24,9 +24,15 @@
 - [License](#license)
 
 ## Prerequisites
-Verify that you are running at least `@angular v2.4.0` and `@angular/router v3.4.0`. Older versions are containing outdated dependencies, might produce errors.
+This package depends on `@angular v2.0.0` but it's highly recommended that you are running at least **`@angular v2.4.0`** and **`@angular/router v3.4.0`**. Older versions contain outdated dependencies, might produce errors.
 
-You should also upgrade to a minimum version of `TypeScript 2.1.x`.
+Also, please ensure that you are using **`Typescript v2.1.6`** or higher.
+
+#### WARNING
+
+The pull request [#14327](https://github.com/angular/angular/pull/14327) on **`@angular v2.4.8`** and **`@angular v4.0.0-rc.1`**  introduced a severe error [#14588](https://github.com/angular/angular/issues/14588) which causes the app to fall into an infinite loop before bootstrapping.
+
+In order to avoid issues, avoid using these versions of **Angular**.
 
 ## Getting started
 ### Installation
