@@ -162,7 +162,7 @@ export function metaFactory(): MetaLoader {
       'og:image': 'https://upload.wikimedia.org/wikipedia/commons/f/f8/superraton.jpg',
       'og:type': 'website',
       'og:locale': 'en_US',
-      'og:locale:alternate': 'nl_NL,tr_TR'
+      'og:locale:alternate': 'en_US,nl_NL,tr_TR'
     }
   });
 }
