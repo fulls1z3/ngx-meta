@@ -6,10 +6,12 @@ import { Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 // module
-import { MetaModule, MetaSettings, PageTitlePositioning } from '../index';
+import { MetaModule, MetaService, MetaSettings, PageTitlePositioning } from '../index';
 
 @Component({ template: '<router-outlet></router-outlet>' })
-export class TestBootstrapComponent {}
+export class TestBootstrapComponent {
+    constructor(private readonly meta: MetaService) {}
+}
 
 @Component({ template: '' })
 export class TestComponent {}
@@ -39,7 +41,7 @@ const testRoutes: Routes = [
                         override: true, // prevents appending/prepending the application name to the title attribute
                         description: 'Eating toothpaste is considered to be too healthy!',
                         'og:locale' : 'fr-FR',
-                        'og:locale:alternate' : 'en-US,tr-TR'
+                        'og:locale:alternate' : 'en-US,fr-FR,tr-TR'
                     }
                 }
             },
@@ -87,7 +89,7 @@ export const testSettings: MetaSettings = {
         'og:image': 'https://upload.wikimedia.org/wikipedia/commons/f/f8/superraton.jpg',
         'og:type': 'website',
         'og:locale': 'en-US',
-        'og:locale:alternate': 'nl-NL,tr-TR'
+        'og:locale:alternate': 'en-US,nl-NL,tr-TR'
     }
 };
 

@@ -13,7 +13,7 @@ import { MetaLoader } from './meta.loader';
 @Injectable()
 export class MetaService {
     private readonly metaSettings: any;
-    private readonly isMetaSet: any;
+    private readonly isTagSet: any;
 
     constructor(public loader: MetaLoader,
                 private readonly router: Router,
@@ -21,7 +21,7 @@ export class MetaService {
                 private readonly titleService: Title,
                 private readonly activatedRoute: ActivatedRoute) {
         this.metaSettings = loader.getSettings();
-        this.isMetaSet = {};
+        this.isTagSet = {};
 
         this.router.events
             .filter(event => (event instanceof NavigationEnd))
@@ -87,7 +87,7 @@ export class MetaService {
         const tagElement = this.getOrCreateMetaTag(tag);
 
         tagElement.setAttribute('content', tag === 'og:locale' ? value.replace(/-/g, '_') : value);
-        this.isMetaSet[tag] = true;
+        this.isTagSet[tag] = true;
 
         if (tag === 'description') {
             const ogDescriptionElement = this.getOrCreateMetaTag('og:description');
@@ -104,13 +104,13 @@ export class MetaService {
                 : '';
 
             this.updateLocales(value, availableLocales);
-            this.isMetaSet['og:locale:alternate'] = true;
+            this.isTagSet['og:locale:alternate'] = true;
         } else if (tag === 'og:locale:alternate') {
             const ogLocaleElement = this.getOrCreateMetaTag('og:locale');
             const currentLocale = ogLocaleElement.getAttribute('content');
 
             this.updateLocales(currentLocale, value);
-            this.isMetaSet['og:locale'] = true;
+            this.isTagSet['og:locale'] = true;
         }
     }
 
@@ -136,11 +136,14 @@ export class MetaService {
         return el;
     }
 
-    private updateLocales(currentLocale: string, availableLocales: any): void {
+    private updateLocales(currentLocale: string, availableLocales: string): void {
         if (!currentLocale)
             currentLocale = !!this.metaSettings.defaults
                 ? this.metaSettings.defaults['og:locale']
                 : '';
+
+        if (!!currentLocale)
+            this.metaSettings.defaults['og:locale'] = currentLocale.replace(/_/g, '-');
 
         const html = this.document.querySelector('html');
         html.setAttribute('lang', currentLocale);
@@ -158,7 +161,7 @@ export class MetaService {
         if (!!currentLocale && !!availableLocales) {
             availableLocales.split(',')
                 .forEach((locale: string) => {
-                    if (currentLocale !== locale) {
+                    if (currentLocale.replace(/-/g, '_') !== locale.replace(/-/g, '_')) {
                         const el = this.createMetaTag('og:locale:alternate');
                         el.setAttribute('content', locale.replace(/-/g, '_'));
                     }
@@ -206,7 +209,7 @@ export class MetaService {
                 .forEach(key => {
                     let value = this.metaSettings.defaults[key];
 
-                    if ((!!meta && (key in this.isMetaSet || key in meta)) || key === 'title' || key === 'override')
+                    if ((!!meta && (key in this.isTagSet || key in meta)) || key === 'title' || key === 'override')
                         return;
                     else if (key === 'og:locale')
                         value = value.replace(/-/g, '_');

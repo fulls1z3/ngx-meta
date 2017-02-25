@@ -3,6 +3,9 @@ import { Title, DOCUMENT } from '@angular/platform-browser';
 import { fakeAsync, getTestBed, inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
+// libs
+import * as _ from 'lodash';
+
 // module
 import { MetaLoader, MetaStaticLoader, MetaService, PageTitlePositioning } from '../index';
 import { TestBootstrapComponent, TestComponent, testSettings, defaultSettings, emptySettings, testModuleConfig } from './index.spec';
@@ -21,7 +24,8 @@ const getAttribute = (doc: any, name: string, attribute: string) => {
 describe('@nglibs/meta:',
     () => {
         beforeEach(() => {
-            const metaFactory = () => new MetaStaticLoader(testSettings);
+            const settings = _.cloneDeep(testSettings);
+            const metaFactory = () => new MetaStaticLoader(settings);
 
             testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
         });
@@ -40,7 +44,6 @@ describe('@nglibs/meta:',
                     fakeAsync(inject([Title, DOCUMENT],
                         (title: Title, doc: any) => {
                             const injector = getTestBed();
-                            const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
                             const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -53,7 +56,7 @@ describe('@nglibs/meta:',
                                     expect(getAttribute(doc, 'description', 'content')).toEqual('Home, home sweet home... and what?');
                                     expect(getAttribute(doc, 'og:url', 'content')).toEqual('http://localhost:3000');
 
-                                    // override applicationName
+                                    // navigate to /toothpaste (override applicationName)
                                     router.navigate(['/toothpaste'])
                                         .then(() => {
                                             expect(title.getTitle()).toEqual('Toothpaste');
@@ -61,7 +64,7 @@ describe('@nglibs/meta:',
                                                 .toEqual('Eating toothpaste is considered to be too healthy!');
                                             expect(getAttribute(doc, 'og:url', 'content')).toEqual('http://localhost:3000/toothpaste');
 
-                                            // disable meta
+                                            // navigate to /duck (meta disable)
                                             router.navigate(['/duck'])
                                                 .then(() => {
                                                     expect(title.getTitle()).toEqual('Mighty mighty mouse');
@@ -70,7 +73,7 @@ describe('@nglibs/meta:',
                                                     expect(getAttribute(doc, 'og:url', 'content'))
                                                         .toEqual('http://localhost:3000/duck');
 
-                                                    // no-data
+                                                    // navigate to /no-data
                                                     router.navigate(['/no-data'])
                                                         .then(() => {
                                                             expect(title.getTitle()).toEqual('Mighty mighty mouse');
@@ -79,7 +82,7 @@ describe('@nglibs/meta:',
                                                             expect(getAttribute(doc, 'og:url', 'content'))
                                                                 .toEqual('http://localhost:3000/no-data');
 
-                                                            // no-meta
+                                                            // navigate to /no-meta
                                                             router.navigate(['/no-meta'])
                                                                 .then(() => {
                                                                     expect(title.getTitle()).toEqual('Mighty mighty mouse');
@@ -98,7 +101,6 @@ describe('@nglibs/meta:',
                     fakeAsync(inject([Title, DOCUMENT],
                         (title: Title, doc: any) => {
                             const injector = getTestBed();
-                            const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
                             const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -117,12 +119,12 @@ describe('@nglibs/meta:',
                 it('should be able to set meta tags using routes w/o default settings',
                     fakeAsync(inject([Title, DOCUMENT],
                         (title: Title, doc: any) => {
-                            const metaFactory = () => new MetaStaticLoader(emptySettings);
+                            const settings = _.cloneDeep(emptySettings);
+                            const metaFactory = () => new MetaStaticLoader(settings);
 
                             testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
                             const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -140,7 +142,7 @@ describe('@nglibs/meta:',
                 it('should be able to set meta tags using routes w/o default `title` w/o `meta` property',
                     fakeAsync(inject([Title, DOCUMENT],
                         (title: Title, doc: any) => {
-                            const settings = defaultSettings;
+                            const settings = _.cloneDeep(defaultSettings);
                             settings.applicationName = 'Tour of (lazy/busy) heroes';
                             settings.defaults = {
                                 'description': 'Mighty Mouse is an animated superhero mouse character'
@@ -151,7 +153,6 @@ describe('@nglibs/meta:',
                             testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
                             const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -170,12 +171,12 @@ describe('@nglibs/meta:',
                 it('should be able to set meta tags using routes w/o default settings w/o `meta` property',
                     fakeAsync(inject([Title, DOCUMENT],
                         (title: Title, doc: any) => {
-                            const metaFactory = () => new MetaStaticLoader(emptySettings);
+                            const settings = _.cloneDeep(emptySettings);
+                            const metaFactory = () => new MetaStaticLoader(settings);
 
                             testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
                             const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -208,10 +209,10 @@ describe('@nglibs/meta:',
                 it('should be able to set `title` (appended)',
                     inject([Title],
                         (title: Title) => {
-                            const appendedSettings = testSettings;
-                            appendedSettings.pageTitlePositioning = PageTitlePositioning.AppendPageTitle;
+                            const settings = _.cloneDeep(testSettings);
+                            settings.pageTitlePositioning = PageTitlePositioning.AppendPageTitle;
 
-                            const metaFactory = () => new MetaStaticLoader(appendedSettings);
+                            const metaFactory = () => new MetaStaticLoader(settings);
 
                             testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
@@ -266,17 +267,19 @@ describe('@nglibs/meta:',
                         }));
 
                 it('should throw if you provide an invalid `PageTitlePositioning`',
-                    inject([MetaService],
-                        (meta: MetaService) => {
-                            const invalidSettings = testSettings;
-                            invalidSettings.pageTitlePositioning = undefined;
+                    () => {
+                        const settings = _.cloneDeep(testSettings);
+                        settings.pageTitlePositioning = undefined;
 
-                            const metaFactory = () => new MetaStaticLoader(invalidSettings);
+                        const metaFactory = () => new MetaStaticLoader(settings);
 
-                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
+                        testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
-                            expect(() => meta.setTitle('')).toThrowError('Invalid pageTitlePositioning specified [undefined]!');
-                        }));
+                        const injector = getTestBed();
+                        const meta = injector.get(MetaService);
+
+                        expect(() => meta.setTitle('')).toThrowError('Invalid pageTitlePositioning specified [undefined]!');
+                    });
 
                 it('should throw if you attempt to set `title` through `setTag` method',
                     inject([MetaService],
@@ -302,7 +305,8 @@ describe('@nglibs/meta:',
                 it('should be able to set meta `description` w/o default settings',
                     inject([DOCUMENT],
                         (doc: any) => {
-                            const metaFactory = () => new MetaStaticLoader(emptySettings);
+                            const settings = _.cloneDeep(emptySettings);
+                            const metaFactory = () => new MetaStaticLoader(settings);
 
                             testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
@@ -344,9 +348,21 @@ describe('@nglibs/meta:',
                             meta.setTag('og:locale', '');
                             expect(getAttribute(doc, 'og:locale', 'content')).toEqual('en_US');
 
+                            let elements = doc.querySelectorAll('meta[property="og:locale:alternate"]');
+
+                            expect(elements.length).toEqual(2);
+                            expect(elements[0].getAttribute('content')).toEqual('nl_NL');
+                            expect(elements[1].getAttribute('content')).toEqual('tr_TR');
+
                             // given og:locale
                             meta.setTag('og:locale', 'tr-TR');
                             expect(getAttribute(doc, 'og:locale', 'content')).toEqual('tr_TR');
+
+                            elements = doc.querySelectorAll('meta[property="og:locale:alternate"]');
+
+                            expect(elements.length).toEqual(2);
+                            expect(elements[0].getAttribute('content')).toEqual('en_US');
+                            expect(elements[1].getAttribute('content')).toEqual('nl_NL');
                         }));
 
                 it('should be able to set `og:locale:alternate` w/ `og:locale`',
@@ -382,7 +398,8 @@ describe('@nglibs/meta:',
                 it('should be able to set `og:locale` w/o default settings',
                     inject([DOCUMENT],
                         (doc: any) => {
-                            const metaFactory = () => new MetaStaticLoader(emptySettings);
+                            const settings = _.cloneDeep(emptySettings);
+                            const metaFactory = () => new MetaStaticLoader(settings);
 
                             testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
@@ -394,10 +411,17 @@ describe('@nglibs/meta:',
                         }));
 
                 it('should be able to do not set `og:locale:alternate` as current `og:locale`',
-                    inject([MetaService],
-                        (meta: MetaService) => {
+                    inject([DOCUMENT],
+                        (doc: any) => {
+                            const settings = _.cloneDeep(defaultSettings);
+                            settings.defaults['og:locale'] = 'en-US';
+
+                            const metaFactory = () => new MetaStaticLoader(settings);
+
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
+
                             const injector = getTestBed();
-                            const doc = injector.get(DOCUMENT);
+                            const meta = injector.get(MetaService);
 
                             meta.setTag('og:locale:alternate', 'en-US');
                             expect(getAttribute(doc, 'og:locale:alternate', 'content')).toBeUndefined();
@@ -406,7 +430,7 @@ describe('@nglibs/meta:',
                 it('should be able to do not set `og:locale:alternate` using routes w/o default settings & w/o `og:locale`',
                     fakeAsync(inject([Title, DOCUMENT],
                         (title: Title, doc: any) => {
-                            const settings = defaultSettings;
+                            const settings = _.cloneDeep(defaultSettings);
                             settings.defaults['og:locale:alternate'] = 'en-US';
 
                             const metaFactory = () => new MetaStaticLoader(settings);
@@ -414,7 +438,6 @@ describe('@nglibs/meta:',
                             testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
 
                             const injector = getTestBed();
-                            const meta = injector.get(MetaService);
                             const router = injector.get(Router);
 
                             const fixture = TestBed.createComponent(TestBootstrapComponent);
