@@ -370,6 +370,7 @@ describe('@nglibs/meta:',
                         (meta: MetaService, doc: any) => {
                             // default og:locale
                             meta.setTag('og:locale', '');
+                            expect(getAttribute(doc, 'og:locale', 'content')).toEqual('en_US');
 
                             const elements = doc.querySelectorAll('meta[property="og:locale:alternate"]');
 
@@ -406,15 +407,20 @@ describe('@nglibs/meta:',
                             const injector = getTestBed();
                             const meta = injector.get(MetaService);
 
+                            // default og:locale
                             meta.setTag('og:locale', '');
                             expect(getAttribute(doc, 'og:locale', 'content')).toEqual('');
+
+                            // given og:locale
+                            meta.setTag('og:locale', 'tr-TR');
+                            expect(getAttribute(doc, 'og:locale', 'content')).toEqual('tr_TR');
                         }));
 
                 it('should be able to do not set `og:locale:alternate` as current `og:locale`',
                     inject([DOCUMENT],
                         (doc: any) => {
                             const settings = _.cloneDeep(defaultSettings);
-                            settings.defaults['og:locale'] = 'en-US';
+                            settings.defaults['og:locale'] = 'tr-TR';
 
                             const metaFactory = () => new MetaStaticLoader(settings);
 
@@ -423,7 +429,10 @@ describe('@nglibs/meta:',
                             const injector = getTestBed();
                             const meta = injector.get(MetaService);
 
-                            meta.setTag('og:locale:alternate', 'en-US');
+                            expect(getAttribute(doc, 'og:locale', 'content')).toEqual('tr_TR');
+
+                            // given og:locale:alternate
+                            meta.setTag('og:locale:alternate', 'tr-TR');
                             expect(getAttribute(doc, 'og:locale:alternate', 'content')).toBeUndefined();
                         }));
 
