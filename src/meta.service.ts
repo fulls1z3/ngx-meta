@@ -142,7 +142,7 @@ export class MetaService {
                 ? this.metaSettings.defaults['og:locale']
                 : '';
 
-        if (!!currentLocale)
+        if (!!currentLocale && !!this.metaSettings.defaults)
             this.metaSettings.defaults['og:locale'] = currentLocale.replace(/_/g, '-');
 
         const html = this.document.querySelector('html');
