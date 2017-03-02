@@ -72,8 +72,7 @@ export const defaultSettings: MetaSettings = {
 };
 
 export const emptySettings: MetaSettings = {
-    pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
-    defaults: undefined
+    pageTitlePositioning: PageTitlePositioning.PrependPageTitle
 };
 
 export const testSettings: MetaSettings = {
