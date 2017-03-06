@@ -13,7 +13,7 @@ import { MetaLoader } from './meta.loader';
 @Injectable()
 export class MetaService {
     private readonly metaSettings: any;
-    private readonly isTagSet: any;
+    private readonly isMetaTagSet: any;
 
     constructor(public loader: MetaLoader,
                 private readonly router: Router,
@@ -21,7 +21,7 @@ export class MetaService {
                 private readonly title: Title,
                 private readonly activatedRoute: ActivatedRoute) {
         this.metaSettings = loader.getSettings();
-        this.isTagSet = {};
+        this.isMetaTagSet = {};
 
         this.router.events
             .filter(event => (event instanceof NavigationEnd))
@@ -32,66 +32,53 @@ export class MetaService {
                     route = route.firstChild;
 
                     if (!!route.snapshot.routeConfig.data) {
-                        const meta = route.snapshot.routeConfig.data['meta'];
+                        const metaSettings = route.snapshot.routeConfig.data['meta'];
 
-                        this.updateMeta(routeData.urlAfterRedirects, meta);
+                        this.updateMetaTags(routeData.urlAfterRedirects, metaSettings);
                     }
                     else
-                        this.updateMeta(routeData.urlAfterRedirects);
+                        this.updateMetaTags(routeData.urlAfterRedirects);
                 }
             });
     }
 
-    setTitle(title: string, override = false): void {
+    setTitle(title: string, override = false, deferred = true): void {
         title = this.getTitleWithPositioning(title, override);
 
-        const sub = this.router.events
-            .filter(event => (event instanceof NavigationEnd))
-            .subscribe(() => {
-                    this.setTitleBeforeInit(title);
-                });
+        if (!deferred)
+            this.updateTitle(title);
+        else {
+            const sub = this.router.events
+                .filter(event => (event instanceof NavigationEnd))
+                .subscribe(() => {
+                        this.updateTitle(title);
+                    });
 
-        setTimeout(() => {
-          sub.unsubscribe();
-        }, 1);
+            setTimeout(() => {
+              sub.unsubscribe();
+            }, 1);
+        }
     }
 
-    setTag(tag: string, value: string): void {
+    setTag(tag: string, value: string, deferred = true): void {
         if (tag === 'title')
             throw new Error(`Attempt to set ${tag} through 'setTag': 'title' is a reserved tag name. `
                 + `Please use 'MetaService.setTitle' instead.`);
 
-        const sub = this.router.events
-            .filter(event => (event instanceof NavigationEnd))
-            .subscribe(() => {
-                this.setTagBeforeInit(tag, value);
-            });
+        if (!deferred)
+            this.updateMetaTag(tag, value);
+        else {
+            const sub = this.router.events
+                .filter(event => (event instanceof NavigationEnd))
+                .subscribe(() => {
+                    this.updateMetaTag(tag, value);
+                });
 
-        setTimeout(() => {
-          sub.unsubscribe();
-        }, 1);
-    }
-
-    private createMetaTag(name: string): any {
-        const el = this.document.createElement('meta');
-        el.setAttribute(name.lastIndexOf('og:', 0) === 0 ? 'property' : 'name', name);
-        this.document.head.appendChild(el);
-
-        return el;
-    }
-
-    private getOrCreateMetaTag(name: string): any {
-        let selector = `meta[name="${name}"]`;
-
-        if (name.lastIndexOf('og:', 0) === 0)
-            selector = `meta[property="${name}"]`;
-
-        let el = this.document.querySelector(selector);
-
-        if (!el)
-            el = this.createMetaTag(name);
-
-        return el;
+            setTimeout(() => {
+                    sub.unsubscribe();
+                },
+                1);
+        }
     }
 
     private getTitleWithPositioning(title: string, override: boolean): string {
@@ -117,46 +104,33 @@ export class MetaService {
         }
     }
 
-    private setTitleBeforeInit(title: string): void {
+    private createMetaTag(name: string): any {
+        const el = this.document.createElement('meta');
+        el.setAttribute(name.lastIndexOf('og:', 0) === 0 ? 'property' : 'name', name);
+        this.document.head.appendChild(el);
+
+        return el;
+    }
+
+    private getOrCreateMetaTag(name: string): any {
+        let selector = `meta[name="${name}"]`;
+
+        if (name.lastIndexOf('og:', 0) === 0)
+            selector = `meta[property="${name}"]`;
+
+        let el = this.document.querySelector(selector);
+
+        if (!el)
+            el = this.createMetaTag(name);
+
+        return el;
+    }
+
+    private updateTitle(title: string): void {
         const ogTitleElement = this.getOrCreateMetaTag('og:title');
         ogTitleElement.setAttribute('content', title);
 
         this.title.setTitle(title);
-    }
-
-    private setTagBeforeInit(tag: string, value: string): void {
-        value = !!value
-            ? value
-            : !!this.metaSettings.defaults ? this.metaSettings.defaults[tag] : '';
-
-        const tagElement = this.getOrCreateMetaTag(tag);
-
-        tagElement.setAttribute('content', tag === 'og:locale' ? value.replace(/-/g, '_') : value);
-        this.isTagSet[tag] = true;
-
-        if (tag === 'description') {
-            const ogDescriptionElement = this.getOrCreateMetaTag('og:description');
-            ogDescriptionElement.setAttribute('content', value);
-        } else if (tag === 'author') {
-            const ogAuthorElement = this.getOrCreateMetaTag('og:author');
-            ogAuthorElement.setAttribute('content', value);
-        } else if (tag === 'publisher') {
-            const ogPublisherElement = this.getOrCreateMetaTag('og:publisher');
-            ogPublisherElement.setAttribute('content', value);
-        } else if (tag === 'og:locale') {
-            const availableLocales = !!this.metaSettings.defaults
-                ? this.metaSettings.defaults['og:locale:alternate']
-                : '';
-
-            this.updateLocales(value, availableLocales);
-            this.isTagSet['og:locale:alternate'] = true;
-        } else if (tag === 'og:locale:alternate') {
-            const ogLocaleElement = this.getOrCreateMetaTag('og:locale');
-            const currentLocale = ogLocaleElement.getAttribute('content');
-
-            this.updateLocales(currentLocale, value);
-            this.isTagSet['og:locale'] = true;
-        }
     }
 
     private updateLocales(currentLocale: string, availableLocales: string): void {
@@ -192,40 +166,73 @@ export class MetaService {
         }
     }
 
-    private updateMeta(currentUrl: string, meta?: any): void {
-        if (!meta) {
-            let fallbackTitle = !!this.metaSettings.defaults
+    private updateMetaTag(tag: string, value: string): void {
+        value = !!value
+            ? value
+            : !!this.metaSettings.defaults ? this.metaSettings.defaults[tag] : '';
+
+        const tagElement = this.getOrCreateMetaTag(tag);
+
+        tagElement.setAttribute('content', tag === 'og:locale' ? value.replace(/-/g, '_') : value);
+        this.isMetaTagSet[tag] = true;
+
+        if (tag === 'description') {
+            const ogDescriptionElement = this.getOrCreateMetaTag('og:description');
+            ogDescriptionElement.setAttribute('content', value);
+        } else if (tag === 'author') {
+            const ogAuthorElement = this.getOrCreateMetaTag('og:author');
+            ogAuthorElement.setAttribute('content', value);
+        } else if (tag === 'publisher') {
+            const ogPublisherElement = this.getOrCreateMetaTag('og:publisher');
+            ogPublisherElement.setAttribute('content', value);
+        } else if (tag === 'og:locale') {
+            const availableLocales = !!this.metaSettings.defaults
+                ? this.metaSettings.defaults['og:locale:alternate']
+                : '';
+
+            this.updateLocales(value, availableLocales);
+            this.isMetaTagSet['og:locale:alternate'] = true;
+        } else if (tag === 'og:locale:alternate') {
+            const ogLocaleElement = this.getOrCreateMetaTag('og:locale');
+            const currentLocale = ogLocaleElement.getAttribute('content');
+
+            this.updateLocales(currentLocale, value);
+            this.isMetaTagSet['og:locale'] = true;
+        }
+    }
+
+    private updateMetaTags(currentUrl: string, metaSettings?: any): void {
+        if (!metaSettings) {
+            const fallbackTitle = !!this.metaSettings.defaults
                 ? (this.metaSettings.defaults['title'] || this.metaSettings['applicationName'])
                 : this.metaSettings['applicationName'];
 
-            fallbackTitle = this.getTitleWithPositioning(fallbackTitle, true);
-            this.setTitleBeforeInit(fallbackTitle);
+            this.setTitle(fallbackTitle, true, false);
         }
         else {
-            if (meta.disabled) {
-                this.updateMeta(currentUrl);
+            if (metaSettings.disabled) {
+                this.updateMetaTags(currentUrl);
                 return;
             }
 
-            const title = this.getTitleWithPositioning(meta.title, meta.override);
-            this.setTitleBeforeInit(title);
+            this.setTitle(metaSettings.title, metaSettings.override, false);
 
-            Object.keys(meta)
+            Object.keys(metaSettings)
                 .forEach(key => {
-                    let value = meta[key];
+                    let value = metaSettings[key];
 
                     if (key === 'title' || key === 'override')
                         return;
                     else if (key === 'og:locale')
                         value = value.replace(/-/g, '_');
                     else if (key === 'og:locale:alternate') {
-                        const currentLocale = meta['og:locale'];
-                        this.updateLocales(currentLocale, meta[key]);
+                        const currentLocale = metaSettings['og:locale'];
+                        this.updateLocales(currentLocale, metaSettings[key]);
 
                         return;
                     }
 
-                    this.setTagBeforeInit(key, value);
+                    this.setTag(key, value, false);
                 });
         }
 
@@ -234,24 +241,24 @@ export class MetaService {
                 .forEach(key => {
                     let value = this.metaSettings.defaults[key];
 
-                    if ((!!meta && (key in this.isTagSet || key in meta)) || key === 'title' || key === 'override')
+                    if ((!!metaSettings && (key in this.isMetaTagSet || key in metaSettings)) || key === 'title' || key === 'override')
                         return;
                     else if (key === 'og:locale')
                         value = value.replace(/-/g, '_');
                     else if (key === 'og:locale:alternate') {
-                        const currentLocale = !!meta ? meta['og:locale'] : undefined;
+                        const currentLocale = !!metaSettings ? metaSettings['og:locale'] : undefined;
                         this.updateLocales(currentLocale, this.metaSettings.defaults[key]);
 
                         return;
                     }
 
-                    this.setTagBeforeInit(key, value);
+                    this.setTag(key, value, false);
                 });
 
         const url = ((this.metaSettings.applicationUrl || '/') + currentUrl)
             .replace(/(https?:\/\/)|(\/)+/g, '$1$2')
             .replace(/\/$/g, '');
 
-        this.setTagBeforeInit('og:url', url || '/');
+        this.setTag('og:url', url || '/', false);
     }
 }
