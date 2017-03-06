@@ -18,7 +18,7 @@ export class MetaService {
     constructor(public loader: MetaLoader,
                 private readonly router: Router,
                 @Inject(DOCUMENT) private readonly document: any,
-                private readonly titleService: Title,
+                private readonly title: Title,
                 private readonly activatedRoute: ActivatedRoute) {
         this.metaSettings = loader.getSettings();
         this.isTagSet = {};
@@ -43,36 +43,17 @@ export class MetaService {
     }
 
     setTitle(title: string, override = false): void {
-        const ogTitleElement = this.getOrCreateMetaTag('og:title');
+        title = this.getTitleWithPositioning(title, override);
 
-        const defaultTitle = !!this.metaSettings.defaults ? this.metaSettings.defaults['title'] : '';
+        const sub = this.router.events
+            .filter(event => (event instanceof NavigationEnd))
+            .subscribe(() => {
+                    this.setTitleBeforeInit(title);
+                });
 
-        switch (this.metaSettings.pageTitlePositioning) {
-            case PageTitlePositioning.AppendPageTitle:
-                title = (!override
-                        && !!this.metaSettings.pageTitleSeparator
-                        && !!this.metaSettings.applicationName
-                        ? (this.metaSettings.applicationName + this.metaSettings.pageTitleSeparator)
-                        : '')
-                    + (!!title ? title : (defaultTitle || ''));
-                break;
-            case PageTitlePositioning.PrependPageTitle:
-                title = (!!title ? title : (defaultTitle || ''))
-                    + (!override
-                        && !!this.metaSettings.pageTitleSeparator
-                        && !!this.metaSettings.applicationName
-                        ? (this.metaSettings.pageTitleSeparator + this.metaSettings.applicationName)
-                        : '');
-                break;
-            default:
-                throw new Error(`Invalid pageTitlePositioning specified [${this.metaSettings.pageTitlePositioning}]!`);
-        }
-
-        if (!title)
-            console.warn('WARNING: No "page title" specified.');
-
-        ogTitleElement.setAttribute('content', title);
-        this.titleService.setTitle(title);
+        setTimeout(() => {
+          sub.unsubscribe();
+        }, 1);
     }
 
     setTag(tag: string, value: string): void {
@@ -80,6 +61,70 @@ export class MetaService {
             throw new Error(`Attempt to set ${tag} through 'setTag': 'title' is a reserved tag name. `
                 + `Please use 'MetaService.setTitle' instead.`);
 
+        const sub = this.router.events
+            .filter(event => (event instanceof NavigationEnd))
+            .subscribe(() => {
+                this.setTagBeforeInit(tag, value);
+            });
+
+        setTimeout(() => {
+          sub.unsubscribe();
+        }, 1);
+    }
+
+    private createMetaTag(name: string): any {
+        const el = this.document.createElement('meta');
+        el.setAttribute(name.lastIndexOf('og:', 0) === 0 ? 'property' : 'name', name);
+        this.document.head.appendChild(el);
+
+        return el;
+    }
+
+    private getOrCreateMetaTag(name: string): any {
+        let selector = `meta[name="${name}"]`;
+
+        if (name.lastIndexOf('og:', 0) === 0)
+            selector = `meta[property="${name}"]`;
+
+        let el = this.document.querySelector(selector);
+
+        if (!el)
+            el = this.createMetaTag(name);
+
+        return el;
+    }
+
+    private getTitleWithPositioning(title: string, override: boolean): string {
+        const defaultTitle = !!this.metaSettings.defaults ? this.metaSettings.defaults['title'] : '';
+
+        switch (this.metaSettings.pageTitlePositioning) {
+            case PageTitlePositioning.AppendPageTitle:
+                return (!override
+                        && !!this.metaSettings.pageTitleSeparator
+                        && !!this.metaSettings.applicationName
+                        ? (this.metaSettings.applicationName + this.metaSettings.pageTitleSeparator)
+                        : '')
+                    + (!!title ? title : (defaultTitle || ''));
+            case PageTitlePositioning.PrependPageTitle:
+                return (!!title ? title : (defaultTitle || ''))
+                    + (!override
+                        && !!this.metaSettings.pageTitleSeparator
+                        && !!this.metaSettings.applicationName
+                        ? (this.metaSettings.pageTitleSeparator + this.metaSettings.applicationName)
+                        : '');
+            default:
+                throw new Error(`Invalid pageTitlePositioning specified [${this.metaSettings.pageTitlePositioning}]!`);
+        }
+    }
+
+    private setTitleBeforeInit(title: string): void {
+        const ogTitleElement = this.getOrCreateMetaTag('og:title');
+        ogTitleElement.setAttribute('content', title);
+
+        this.title.setTitle(title);
+    }
+
+    private setTagBeforeInit(tag: string, value: string): void {
         value = !!value
             ? value
             : !!this.metaSettings.defaults ? this.metaSettings.defaults[tag] : '';
@@ -112,28 +157,6 @@ export class MetaService {
             this.updateLocales(currentLocale, value);
             this.isTagSet['og:locale'] = true;
         }
-    }
-
-    private createMetaTag(name: string): any {
-        const el = this.document.createElement('meta');
-        el.setAttribute(name.lastIndexOf('og:', 0) === 0 ? 'property' : 'name', name);
-        this.document.head.appendChild(el);
-
-        return el;
-    }
-
-    private getOrCreateMetaTag(name: string): any {
-        let selector = `meta[name="${name}"]`;
-
-        if (name.lastIndexOf('og:', 0) === 0)
-            selector = `meta[property="${name}"]`;
-
-        let el = this.document.querySelector(selector);
-
-        if (!el)
-            el = this.createMetaTag(name);
-
-        return el;
     }
 
     private updateLocales(currentLocale: string, availableLocales: string): void {
@@ -171,11 +194,12 @@ export class MetaService {
 
     private updateMeta(currentUrl: string, meta?: any): void {
         if (!meta) {
-            const fallbackTitle = !!this.metaSettings.defaults
+            let fallbackTitle = !!this.metaSettings.defaults
                 ? (this.metaSettings.defaults['title'] || this.metaSettings['applicationName'])
                 : this.metaSettings['applicationName'];
 
-            this.setTitle(fallbackTitle, true);
+            fallbackTitle = this.getTitleWithPositioning(fallbackTitle, true);
+            this.setTitleBeforeInit(fallbackTitle);
         }
         else {
             if (meta.disabled) {
@@ -183,7 +207,8 @@ export class MetaService {
                 return;
             }
 
-            this.setTitle(meta.title, meta.override);
+            const title = this.getTitleWithPositioning(meta.title, meta.override);
+            this.setTitleBeforeInit(title);
 
             Object.keys(meta)
                 .forEach(key => {
@@ -200,7 +225,7 @@ export class MetaService {
                         return;
                     }
 
-                    this.setTag(key, value);
+                    this.setTagBeforeInit(key, value);
                 });
         }
 
@@ -220,13 +245,13 @@ export class MetaService {
                         return;
                     }
 
-                    this.setTag(key, value);
+                    this.setTagBeforeInit(key, value);
                 });
 
         const url = ((this.metaSettings.applicationUrl || '/') + currentUrl)
             .replace(/(https?:\/\/)|(\/)+/g, '$1$2')
             .replace(/\/$/g, '');
 
-        this.setTag('og:url', url || '/');
+        this.setTagBeforeInit('og:url', url || '/');
     }
 }
