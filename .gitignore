@@ -5,6 +5,7 @@
 *.js
 *.d.ts
 *.metadata.json
+/.idea
 /bundles
 !/config/*.js
 /coverage

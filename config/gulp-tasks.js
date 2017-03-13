@@ -74,7 +74,7 @@ var ts = {
         };
 
         return gulp.src('./tsconfig.json')
-            .pipe($.exec('ngc -p "./tsconfig.json"', options))
+            .pipe($.exec('"./node_modules/.bin/ngc" -p "./tsconfig.json"', options))
             .pipe($.exec.reporter(reportOptions))
             .on('end', done);
     },
