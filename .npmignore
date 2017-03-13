@@ -1,21 +1,31 @@
-﻿#dev stuff
+﻿# https://docs.npmjs.com/misc/developers#keeping-files-out-of-your-package
+
+# compiled output
 *.ts
 !*.d.ts
-/.github
-/config
-/coverage
+
+# dependencies
 /node_modules
-/obj/Debug
-.bithoundrc
+
+# IDEs and editors
+/.idea
+
+# build tools
+/config
 .gitignore
 .gitattributes
 .npmignore
-.travis.yml
-appveyor.yml
 gulpfile.js
 karma.conf.js
-nglibs.meta.csproj
-nglibs.meta.csproj.user
-npm-debug.log
 tsconfig.json
+
+# ci tools
+.bithoundrc
+.travis.yml
+appveyor.yml
+
+# misc
+/.github
+/coverage
+npm-debug.log
 tslint.json

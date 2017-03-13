@@ -1,17 +1,23 @@
-################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# compiled output
+bundles/
 *.js
 *.d.ts
 *.metadata.json
-/bundles
-!/config/*.js
-/coverage
-/node_modules
-/obj/Debug
+
+# dependencies
+node_modules/
+yarn.lock
+
+# IDEs and editors
+.idea/
+
+# build tools
+coverage/
 !gulpfile.js
 !karma.conf.js
-nglibs.meta.csproj
-nglibs.meta.csproj.user
+
+# misc
+!config/*.js
 npm-debug.log
