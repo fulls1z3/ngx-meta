@@ -12,7 +12,7 @@ export * from './src/meta.service';
 
 // for AoT compilation
 export function metaFactory(): MetaLoader {
-    return new MetaStaticLoader();
+  return new MetaStaticLoader();
 }
 
 /**
@@ -20,21 +20,22 @@ export function metaFactory(): MetaLoader {
  */
 @NgModule()
 export class MetaModule {
-    static forRoot(configuredProvider: any = {
-                       provide: MetaLoader,
-                       useFactory: (metaFactory)
-                   }): ModuleWithProviders {
-        return {
-            ngModule: MetaModule,
-            providers: [
-                configuredProvider,
-                MetaService
-            ]
-        };
-    }
+  static forRoot(configuredProvider: any = {
+                   provide: MetaLoader,
+                   useFactory: (metaFactory)
+                 }): ModuleWithProviders {
+    return {
+      ngModule: MetaModule,
+      providers: [
+        configuredProvider,
+        MetaService
+      ]
+    };
+  }
 
-    constructor(@Optional() @SkipSelf() parentModule: MetaModule) {
-        if (parentModule)
-            throw new Error('MetaModule already loaded; import in root module only.');
-    }
+  constructor(@Optional()
+              @SkipSelf() parentModule: MetaModule) {
+    if (parentModule)
+      throw new Error('MetaModule already loaded; import in root module only.');
+  }
 }
