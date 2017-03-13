@@ -1,19 +1,27 @@
 // angular
-import { Title, DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT, Title } from '@angular/platform-browser';
 import { Inject, Injectable } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 // libs
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/concat';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/reduce';
+import 'rxjs/add/operator/take';
 
 // module
 import { PageTitlePositioning } from './models/page-title-positioning';
 import { MetaLoader } from './meta.loader';
+import { isObservable } from './util';
 
 @Injectable()
 export class MetaService {
     private readonly metaSettings: any;
     private readonly isMetaTagSet: any;
+    private useRouteData: boolean;
 
     constructor(public loader: MetaLoader,
                 private readonly router: Router,
@@ -23,35 +31,42 @@ export class MetaService {
         this.metaSettings = loader.getSettings();
         this.isMetaTagSet = {};
 
+        if (!this.metaSettings.defer)
+            this.init();
+    }
+
+    init(useRouteData: boolean = true): void {
+        // don't use route data unless allowed
+        if (!useRouteData)
+            return;
+
+        this.useRouteData = true;
+
         this.router.events
             .filter(event => (event instanceof NavigationEnd))
             .subscribe((routeData: any) => {
-                let route = this.activatedRoute;
-
-                while (route.children.length > 0) {
-                    route = route.firstChild;
-
-                    if (!!route.snapshot.routeConfig.data) {
-                        const metaSettings = route.snapshot.routeConfig.data['meta'];
-
-                        this.updateMetaTags(routeData.urlAfterRedirects, metaSettings);
-                    }
-                    else
-                        this.updateMetaTags(routeData.urlAfterRedirects);
-                }
+                this.traverseRoutes(this.activatedRoute, routeData.urlAfterRedirects);
             });
     }
 
+    refresh(): void {
+        // don't use route data unless allowed
+        if (!this.useRouteData)
+            return;
+
+        this.traverseRoutes(this.router.routerState.root, this.router.url);
+    }
+
     setTitle(title: string, override = false, deferred = true): void {
-        title = this.getTitleWithPositioning(title, override);
+        const title$ = this.getTitleWithPositioning(title, override);
 
         if (!deferred)
-            this.updateTitle(title);
+            this.updateTitle(title$);
         else {
             const sub = this.router.events
                 .filter(event => (event instanceof NavigationEnd))
                 .subscribe(() => {
-                        this.updateTitle(title);
+                        this.updateTitle(title$);
                     });
 
             setTimeout(() => {
@@ -65,13 +80,25 @@ export class MetaService {
             throw new Error(`Attempt to set ${tag} through 'setTag': 'title' is a reserved tag name. `
                 + `Please use 'MetaService.setTitle' instead.`);
 
+        const value$ = (tag !== 'og:locale' && tag !== 'og:locale:alternate')
+            ? this.callback(!!value
+                ? value
+                : (!!this.metaSettings.defaults && this.metaSettings.defaults[tag])
+                    ? this.metaSettings.defaults[tag]
+                    : '')
+            : Observable.of(!!value
+                ? value
+                : (!!this.metaSettings.defaults && this.metaSettings.defaults[tag])
+                    ? this.metaSettings.defaults[tag]
+                    : '');
+
         if (!deferred)
-            this.updateMetaTag(tag, value);
+            this.updateMetaTag(tag, value$);
         else {
             const sub = this.router.events
                 .filter(event => (event instanceof NavigationEnd))
                 .subscribe(() => {
-                    this.updateMetaTag(tag, value);
+                    this.updateMetaTag(tag, value$);
                 });
 
             setTimeout(() => {
@@ -81,24 +108,47 @@ export class MetaService {
         }
     }
 
-    private getTitleWithPositioning(title: string, override: boolean): string {
-        const defaultTitle = !!this.metaSettings.defaults ? this.metaSettings.defaults['title'] : '';
+    private callback(value: string): Observable<string> {
+        if (!!this.metaSettings.callback) {
+            const value$ = this.metaSettings.callback(value);
+
+            if (!isObservable(value$))
+                return Observable.of(value$);
+
+            return value$;
+        }
+
+        return Observable.of(value);
+    }
+
+    private getTitleWithPositioning(title: string, override: boolean): Observable<string> {
+        const defaultTitle$ = (!!this.metaSettings.defaults && !!this.metaSettings.defaults['title'])
+            ? this.callback(this.metaSettings.defaults['title'])
+            : Observable.of('');
+
+        const title$ = !!title
+            ? this.callback(title).concat(defaultTitle$).filter((res: string) => !!res).take(1)
+            : defaultTitle$;
 
         switch (this.metaSettings.pageTitlePositioning) {
             case PageTitlePositioning.AppendPageTitle:
-                return (!override
+                return ((!override
                         && !!this.metaSettings.pageTitleSeparator
-                        && !!this.metaSettings.applicationName
-                        ? (this.metaSettings.applicationName + this.metaSettings.pageTitleSeparator)
-                        : '')
-                    + (!!title ? title : (defaultTitle || ''));
+                        && !!this.metaSettings.applicationName)
+                    ? this.callback(this.metaSettings.applicationName)
+                        .map((res: string) => res + this.metaSettings.pageTitleSeparator)
+                    : Observable.of(''))
+                    .concat(title$)
+                    .reduce((acc: string, cur: string) => acc + cur);
             case PageTitlePositioning.PrependPageTitle:
-                return (!!title ? title : (defaultTitle || ''))
-                    + (!override
+                return title$
+                    .concat((!override
                         && !!this.metaSettings.pageTitleSeparator
-                        && !!this.metaSettings.applicationName
-                        ? (this.metaSettings.pageTitleSeparator + this.metaSettings.applicationName)
-                        : '');
+                        && !!this.metaSettings.applicationName)
+                    ? this.callback(this.metaSettings.applicationName)
+                        .map((res: string) => this.metaSettings.pageTitleSeparator + res)
+                    : Observable.of(''))
+                    .reduce((acc: string, cur: string) => acc + cur);
             default:
                 throw new Error(`Invalid pageTitlePositioning specified [${this.metaSettings.pageTitlePositioning}]!`);
         }
@@ -126,11 +176,13 @@ export class MetaService {
         return el;
     }
 
-    private updateTitle(title: string): void {
+    private updateTitle(title$: Observable<string>): void {
         const ogTitleElement = this.getOrCreateMetaTag('og:title');
-        ogTitleElement.setAttribute('content', title);
 
-        this.title.setTitle(title);
+        title$.subscribe((res: string) => {
+            ogTitleElement.setAttribute('content', res);
+            this.title.setTitle(res);
+        });
     }
 
     private updateLocales(currentLocale: string, availableLocales: string): void {
@@ -166,39 +218,37 @@ export class MetaService {
         }
     }
 
-    private updateMetaTag(tag: string, value: string): void {
-        value = !!value
-            ? value
-            : !!this.metaSettings.defaults ? this.metaSettings.defaults[tag] : '';
-
+    private updateMetaTag(tag: string, value$: Observable<string>): void {
         const tagElement = this.getOrCreateMetaTag(tag);
 
-        tagElement.setAttribute('content', tag === 'og:locale' ? value.replace(/-/g, '_') : value);
-        this.isMetaTagSet[tag] = true;
+        value$.subscribe((res: string) => {
+            tagElement.setAttribute('content', tag === 'og:locale' ? res.replace(/-/g, '_') : res);
+            this.isMetaTagSet[tag] = true;
 
-        if (tag === 'description') {
-            const ogDescriptionElement = this.getOrCreateMetaTag('og:description');
-            ogDescriptionElement.setAttribute('content', value);
-        } else if (tag === 'author') {
-            const ogAuthorElement = this.getOrCreateMetaTag('og:author');
-            ogAuthorElement.setAttribute('content', value);
-        } else if (tag === 'publisher') {
-            const ogPublisherElement = this.getOrCreateMetaTag('og:publisher');
-            ogPublisherElement.setAttribute('content', value);
-        } else if (tag === 'og:locale') {
-            const availableLocales = !!this.metaSettings.defaults
-                ? this.metaSettings.defaults['og:locale:alternate']
-                : '';
+            if (tag === 'description') {
+                const ogDescriptionElement = this.getOrCreateMetaTag('og:description');
+                ogDescriptionElement.setAttribute('content', res);
+            } else if (tag === 'author') {
+                const ogAuthorElement = this.getOrCreateMetaTag('og:author');
+                ogAuthorElement.setAttribute('content', res);
+            } else if (tag === 'publisher') {
+                const ogPublisherElement = this.getOrCreateMetaTag('og:publisher');
+                ogPublisherElement.setAttribute('content', res);
+            } else if (tag === 'og:locale') {
+                const availableLocales = !!this.metaSettings.defaults
+                    ? this.metaSettings.defaults['og:locale:alternate']
+                    : '';
 
-            this.updateLocales(value, availableLocales);
-            this.isMetaTagSet['og:locale:alternate'] = true;
-        } else if (tag === 'og:locale:alternate') {
-            const ogLocaleElement = this.getOrCreateMetaTag('og:locale');
-            const currentLocale = ogLocaleElement.getAttribute('content');
+                this.updateLocales(res, availableLocales);
+                this.isMetaTagSet['og:locale:alternate'] = true;
+            } else if (tag === 'og:locale:alternate') {
+                const ogLocaleElement = this.getOrCreateMetaTag('og:locale');
+                const currentLocale = ogLocaleElement.getAttribute('content');
 
-            this.updateLocales(currentLocale, value);
-            this.isMetaTagSet['og:locale'] = true;
-        }
+                this.updateLocales(currentLocale, res);
+                this.isMetaTagSet['og:locale'] = true;
+            }
+        });
     }
 
     private updateMetaTags(currentUrl: string, metaSettings?: any): void {
@@ -208,8 +258,7 @@ export class MetaService {
                 : this.metaSettings['applicationName'];
 
             this.setTitle(fallbackTitle, true, false);
-        }
-        else {
+        } else {
             if (metaSettings.disabled) {
                 this.updateMetaTags(currentUrl);
                 return;
@@ -260,5 +309,18 @@ export class MetaService {
             .replace(/\/$/g, '');
 
         this.setTag('og:url', url || '/', false);
+    }
+
+    private traverseRoutes(route: ActivatedRoute, url: string): void {
+        while (route.children.length > 0) {
+            route = route.firstChild;
+
+            if (!!route.snapshot.routeConfig.data) {
+                const metaSettings = route.snapshot.routeConfig.data['meta'];
+                this.updateMetaTags(url, metaSettings);
+            }
+            else
+                this.updateMetaTags(url);
+        }
     }
 }
