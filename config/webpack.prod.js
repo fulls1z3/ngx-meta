@@ -137,7 +137,6 @@ module.exports = {
         new loaderOptionsPlugin({
             options: {
                 tslint: {
-                    emitErrors: false,
                     failOnHint: false
                 }
             }
