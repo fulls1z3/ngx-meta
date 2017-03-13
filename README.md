@@ -1,38 +1,40 @@
-# @nglibs/meta [![Linux build](https://travis-ci.org/nglibs/meta.svg?branch=master)](https://travis-ci.org/nglibs/meta) [![Windows build](https://ci.appveyor.com/api/projects/status/github/nglibs/meta?branch=master&svg=true)](https://ci.appveyor.com/project/nglibs/meta) [![coverage](https://codecov.io/github/nglibs/meta/coverage.svg?branch=master)](https://codecov.io/gh/nglibs/meta) [![npm version](https://badge.fury.io/js/%40nglibs%2Fmeta.svg)](https://www.npmjs.com/package/@nglibs/meta)
+# @nglibs/meta [![Linux build](https://travis-ci.org/nglibs/meta.svg?branch=v0.2.x)](https://travis-ci.org/nglibs/meta) [![Windows build](https://ci.appveyor.com/api/projects/status/github/nglibs/meta?branch=v0.2.x&svg=true)](https://ci.appveyor.com/project/nglibs/meta) [![coverage](https://codecov.io/github/nglibs/meta/coverage.svg?branch=v0.2.x)](https://codecov.io/gh/nglibs/meta) [![npm version](https://badge.fury.io/js/%40nglibs%2Fmeta.svg)](https://www.npmjs.com/package/@nglibs/meta)
 
 > This repository holds the TypeScript source code and distributable bundle of **`@nglibs/meta`**, the dynamic page title &amp; meta tags generator for **Angular**.
 
 **`@nglibs/meta`** updates the **page title** and **meta tags** every time the route changes, based on **Angular** app's route configuration.
 
 #### NOTICE
-**`@nglibs/meta`** is the successor of **`ng2-metadata`**, and the current latest version number is **`v0.2.x`**. Releases with version number **`1.X.x`** refer to **`ng2-metadata`**, and are being kept in order to maintain backwards compability - until Angular v4.0 (stable) gets released.
+**`@nglibs/meta`** is the successor of **`ng2-metadata`**, and the actual release is **`v0.2.x`**.
+
+> If you're using `@angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
+
+> If you're using `@angular v2.x.x`, use the latest release of `v0.2.x` (*[v0.2.x] branch*).
 
 ## Table of contents:
 - [Prerequisites](#prerequisites)
 - [Getting started](#getting-started)
-    - [Installation](#installation)
+  - [Installation](#installation)
 	- [Examples](#examples)
 	- [`@nglibs` packages](#nglibs-packages)
 	- [Adding `@nglibs/meta` to your project (SystemJS)](#adding-nglibsmeta-to-your-project-systemjs)
 	- [Route configuration](#route-configuration)
-    - [app.module configuration](#appmodule-configuration)
+  - [app.module configuration](#appmodule-configuration)
 	- [app.component configuration](#appcomponent-configuration)
 - [Settings](#settings)
 	- [Setting up `MetaModule` to use `MetaStaticLoader`](#setting-up-metamodule-to-use-metastaticloader)
+	- [Deferred initialization](#deferred-initialization)
+	- [Using a `callback` function](#using-a-callback-function)
 - [Set meta tags programmatically](#set-meta-tags-programmatically)
 - [Credits](#credits)
 - [License](#license)
 
 ## Prerequisites
-This package depends on `@angular v2.0.0` but it's highly recommended that you are running at least **`@angular v2.4.0`** and **`@angular/router v3.4.0`**. Older versions contain outdated dependencies, might produce errors.
+This [v0.2.x] branch of **`@nglibs/meta`** depends on `@angular v2.0.0` but it's highly recommended that you are running at least **`@angular v2.4.0`** and **`@angular/router v3.4.0`**. Older versions contain outdated dependencies, might produce errors.
 
 Also, please ensure that you are using **`Typescript v2.1.6`** or higher.
 
-#### WARNING
-
-The pull request [#14327](https://github.com/angular/angular/pull/14327) on **`@angular v2.4.8`** and **`@angular v4.0.0-rc.1`**  introduced a severe error [#14588](https://github.com/angular/angular/issues/14588) which causes the app to fall into an infinite loop before bootstrapping.
-
-In order to avoid issues, avoid using these versions of **Angular**.
+> If you're using `@angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
 
 ## Getting started
 ### Installation
@@ -50,6 +52,8 @@ npm install @nglibs/meta --save
 - [@nglibs/meta]
 - [@nglibs/i18n-router]
 - [@nglibs/i18n-router-config-loader]
+- [@nglibs/universal-express-engine]
+- [@nglibs/universal-transfer-state]
 
 ### Adding `@nglibs/meta` to your project (SystemJS)
 Add `map` for **`@nglibs/meta`** in your `systemjs.config`
@@ -198,6 +202,167 @@ export function metaFactory(): MetaLoader {
 
 > :+1: Holy cow! **`@nglibs/meta`** will update the **page title** and **meta tags** every time the route changes.
 
+### Deferred initialization
+You can delay the initialization of `MetaService` by setting the **`defer`** property of `MetaStaticLoader` to **`true`**. This will allow you to execute some tasks (*retrieve data, etc.*) before `MetaService` gets initialized.
+
+When your tasks have been executed, simply invoke the `init` method to allow `MetaService` to update **page titles** and **meta tags**.
+
+#### app.module.ts
+```TypeScript
+...
+import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@nglibs/meta';
+...
+
+export function metaFactory(): MetaLoader {
+  return new MetaStaticLoader({
+    defer: true,
+    pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
+    pageTitleSeparator: ' - ',
+    applicationName: 'Tour of (lazy/busy) heroes',
+    defaults: {
+      title: 'Mighty mighty mouse',
+      description: 'Mighty Mouse is an animated superhero mouse character',
+      'og:image': 'https://upload.wikimedia.org/wikipedia/commons/f/f8/superraton.jpg',
+      'og:type': 'website',
+      'og:locale': 'en_US',
+      'og:locale:alternate': 'en_US,nl_NL,tr_TR'
+    }
+  });
+}
+
+```
+
+#### app.component.ts
+```TypeScript
+...
+import { MetaService } from '@nglibs/meta';
+...
+
+@Component({
+  ...
+})
+export class AppComponent implements OnInit {
+  ...
+  constructor(private readonly meta: MetaService) { }
+
+  ngOnInit(): void {
+    someTask.subscribe((res: any) => {
+      // some task done
+      // some result collected
+      if (!!res)
+        // invoking the `init` method with false won't allow the use of meta service,
+        // would be handy in the case you need to use meta service programmatically
+        this.meta.init();
+    });
+  }
+  ...
+}
+```
+
+### Using a `callback` function
+The `MetaStaticLoader` accepts a **`callback`** function to use a custom logic on the meta tag contents (*http-get, [ngx-translate](https://github.com/ngx-translate/core), etc.*).
+
+> Return type of the **`callback`** function must be **`string`** or **`Observable<string>`**.
+
+When a **`callback`** function is supplied, the `MetaService` will try to **retrieve contents** of meta tags (*except `og:locale` and `og:locale:alternate`*) using the specified **`callback`**. You can customize the behavior for missing/empty values, directly from the **`callback`** function itself.
+
+#### app.module.ts
+```TypeScript
+...
+import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@nglibs/meta';
+import { TranslateService } from '@ngx-translate/core';
+...
+
+export function metaFactory(translate: TranslateService): MetaLoader {
+  return new MetaStaticLoader({
+    defer: true,
+    callback: (key: string) => translate.get(key),
+    pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
+    pageTitleSeparator: ' - ',
+    applicationName: 'APP_NAME',
+    defaults: {
+      title: 'DEFAULT_TITLE',
+      description: 'DEFAULT_DESC',
+      'og:image': 'https://upload.wikimedia.org/wikipedia/commons/f/f8/superraton.jpg',
+      'og:type': 'website',
+      'og:locale': 'en_US',
+      'og:locale:alternate': 'en_US,nl_NL,tr_TR'
+    }
+  });
+}
+
+...
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    ...
+  ],
+  imports: [
+    ...
+    RouterModule.forRoot(routes),
+    MetaModule.forRoot({
+      provide: MetaLoader,
+      useFactory: (metaFactory),
+      deps: [TranslateService]
+    })
+  ],
+  bootstrap: [AppComponent]
+})
+```
+
+#### app.component.ts
+```TypeScript
+...
+import { MetaService } from '@nglibs/meta';
+...
+
+@Component({
+  ...
+})
+export class AppComponent implements OnInit {
+  ...
+  constructor(private readonly translate: TranslateService,
+              private readonly meta: MetaService) { }
+
+  ngOnInit(): void {
+    // add available languages & set default language
+    this.translate.addLangs(['en', 'tr']);
+    this.translate.setDefaultLang(defaultLanguage.code);
+
+    this.meta.init();
+    this.meta.setTag('og:locale', 'en-US');
+
+    this.translate.use('en').subscribe(() => {
+      // refresh meta tags
+      this.meta.refresh();
+    });
+  }
+  ...
+}
+```
+
+#### home.routes.ts
+```TypeScript
+import { Routes } from '@angular/router';
+import { HomeComponent } from './home.component';
+
+export const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+    data: {
+      meta: {
+        title: 'PUBLIC.HOME.PAGE_TITLE',
+        description: 'PUBLIC.HOME.META_DESC'
+      }
+    }
+  }
+];
+```
+
+You can find out in-depth examples about the use of **`callback`** function on [@nglibs/example-app], which utilizes **`@nglibs`** utilities & showcasing common patterns and best practices.
+
 ## Set meta tags programmatically
 ```TypeScript
 ...
@@ -230,11 +395,15 @@ The MIT License (MIT)
 Copyright (c) 2017 [Burak Tasci]
 
 [@nglibs]: https://github.com/nglibs
+[master]: https://github.com/nglibs/meta/tree/master
+[v0.2.x]: https://github.com/nglibs/meta/tree/v0.2.x
 [@nglibs/example-app]: https://github.com/nglibs/example-app
 [@nglibs/config]: https://github.com/nglibs/config
 [@nglibs/meta]: https://github.com/nglibs/meta
 [@nglibs/i18n-router]: https://github.com/nglibs/i18n-router
 [@nglibs/i18n-router-config-loader]: https://github.com/nglibs/i18n-router-config-loader
+[@nglibs/universal-express-engine]: https://github.com/nglibs/universal-express-engine
+[@nglibs/universal-transfer-state]: https://github.com/nglibs/universal-transfer-state
 [forRoot]: https://angular.io/docs/ts/latest/guide/ngmodule.html#!#core-for-root
 [AoT compilation]: https://angular.io/docs/ts/latest/cookbook/aot-compiler.html
 [Burak Tasci]: http://www.buraktasci.com
