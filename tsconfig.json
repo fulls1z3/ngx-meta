@@ -20,7 +20,8 @@
     "src/models/page-title-positioning.ts",
     "src/models/meta-settings.ts",
     "src/meta.loader.ts",
-    "src/meta.service.ts"
+    "src/meta.service.ts",
+    "src/util.ts"
   ],
   "exclude": [
     "node_modules"
