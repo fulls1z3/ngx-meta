@@ -3,6 +3,14 @@ import { PageTitlePositioning } from './page-title-positioning';
 
 export interface MetaSettings {
     /**
+     * represents whether the initialization of meta service is immediate/deferred
+     */
+    defer?: boolean;
+    /**
+     * callback function, to use a custom logic on the meta tag contents (http-get, translate, etc.)
+     */
+    callback?: Function;
+    /**
      * represents whether title attributes are positioned before/after the application name
      */
     pageTitlePositioning: PageTitlePositioning;
@@ -27,7 +35,7 @@ export interface MetaSettings {
          */
         title?: string;
         /**
-         * default meta descripition, used when a route does not have its own description attribute
+         * default meta description, used when a route does not have its own description attribute
          */
         description?: string;
         /**
