@@ -1,9 +1,11 @@
 // angular
-import { Title, DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT, Title } from '@angular/platform-browser';
 import { fakeAsync, getTestBed, inject, TestBed, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 // libs
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import * as _ from 'lodash';
 
 // module
@@ -23,15 +25,15 @@ const getAttribute = (doc: any, name: string, attribute: string) => {
 
 describe('@nglibs/meta:',
     () => {
-        beforeEach(() => {
-            const settings = _.cloneDeep(testSettings);
-            const metaFactory = () => new MetaStaticLoader(settings);
-
-            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
-        });
-
         describe('MetaService',
             () => {
+                beforeEach(() => {
+                    const settings = _.cloneDeep(testSettings);
+                    const metaFactory = () => new MetaStaticLoader(settings);
+
+                    testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
+                });
+
                 it('is defined',
                     inject([MetaService],
                         (meta: MetaService) => {
@@ -39,6 +41,37 @@ describe('@nglibs/meta:',
                             expect(meta).toBeDefined();
                             expect(meta instanceof MetaService).toBeTruthy();
                         }));
+            });
+
+        describe('MetaService w/deferred initialization',
+            () => {
+                beforeEach(() => {
+                    const settings = _.cloneDeep(testSettings);
+                    settings['defer'] = true;
+                    const metaFactory = () => new MetaStaticLoader(settings);
+
+                    testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
+                });
+
+                it('should not set meta tags w/o default initialization',
+                    inject([MetaService, Title],
+                        (meta: MetaService, title: Title) => {
+                            meta.init(false);
+                            expect(title.getTitle()).toEqual('');
+
+                            meta.refresh();
+                            expect(title.getTitle()).toEqual('');
+                        }));
+            });
+
+        describe('MetaService w/immediate initialization',
+            () => {
+                beforeEach(() => {
+                    const settings = _.cloneDeep(testSettings);
+                    const metaFactory = () => new MetaStaticLoader(settings);
+
+                    testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
+                });
 
                 it('should be able to set meta tags using routes',
                     fakeAsync(inject([Title, DOCUMENT],
@@ -657,6 +690,68 @@ describe('@nglibs/meta:',
                                             tick(2);
                                             expect(getAttribute(doc, 'og:type', 'content')).toEqual('blog');
                                         });
+                                });
+                        })));
+            });
+
+        describe('MetaService w/callback',
+            () => {
+                it('should be able to set meta tags w/`non-observable` callback',
+                    fakeAsync(inject([Title],
+                        (title: Title) => {
+                            let refresh = false;
+                            const callback = (value: string) => refresh ? 'refreshed' : value;
+
+                            const settings = _.cloneDeep(testSettings);
+                            settings['callback'] = (value: string) => callback(value);
+                            const metaFactory = () => new MetaStaticLoader(settings);
+
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
+
+                            const injector = getTestBed();
+                            const router = injector.get(Router);
+                            const meta = injector.get(MetaService);
+
+                            meta.init();
+
+                            const fixture = TestBed.createComponent(TestBootstrapComponent);
+                            fixture.detectChanges();
+
+                            // initial navigation
+                            router.navigate(['/'])
+                                .then(() => {
+                                    tick(2);
+                                    expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
+
+                                    refresh = true;
+                                    meta.refresh();
+                                    expect(title.getTitle()).toEqual('refreshed - refreshed');
+                                });
+                        })));
+
+                it('should be able to set meta tags w/`observable` callback',
+                    fakeAsync(inject([Title],
+                        (title: Title) => {
+                            const settings = _.cloneDeep(testSettings);
+                            settings['callback'] = (value: string) => Observable.of(value);
+                            const metaFactory = () => new MetaStaticLoader(settings);
+
+                            testModuleConfig({ provide: MetaLoader, useFactory: (metaFactory) });
+
+                            const injector = getTestBed();
+                            const router = injector.get(Router);
+                            const meta = injector.get(MetaService);
+
+                            meta.init();
+
+                            const fixture = TestBed.createComponent(TestBootstrapComponent);
+                            fixture.detectChanges();
+
+                            // initial navigation
+                            router.navigate(['/'])
+                                .then(() => {
+                                    tick(2);
+                                    expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
                                 });
                         })));
             });
