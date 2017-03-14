@@ -1,6 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v0.2.0-rc.4 - 2017-03-06
+### Added
+- Added callback function, to use a custom logic on the meta tag contents (http-get, translate, etc.) (closes [#7](https://github.com/nglibs/meta/issue/7))
+
+### Fixed
+- Resolved og:locale insists to remain default when @nglibs/i18n-router is used (closes [#18](https://github.com/nglibs/meta/issue/18))
+- Resolved depend on Angular 2.0.0 (closes [#21](https://github.com/nglibs/meta/issues/21))
+- Resolved new npm package @nglibs/meta no longer update title programmatically (closes [#22](https://github.com/nglibs/meta/issue/22), [#24](https://github.com/nglibs/meta/issue/24))
+- Resolved setting og:locale tag without specifying default og:locale throws error (closes [#23](https://github.com/nglibs/meta/issues/23))
+
+### Changed
+- Updated deps
+- Some refactoring
+
 ## v0.2.0-rc.3 - 2017-02-24
 ### Fixed
 - Resolved no page title & meta tags set when route contains no `meta` (closes [#15](https://github.com/nglibs/meta/issue/15))
