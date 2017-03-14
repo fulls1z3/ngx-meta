@@ -19,6 +19,8 @@
 	- [app.component configuration](#appcomponent-configuration)
 - [Settings](#settings)
 	- [Setting up `MetaModule` to use `MetaStaticLoader`](#setting-up-metamodule-to-use-metastaticloader)
+	- [Deferred initialization](#deferred-initialization)
+	- [Using a `callback` function](#using-a-callback-function)
 - [Set meta tags programmatically](#set-meta-tags-programmatically)
 - [Credits](#credits)
 - [License](#license)
@@ -197,6 +199,167 @@ export function metaFactory(): MetaLoader {
 - **settings**: `MetaSettings` : meta settings (*by default, prepend page titles*)
 
 > :+1: Holy cow! **`@nglibs/meta`** will update the **page title** and **meta tags** every time the route changes.
+
+### Deferred initialization
+You can delay the initialization of `MetaService` by setting the **`defer`** property of `MetaStaticLoader` to **`true`**. This will allow you to execute some tasks (*retrieve data, etc.*) before `MetaService` gets initialized.
+
+When your tasks have been executed, simply invoke the `init` method to allow `MetaService` to update **page titles** and **meta tags**.
+
+#### app.module.ts
+```TypeScript
+...
+import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@nglibs/meta';
+...
+
+export function metaFactory(): MetaLoader {
+  return new MetaStaticLoader({
+    defer: true,
+    pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
+    pageTitleSeparator: ' - ',
+    applicationName: 'Tour of (lazy/busy) heroes',
+    defaults: {
+      title: 'Mighty mighty mouse',
+      description: 'Mighty Mouse is an animated superhero mouse character',
+      'og:image': 'https://upload.wikimedia.org/wikipedia/commons/f/f8/superraton.jpg',
+      'og:type': 'website',
+      'og:locale': 'en_US',
+      'og:locale:alternate': 'en_US,nl_NL,tr_TR'
+    }
+  });
+}
+
+```
+
+#### app.component.ts
+```TypeScript
+...
+import { MetaService } from '@nglibs/meta';
+...
+
+@Component({
+  ...
+})
+export class AppComponent implements OnInit {
+  ...
+  constructor(private readonly meta: MetaService) { }
+
+  ngOnInit(): void {
+    someTask.subscribe((res: any) => {
+      // some task done
+      // some result collected
+      if (!!res)
+        // invoking the `init` method with false won't allow the use of meta service,
+        // would be handy in the case you need to use meta service programmatically
+        this.meta.init();
+    });
+  }
+  ...
+}
+```
+
+### Using a `callback` function
+The `MetaStaticLoader` accepts a **`callback`** function to use a custom logic on the meta tag contents (*http-get, [ngx-translate](https://github.com/ngx-translate/core), etc.*).
+
+> Return type of the **`callback`** function must be **`string`** or **`Observable<string>`**.
+
+When a **`callback`** function is supplied, the `MetaService` will try to **retrieve contents** of meta tags (*except `og:locale` and `og:locale:alternate`*) using the specified **`callback`**. You can customize the behavior for missing/empty values, directly from the **`callback`** function itself.
+
+#### app.module.ts
+```TypeScript
+...
+import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@nglibs/meta';
+import { TranslateService } from '@ngx-translate/core';
+...
+
+export function metaFactory(translate: TranslateService): MetaLoader {
+  return new MetaStaticLoader({
+    defer: true,
+    callback: (key: string) => translate.get(key),
+    pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
+    pageTitleSeparator: ' - ',
+    applicationName: 'APP_NAME',
+    defaults: {
+      title: 'DEFAULT_TITLE',
+      description: 'DEFAULT_DESC',
+      'og:image': 'https://upload.wikimedia.org/wikipedia/commons/f/f8/superraton.jpg',
+      'og:type': 'website',
+      'og:locale': 'en_US',
+      'og:locale:alternate': 'en_US,nl_NL,tr_TR'
+    }
+  });
+}
+
+...
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    ...
+  ],
+  imports: [
+    ...
+    RouterModule.forRoot(routes),
+    MetaModule.forRoot({
+      provide: MetaLoader,
+      useFactory: (metaFactory),
+      deps: [TranslateService]
+    })
+  ],
+  bootstrap: [AppComponent]
+})
+```
+
+#### app.component.ts
+```TypeScript
+...
+import { MetaService } from '@nglibs/meta';
+...
+
+@Component({
+  ...
+})
+export class AppComponent implements OnInit {
+  ...
+  constructor(private readonly translate: TranslateService,
+              private readonly meta: MetaService) { }
+
+  ngOnInit(): void {
+    // add available languages & set default language
+    this.translate.addLangs(['en', 'tr']);
+    this.translate.setDefaultLang(defaultLanguage.code);
+
+    this.meta.init();
+    this.meta.setTag('og:locale', 'en-US');
+
+    this.translate.use('en').subscribe(() => {
+      // refresh meta tags
+      this.meta.refresh();
+    });
+  }
+  ...
+}
+```
+
+#### home.routes.ts
+```TypeScript
+import { Routes } from '@angular/router';
+import { HomeComponent } from './home.component';
+
+export const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+    data: {
+      meta: {
+        title: 'PUBLIC.HOME.PAGE_TITLE',
+        description: 'PUBLIC.HOME.META_DESC'
+      }
+    }
+  }
+];
+```
+
+You can find out in-depth examples about the use of **`callback`** function on [@nglibs/example-app], which utilizes **`@nglibs`** utilities & showcasing common patterns and best practices.
 
 ## Set meta tags programmatically
 ```TypeScript
