@@ -30,12 +30,6 @@ This package depends on `@angular v2.0.0` but it's highly recommended that you a
 
 Also, please ensure that you are using **`Typescript v2.1.6`** or higher.
 
-#### WARNING
-
-The pull request [#14327](https://github.com/angular/angular/pull/14327) on **`@angular v2.4.8`** and **`@angular v4.0.0-rc.1`**  introduced a severe error [#14588](https://github.com/angular/angular/issues/14588) which causes the app to fall into an infinite loop before bootstrapping.
-
-In order to avoid issues, avoid using these versions of **Angular**.
-
 ## Getting started
 ### Installation
 You can install **`@nglibs/meta`** using `npm`
