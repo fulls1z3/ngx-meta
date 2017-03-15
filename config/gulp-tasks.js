@@ -83,8 +83,8 @@ const ts = {
       './index.ts',
       './src/**/*.ts',
       '!./src/**/*.d.ts',
-      './testing/**/*.ts',
-      '!./testing/**/*.d.ts'
+      './tests/**/*.ts',
+      '!./tests/**/*.d.ts'
     ])
       .pipe($.tslint({formatter: 'verbose'}))
       .pipe($.tslint.report({emitError: false}))
@@ -173,9 +173,9 @@ tasks.bundle = bundle;
 tasks.tests = tests;
 
 /**
- * Task: __CLEAN__
+ * Task: clean
  */
-gulp.task('__CLEAN__',
+gulp.task('clean',
   gulp.parallel(
     clean.temp,
     clean.bundles,
@@ -192,23 +192,23 @@ gulp.task('__CLEAN__',
  */
 gulp.task('make',
   gulp.series(
-    '__CLEAN__',
+    'clean',
     tasks.ts.compile,
     tasks.bundle.webpack
   ));
 
 /**
- * Task: _TEST_
+ * Task: test
  */
-gulp.task('_TEST_',
+gulp.task('test',
   gulp.series(
     tasks.tests.run
   ));
 
 /**
- * Task: review:ts
+ * Task: review:tslint
  */
-gulp.task('review:ts',
+gulp.task('review:tslint',
   gulp.series(
     tasks.ts.lint
   ));
