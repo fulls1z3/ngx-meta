@@ -3,7 +3,7 @@
  */
 const webpackConfig = require('./webpack.test.js');
 
-module.exports = function (config) {
+module.exports = function(config) {
   const configuration = {
     // base path that will be used to resolve all patterns (e.g. files, exclude)
     basePath: '',
