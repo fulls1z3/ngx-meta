@@ -8,7 +8,7 @@ $.path = require('path');
 /**
  * Helper methods
  */
-const root = function (args) {
+const root = function(args) {
   const ROOT = $.path.resolve(__dirname, '..');
   args = Array.prototype.slice.call(arguments, 0);
 

@@ -22,34 +22,30 @@ const tasks = {};
  * Clean file(s)
  */
 const clean = {
-  'temp': function (done) {
-    $.rimraf('./temp', done);
-  },
-  'bundles': function (done) {
+  bundles: function(done) {
     $.rimraf('./bundles', done);
   },
-  'index.js': function (done) {
+  'index.js': function(done) {
     $.rimraf('./index.js', done);
   },
-  'index.d.ts': function (done) {
+  'index.d.ts': function(done) {
     $.rimraf('./index.d.ts', done);
   },
-  'index.metadata.json': function (done) {
+  'index.metadata.json': function(done) {
     $.rimraf('./index.metadata.json', done);
   },
-  'src/*.js': function (done) {
+  'src/*.js': function(done) {
     $.rimraf('./src/**/*.js', done);
   },
-  'src/*.d.ts': function (done) {
+  'src/*.d.ts': function(done) {
     $.rimraf('./src/**/*.d.ts', done);
   },
-  'src/*.metadata.json': function (done) {
+  'src/*.metadata.json': function(done) {
     $.rimraf('./src/**/*.metadata.json', done);
   }
 };
 
-clean.temp.displayName = 'clean:./temp/**';
-clean.bundles.displayName = 'clean:./bundles/**';
+clean.bundles.displayName = 'clean:bundles';
 clean['index.js'].displayName = 'clean:./index.js';
 clean['index.d.ts'].displayName = 'clean:./index.d.ts';
 clean['index.metadata.json'].displayName = 'clean:./index.metadata.json';
@@ -61,7 +57,7 @@ clean['src/*.metadata.json'].displayName = 'clean:./src/*.js';
  * AoT compilation
  */
 const ts = {
-  compile: function (done) {
+  compile: function(done) {
     const options = {
       continueOnError: false,
       pipeStdout: false,
@@ -78,7 +74,7 @@ const ts = {
       .pipe($.exec.reporter(reportOptions))
       .on('end', done);
   },
-  lint: function (done) {
+  lint: function(done) {
     return gulp.src([
       './index.ts',
       './src/**/*.ts',
@@ -99,12 +95,12 @@ ts.lint.displayName = 'tslint';
  * Bundle
  */
 const bundle = {
-  webpack: function (done) {
+  webpack: function(done) {
     const chalk = require('chalk'),
       conf = require('./webpack.prod.js');
 
     $.webpack(conf)
-      .run(function (err, stats) {
+      .run(function(err, stats) {
         if (err) {
           console.log(chalk.red(`Error: ${err}`));
           done();
@@ -114,7 +110,7 @@ const bundle = {
             errors = statsJson.errors;
 
           Object.keys(warnings)
-            .forEach(function (key) {
+            .forEach(function(key) {
               console.log(chalk.gray(`Warning: ${warnings[key]}\n`));
             });
 
@@ -122,7 +118,7 @@ const bundle = {
             console.log(chalk.gray(`    (${warnings.length}) warning(s) total.\n`));
 
           Object.keys(errors)
-            .forEach(function (key) {
+            .forEach(function(key) {
               console.log(chalk.red(`Error: ${errors[key]}\n`));
             });
 
@@ -130,7 +126,7 @@ const bundle = {
             console.log(chalk.red(`    (${errors.length}) error(s) total.\n`));
 
           Object.keys(stats.compilation.assets)
-            .forEach(function (key) {
+            .forEach(function(key) {
               console.log(`Webpack: output ${chalk.green(key)}`);
             });
 
@@ -148,14 +144,14 @@ bundle.webpack.displayName = 'bundle:webpack';
  * Tests
  */
 const tests = {
-  run: function (done) {
+  run: function(done) {
     const server = require('karma').Server;
 
     new server({
         configFile: $$.root('./karma.conf.js'),
         singleRun: true
       },
-      function () {
+      function() {
         done();
         process.exit(0);
       }).start();
@@ -177,7 +173,6 @@ tasks.tests = tests;
  */
 gulp.task('clean',
   gulp.parallel(
-    clean.temp,
     clean.bundles,
     clean['index.js'],
     clean['index.d.ts'],
