@@ -1,11 +1,15 @@
-# @nglibs/meta [![Linux build](https://travis-ci.org/nglibs/meta.svg?branch=master)](https://travis-ci.org/nglibs/meta) [![Windows build](https://ci.appveyor.com/api/projects/status/github/nglibs/meta?branch=master&svg=true)](https://ci.appveyor.com/project/nglibs/meta) [![coverage](https://codecov.io/github/nglibs/meta/coverage.svg?branch=master)](https://codecov.io/gh/nglibs/meta) [![npm version](https://badge.fury.io/js/%40nglibs%2Fmeta.svg)](https://www.npmjs.com/package/@nglibs/meta)
+# @nglibs/meta [![Linux build](https://travis-ci.org/nglibs/meta.svg?branch=v0.2.x)](https://travis-ci.org/nglibs/meta) [![Windows build](https://ci.appveyor.com/api/projects/status/github/nglibs/meta?branch=v0.2.x&svg=true)](https://ci.appveyor.com/project/nglibs/meta) [![coverage](https://codecov.io/github/nglibs/meta/coverage.svg?branch=v0.2.x)](https://codecov.io/gh/nglibs/meta) [![npm version](https://badge.fury.io/js/%40nglibs%2Fmeta.svg)](https://www.npmjs.com/package/@nglibs/meta)
 
 > This repository holds the TypeScript source code and distributable bundle of **`@nglibs/meta`**, the dynamic page title &amp; meta tags generator for **Angular**.
 
 **`@nglibs/meta`** updates the **page title** and **meta tags** every time the route changes, based on **Angular** app's route configuration.
 
 #### NOTICE
-**`@nglibs/meta`** is the successor of **`ng2-metadata`**, and the current latest version number is **`v0.2.x`**. Releases with version number **`1.X.x`** refer to **`ng2-metadata`**, and are being kept in order to maintain backwards compability - until Angular v4.0 (stable) gets released.
+**`@nglibs/meta`** is the successor of **`ng2-metadata`**, and the actual release is **`v0.2.x`**.
+
+> If you're using `@angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
+
+> If you're using `@angular v2.x.x`, use the latest release of `v0.2.x` (*[v0.2.x] branch*).
 
 ## Table of contents:
 - [Prerequisites](#prerequisites)
@@ -26,9 +30,11 @@
 - [License](#license)
 
 ## Prerequisites
-This package depends on `@angular v2.0.0` but it's highly recommended that you are running at least **`@angular v2.4.0`** and **`@angular/router v3.4.0`**. Older versions contain outdated dependencies, might produce errors.
+This [v0.2.x] branch of **`@nglibs/meta`** depends on `@angular v2.0.0` but it's highly recommended that you are running at least **`@angular v2.4.0`** and **`@angular/router v3.4.0`**. Older versions contain outdated dependencies, might produce errors.
 
 Also, please ensure that you are using **`Typescript v2.1.6`** or higher.
+
+> If you're using `@angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
 
 ## Getting started
 ### Installation
@@ -389,6 +395,8 @@ The MIT License (MIT)
 Copyright (c) 2017 [Burak Tasci]
 
 [@nglibs]: https://github.com/nglibs
+[master]: https://github.com/nglibs/meta/tree/master
+[v0.2.x]: https://github.com/nglibs/meta/tree/v0.2.x
 [@nglibs/example-app]: https://github.com/nglibs/example-app
 [@nglibs/config]: https://github.com/nglibs/config
 [@nglibs/meta]: https://github.com/nglibs/meta
