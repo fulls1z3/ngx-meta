@@ -177,7 +177,14 @@ export class MetaService {
     // const html = this.document.querySelector('html');
     // html.setAttribute('lang', currentLocale);
 
-    this.meta.removeTag(`property="og:locale:alternate"`);
+    let elements = this.meta.getTags(`property="og:locale:alternate"`);
+
+    // fixes "TypeError: Object doesn't support property or method 'forEach'" issue on IE11
+    elements = [].slice.call(elements);
+
+    elements.forEach((el: any) => {
+      this.meta.removeTagElement(el);
+    });
 
     if (!!currentLocale && !!availableLocales) {
       availableLocales.split(',')
