@@ -17,8 +17,10 @@
   },
   "files": [
     "index.ts",
-    "src/models/page-title-positioning.ts",
+    "src/models/meta-definition.ts",
     "src/models/meta-settings.ts",
+    "src/models/page-title-positioning.ts",
+    "src/meta.helper.ts",
     "src/meta.loader.ts",
     "src/meta.service.ts",
     "src/util.ts"
