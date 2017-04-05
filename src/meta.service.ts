@@ -179,11 +179,8 @@ export class MetaService {
 
     let elements = this.meta.getTags(`property="og:locale:alternate"`);
 
-    // fixes "TypeError: Object doesn't support property or method 'forEach'" issue on IE11
-    elements = [].slice.call(elements);
-
-    elements.forEach((el: any) => {
-      this.meta.removeTagElement(el);
+    elements.forEach((element: any) => {
+      this.meta.removeTagElement(element);
     });
 
     if (!!currentLocale && !!availableLocales) {
