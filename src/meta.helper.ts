@@ -10,7 +10,7 @@ import { MetaDefinition } from './models/meta-definition';
 export class MetaHelper {
   private readonly dom: DomAdapter;
 
-  static parseSelector(definition: MetaDefinition): string {
+  private static parseSelector(definition: MetaDefinition): string {
     const attr = definition.name ? 'name' : 'property';
 
     return `${attr}="${definition[attr]}"`;
