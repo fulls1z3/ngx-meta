@@ -2,6 +2,7 @@
 import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core';
 
 // module
+import { MetaHelper } from './src/meta.helper';
 import { MetaLoader, MetaStaticLoader } from './src/meta.loader';
 import { MetaService } from './src/meta.service';
 
@@ -28,6 +29,7 @@ export class MetaModule {
       ngModule: MetaModule,
       providers: [
         configuredProvider,
+        MetaHelper,
         MetaService
       ]
     };

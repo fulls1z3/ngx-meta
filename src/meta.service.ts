@@ -1,6 +1,6 @@
 // angular
-import { DOCUMENT, Title } from '@angular/platform-browser';
-import { Inject, Injectable } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 // libs
@@ -14,6 +14,7 @@ import 'rxjs/add/operator/take';
 
 // module
 import { PageTitlePositioning } from './models/page-title-positioning';
+import { MetaHelper} from './meta.helper';
 import { MetaLoader } from './meta.loader';
 import { isObservable } from './util';
 
@@ -25,8 +26,8 @@ export class MetaService {
 
   constructor(public loader: MetaLoader,
               private readonly router: Router,
-              @Inject(DOCUMENT) private readonly document: any,
               private readonly title: Title,
+              private readonly meta: MetaHelper,
               private readonly activatedRoute: ActivatedRoute) {
     this.metaSettings = loader.getSettings();
     this.isMetaTagSet = {};
@@ -108,28 +109,6 @@ export class MetaService {
     }
   }
 
-  private createMetaTag(name: string): any {
-    const el = this.document.createElement('meta');
-    el.setAttribute(name.lastIndexOf('og:', 0) === 0 ? 'property' : 'name', name);
-    this.document.head.appendChild(el);
-
-    return el;
-  }
-
-  private getOrCreateMetaTag(name: string): any {
-    let selector = `meta[name="${name}"]`;
-
-    if (name.lastIndexOf('og:', 0) === 0)
-      selector = `meta[property="${name}"]`;
-
-    let el = this.document.querySelector(selector);
-
-    if (!el)
-      el = this.createMetaTag(name);
-
-    return el;
-  }
-
   private callback(value: string): Observable<string> {
     if (!!this.metaSettings.callback) {
       const value$ = this.metaSettings.callback(value);
@@ -177,11 +156,12 @@ export class MetaService {
   }
 
   private updateTitle(title$: Observable<string>): void {
-    const ogTitleElement = this.getOrCreateMetaTag('og:title');
-
     title$.subscribe((res: string) => {
-      ogTitleElement.setAttribute('content', res);
       this.title.setTitle(res);
+      this.meta.updateMetaElement({
+        property: 'og:title',
+        content: res
+      });
     });
   }
 
@@ -194,46 +174,62 @@ export class MetaService {
     if (!!currentLocale && !!this.metaSettings.defaults)
       this.metaSettings.defaults['og:locale'] = currentLocale.replace(/_/g, '-');
 
-    const html = this.document.querySelector('html');
-    html.setAttribute('lang', currentLocale);
+    // TODO: set HTML lang attribute - https://github.com/nglibs/meta/issues/32
+    // const html = this.document.querySelector('html');
+    // html.setAttribute('lang', currentLocale);
 
-    const selector = `meta[property="og:locale:alternate"]`;
-    let elements = this.document.querySelectorAll(selector);
+    let elements = this.meta.getMetaElements(`property="og:locale:alternate"`);
 
     // fixes "TypeError: Object doesn't support property or method 'forEach'" issue on IE11
-    elements = Array.prototype.slice.call(elements);
+    elements = [].slice.call(elements);
 
     elements.forEach((el: any) => {
-      this.document.head.removeChild(el);
+      this.meta.removeElement(el);
     });
 
     if (!!currentLocale && !!availableLocales) {
       availableLocales.split(',')
         .forEach((locale: string) => {
           if (currentLocale.replace(/-/g, '_') !== locale.replace(/-/g, '_')) {
-            const el = this.createMetaTag('og:locale:alternate');
-            el.setAttribute('content', locale.replace(/-/g, '_'));
+            this.meta.getOrCreateMetaElement({
+              property: 'og:locale:alternate',
+              content: locale.replace(/-/g, '_')
+            }, true);
           }
         });
     }
   }
 
   private updateMetaTag(tag: string, value$: Observable<string>): void {
-    const tagElement = this.getOrCreateMetaTag(tag);
-
     value$.subscribe((res: string) => {
-      tagElement.setAttribute('content', tag === 'og:locale' ? res.replace(/-/g, '_') : res);
+      if (tag.lastIndexOf('og:', 0) === 0)
+        this.meta.updateMetaElement({
+          property: tag,
+          content: tag === 'og:locale' ? res.replace(/-/g, '_') : res
+        });
+      else
+        this.meta.updateMetaElement({
+          name: tag,
+          content: res
+        });
+
       this.isMetaTagSet[tag] = true;
 
       if (tag === 'description') {
-        const ogDescriptionElement = this.getOrCreateMetaTag('og:description');
-        ogDescriptionElement.setAttribute('content', res);
+        this.meta.updateMetaElement({
+          property: 'og:description',
+          content: res
+        });
       } else if (tag === 'author') {
-        const ogAuthorElement = this.getOrCreateMetaTag('og:author');
-        ogAuthorElement.setAttribute('content', res);
+        this.meta.updateMetaElement({
+          property: 'og:author',
+          content: res
+        });
       } else if (tag === 'publisher') {
-        const ogPublisherElement = this.getOrCreateMetaTag('og:publisher');
-        ogPublisherElement.setAttribute('content', res);
+        this.meta.updateMetaElement({
+          property: 'og:publisher',
+          content: res
+        });
       } else if (tag === 'og:locale') {
         const availableLocales = !!this.metaSettings.defaults
           ? this.metaSettings.defaults['og:locale:alternate']
@@ -242,8 +238,7 @@ export class MetaService {
         this.updateLocales(res, availableLocales);
         this.isMetaTagSet['og:locale:alternate'] = true;
       } else if (tag === 'og:locale:alternate') {
-        const ogLocaleElement = this.getOrCreateMetaTag('og:locale');
-        const currentLocale = ogLocaleElement.getAttribute('content');
+        const currentLocale = this.meta.getMetaElement('property="og:locale"').content;
 
         this.updateLocales(currentLocale, res);
         this.isMetaTagSet['og:locale'] = true;
