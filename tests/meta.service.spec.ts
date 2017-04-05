@@ -1,6 +1,6 @@
 // angular
-import { Title } from '@angular/platform-browser';
 import { fakeAsync, getTestBed, inject, TestBed, tick } from '@angular/core/testing';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 // libs
