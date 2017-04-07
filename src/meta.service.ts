@@ -1,7 +1,7 @@
 // angular
 import { Title } from '@angular/platform-browser';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 // libs
 import { Observable } from 'rxjs/Observable';
@@ -33,8 +33,7 @@ export class MetaService {
   constructor(public loader: MetaLoader,
               private readonly router: Router,
               private readonly title: Title,
-              private readonly meta: MetaHelper,
-              private readonly activatedRoute: ActivatedRoute) {
+              private readonly meta: MetaHelper) {
     this.metaSettings = loader.getSettings();
     this.isMetaTagSet = {};
 
@@ -48,20 +47,12 @@ export class MetaService {
       return;
 
     this.useRouteData = true;
-
-    this.router.events
-      .filter(event => (event instanceof NavigationEnd))
-      .subscribe((routeData: any) => {
-        this.traverseRoutes(this.activatedRoute, routeData.urlAfterRedirects);
-      });
   }
 
   refresh(): void {
     // don't use route data unless allowed
     if (!this.useRouteData)
       return;
-
-    this.traverseRoutes(this.router.routerState.root, this.router.url);
   }
 
   setTitle(title: string, override = false, deferred = true): void {
@@ -282,14 +273,5 @@ export class MetaService {
       .replace(/\/$/g, '');
 
     this.setTag('og:url', url || '/', false);
-  }
-
-  private traverseRoutes(route: ActivatedRoute, url: string): void {
-    while (route.children.length > 0) {
-      route = route.firstChild;
-
-      const metaSettings = _.get(route.snapshot.routeConfig.data, 'meta', undefined);
-      this.updateMetaTags(url, metaSettings);
-    }
   }
 }

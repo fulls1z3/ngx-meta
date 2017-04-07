@@ -2,12 +2,14 @@
 import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core';
 
 // module
+import { MetaGuard } from './src/meta.guard';
 import { MetaHelper } from './src/meta.helper';
 import { MetaLoader, MetaStaticLoader } from './src/meta.loader';
 import { MetaService } from './src/meta.service';
 
-export * from './src/models/page-title-positioning';
 export * from './src/models/meta-settings';
+export * from './src/models/page-title-positioning';
+export * from './src/meta.guard';
 export * from './src/meta.loader';
 export * from './src/meta.service';
 
@@ -29,6 +31,7 @@ export class MetaModule {
       ngModule: MetaModule,
       providers: [
         configuredProvider,
+        MetaGuard,
         MetaHelper,
         MetaService
       ]
