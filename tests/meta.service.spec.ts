@@ -1,5 +1,5 @@
 // angular
-import { fakeAsync, getTestBed, inject, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, getTestBed, inject, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
@@ -36,31 +36,7 @@ describe('@nglibs/meta:',
             }));
       });
 
-    describe('MetaService w/deferred initialization',
-      () => {
-        beforeEach(() => {
-          const settings = _.cloneDeep(testSettings);
-          settings['defer'] = true;
-          const metaFactory = () => new MetaStaticLoader(settings);
-
-          testModuleConfig({
-            provide: MetaLoader,
-            useFactory: (metaFactory)
-          });
-        });
-
-        it('should not set meta tags w/o default initialization',
-          inject([MetaService, Title],
-            (metaService: MetaService, title: Title) => {
-              metaService.init(false);
-              expect(title.getTitle()).toEqual('');
-
-              metaService.refresh();
-              expect(title.getTitle()).toEqual('');
-            }));
-      });
-
-    describe('MetaService w/immediate initialization',
+    describe('MetaService',
       () => {
         beforeEach(() => {
           const settings = _.cloneDeep(testSettings);
@@ -237,31 +213,25 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default title
-              metaService.setTitle('');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default title
+                  metaService.setTitle('');
                   expect(title.getTitle()).toEqual('Mighty mighty mouse - Tour of (lazy/busy) heroes');
-
-                  // given title
-                  metaService.setTitle('Mighty tiny mouse');
 
                   // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      tick(2);
+                      // given title
+                      metaService.setTitle('Mighty tiny mouse');
                       expect(title.getTitle()).toEqual('Mighty tiny mouse - Tour of (lazy/busy) heroes');
-
-                      // override applicationName
-                      metaService.setTitle('Mighty tiny mouse', true);
 
                       // navigate to /
                       router.navigate(['/'])
                         .then(() => {
-                          tick(2);
+                          // override applicationName
+                          metaService.setTitle('Mighty tiny mouse', true);
                           expect(title.getTitle()).toEqual('Mighty tiny mouse');
                         });
                     });
@@ -288,31 +258,25 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default title
-              metaService.setTitle('');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default title
+                  metaService.setTitle('');
                   expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes - Mighty mighty mouse');
-
-                  // given title
-                  metaService.setTitle('Mighty tiny mouse');
 
                   // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      tick(2);
+                      // given title
+                      metaService.setTitle('Mighty tiny mouse');
                       expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes - Mighty tiny mouse');
-
-                      // override applicationName
-                      metaService.setTitle('Mighty tiny mouse', true);
 
                       // navigate to /
                       router.navigate(['/'])
                         .then(() => {
-                          tick(2);
+                          // override applicationName
+                          metaService.setTitle('Mighty tiny mouse', true);
                           expect(title.getTitle()).toEqual('Mighty tiny mouse');
                         });
                     });
@@ -337,13 +301,11 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default title
-              metaService.setTitle('');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default title
+                  metaService.setTitle('');
                   expect(title.getTitle()).toEqual('');
                 });
             })));
@@ -368,13 +330,11 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default title
-              metaService.setTitle('');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default title
+                  metaService.setTitle('');
                   expect(title.getTitle()).toEqual('');
                 });
             })));
@@ -414,23 +374,19 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default meta description
-              metaService.setTag('description', '');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default meta description
+                  metaService.setTag('description', '');
                   expect(meta.getMetaElement('name="description"').content)
                     .toEqual('Mighty Mouse is an animated superhero mouse character');
-
-                  // given meta description
-                  metaService.setTag('description', 'Mighty Mouse is a cool character');
 
                   // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      tick(2);
+                      // given meta description
+                      metaService.setTag('description', 'Mighty Mouse is a cool character');
                       expect(meta.getMetaElement('name="description"').content).toEqual('Mighty Mouse is a cool character');
                     });
                 });
@@ -454,13 +410,11 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default meta description
-              metaService.setTag('description', '');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default meta description
+                  metaService.setTag('description', '');
                   expect(meta.getMetaElement('name="description"').content).toEqual('');
                 });
             })));
@@ -474,22 +428,18 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default meta author
-              metaService.setTag('author', '');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default meta author
+                  metaService.setTag('author', '');
                   expect(meta.getMetaElement('name="author"').content).toEqual('Mighty Mouse');
-
-                  // given meta author
-                  metaService.setTag('author', 'Mickey Mouse');
 
                   // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      tick(2);
+                      // given meta author
+                      metaService.setTag('author', 'Mickey Mouse');
                       expect(meta.getMetaElement('name="author"').content).toEqual('Mickey Mouse');
                     });
                 });
@@ -504,22 +454,18 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default meta publisher
-              metaService.setTag('publisher', '');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default meta publisher
+                  metaService.setTag('publisher', '');
                   expect(meta.getMetaElement('name="publisher"').content).toEqual('a superhero');
-
-                  // given meta publisher
-                  metaService.setTag('publisher', 'another superhero');
 
                   // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      tick(2);
+                      // given meta publisher
+                      metaService.setTag('publisher', 'another superhero');
                       expect(meta.getMetaElement('name="publisher"').content).toEqual('another superhero');
                     });
                 });
@@ -534,13 +480,11 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default og:locale
-              metaService.setTag('og:locale', '');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default og:locale
+                  metaService.setTag('og:locale', '');
                   expect(meta.getMetaElement('property="og:locale"').content).toEqual('en_US');
 
                   let elements = meta.getMetaElements('property="og:locale:alternate"');
@@ -549,13 +493,11 @@ describe('@nglibs/meta:',
                   expect(elements[0].content).toEqual('nl_NL');
                   expect(elements[1].content).toEqual('tr_TR');
 
-                  // given og:locale
-                  metaService.setTag('og:locale', 'tr-TR');
-
                   // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      tick(2);
+                      // given og:locale
+                      metaService.setTag('og:locale', 'tr-TR');
                       expect(meta.getMetaElement('property="og:locale"').content).toEqual('tr_TR');
 
                       elements = meta.getMetaElements('property="og:locale:alternate"');
@@ -576,26 +518,22 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default og:locale:alternate
-              metaService.setTag('og:locale:alternate', '');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default og:locale:alternate
+                  metaService.setTag('og:locale:alternate', '');
                   const elements = meta.getMetaElements('property="og:locale:alternate"');
 
                   expect(elements.length).toEqual(2);
                   expect(elements[0].content).toEqual('nl_NL');
                   expect(elements[1].content).toEqual('tr_TR');
 
-                  // given og:locale:alternate
-                  metaService.setTag('og:locale:alternate', 'tr-TR');
-
                   // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      tick(2);
+                      // given og:locale:alternate
+                      metaService.setTag('og:locale:alternate', 'tr-TR');
                       expect(meta.getMetaElement('property="og:locale:alternate"').content).toEqual('tr_TR');
                     });
                 });
@@ -619,22 +557,18 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default og:locale
-              metaService.setTag('og:locale', '');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default og:locale
+                  metaService.setTag('og:locale', '');
                   expect(meta.getMetaElement('property="og:locale"').content).toEqual('');
-
-                  // given og:locale
-                  metaService.setTag('og:locale', 'tr-TR');
 
                   // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      tick(2);
+                      // given og:locale
+                      metaService.setTag('og:locale', 'tr-TR');
                       expect(meta.getMetaElement('property="og:locale"').content).toEqual('tr_TR');
                     });
                 });
@@ -701,22 +635,18 @@ describe('@nglibs/meta:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // default og:type
-              metaService.setTag('og:type', '');
-
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
+                  // default og:type
+                  metaService.setTag('og:type', '');
                   expect(meta.getMetaElement('property="og:type"').content).toEqual('website');
-
-                  // given og:type
-                  metaService.setTag('og:type', 'blog');
 
                   // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      tick(2);
+                      // given og:type
+                      metaService.setTag('og:type', 'blog');
                       expect(meta.getMetaElement('property="og:type"').content).toEqual('blog');
                     });
                 });
@@ -725,11 +655,10 @@ describe('@nglibs/meta:',
 
     describe('MetaService w/callback',
       () => {
-        it('should be able to set meta tags w/`non-observable` callback',
+        it('should be able to set `title` w/`non-observable` callback',
           fakeAsync(inject([Title],
             (title: Title) => {
-              let refresh = false;
-              const callback = (value: string) => refresh ? 'refreshed' : value;
+              const callback = (value: string) => value === 'Tour of (lazy/busy) heroes' ? '' : value;
 
               const settings = _.cloneDeep(testSettings);
               settings['callback'] = (value: string) => callback(value);
@@ -744,7 +673,38 @@ describe('@nglibs/meta:',
               const metaService = injector.get(MetaService);
               const router = injector.get(Router);
 
-              metaService.init();
+              const fixture = TestBed.createComponent(TestBootstrapComponent);
+              fixture.detectChanges();
+
+              // initial navigation
+              router.navigate(['/'])
+                .then(() => {
+                  // default title
+                  metaService.setTitle('test');
+                  expect(title.getTitle()).toEqual('test');
+                });
+            })));
+
+        it('should be able to set `title` w/`non-observable` callback w/o default settings',
+          fakeAsync(inject([Title],
+            (title: Title) => {
+              const callback = (value: string) => value === 'Tour of (lazy/busy) heroes' ? '' : value;
+
+              const settings = _.cloneDeep(defaultSettings);
+              settings['callback'] = (value: string) => callback(value);
+              settings['pageTitleSeparator'] = ' - ';
+              settings['applicationName'] = 'Tour of (lazy/busy) heroes';
+              settings.defaults['title'] = 'test';
+              const metaFactory = () => new MetaStaticLoader(settings);
+
+              testModuleConfig({
+                provide: MetaLoader,
+                useFactory: (metaFactory)
+              });
+
+              const injector = getTestBed();
+              const metaService = injector.get(MetaService);
+              const router = injector.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -752,12 +712,36 @@ describe('@nglibs/meta:',
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
-                  expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
+                  // default title
+                  metaService.setTitle('');
+                  expect(title.getTitle()).toEqual('test');
+                });
+            })));
 
-                  refresh = true;
-                  metaService.refresh();
-                  expect(title.getTitle()).toEqual('refreshed - refreshed');
+        it('should be able to set meta tags w/`non-observable` callback',
+          fakeAsync(inject([Title],
+            (title: Title) => {
+              const callback = (value: string) => value;
+
+              const settings = _.cloneDeep(testSettings);
+              settings['callback'] = (value: string) => callback(value);
+              const metaFactory = () => new MetaStaticLoader(settings);
+
+              testModuleConfig({
+                provide: MetaLoader,
+                useFactory: (metaFactory)
+              });
+
+              const injector = getTestBed();
+              const router = injector.get(Router);
+
+              const fixture = TestBed.createComponent(TestBootstrapComponent);
+              fixture.detectChanges();
+
+              // initial navigation
+              router.navigate(['/'])
+                .then(() => {
+                  expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
                 });
             })));
 
@@ -774,10 +758,7 @@ describe('@nglibs/meta:',
               });
 
               const injector = getTestBed();
-              const metaService = injector.get(MetaService);
               const router = injector.get(Router);
-
-              metaService.init();
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -785,7 +766,6 @@ describe('@nglibs/meta:',
               // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  tick(2);
                   expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
                 });
             })));
