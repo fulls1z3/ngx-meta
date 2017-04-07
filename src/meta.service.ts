@@ -16,7 +16,6 @@ import { isObservable } from './util';
 export class MetaService {
   private readonly metaSettings: any;
   private readonly isMetaTagSet: any;
-  private useRouteData: boolean;
 
   constructor(public loader: MetaLoader,
               private readonly title: Title,
@@ -61,30 +60,30 @@ export class MetaService {
     });
   }
 
-  setTag(tag: string, value: string): void {
-    if (tag === 'title')
-      throw new Error(`Attempt to set ${tag} through 'setTag': 'title' is a reserved tag name. `
+  setTag(key: string, value: string): void {
+    if (key === 'title')
+      throw new Error(`Attempt to set ${key} through 'setTag': 'title' is a reserved tag name. `
         + `Please use 'MetaService.setTitle' instead.`);
 
-    value = value || _.get(this.metaSettings, `defaults.${tag}`, '');
+    value = value || _.get(this.metaSettings, `defaults.${key}`, '');
 
-    const value$ = (tag !== 'og:locale' && tag !== 'og:locale:alternate')
+    const value$ = (key !== 'og:locale' && key !== 'og:locale:alternate')
       ? this.callback(value)
       : Observable.of(value);
 
     value$.subscribe((res: string) => {
-      this.updateMetaTag(tag, res);
+      this.updateTag(key, res);
     });
   }
 
-  updateMetaTags(currentUrl: string, metaSettings?: any): void {
+  update(currentUrl: string, metaSettings?: any): void {
     if (!metaSettings) {
       const fallbackTitle = _.get(this.metaSettings, 'defaults.title', '') || this.metaSettings['applicationName'];
 
       this.setTitle(fallbackTitle, true);
     } else {
       if (metaSettings.disabled) {
-        this.updateMetaTags(currentUrl);
+        this.update(currentUrl);
         return;
       }
 
@@ -195,41 +194,41 @@ export class MetaService {
     }
   }
 
-  private updateMetaTag(tag: string, value: string): void {
-    if (tag.lastIndexOf('og:', 0) === 0)
+  private updateTag(key: string, value: string): void {
+    if (key.lastIndexOf('og:', 0) === 0)
       this.meta.updateTag({
-        property: tag,
-        content: tag === 'og:locale' ? value.replace(/-/g, '_') : value
+        property: key,
+        content: key === 'og:locale' ? value.replace(/-/g, '_') : value
       });
     else
       this.meta.updateTag({
-        name: tag,
+        name: key,
         content: value
       });
 
-    this.isMetaTagSet[tag] = true;
+    this.isMetaTagSet[key] = true;
 
-    if (tag === 'description') {
+    if (key === 'description') {
       this.meta.updateTag({
         property: 'og:description',
         content: value
       });
-    } else if (tag === 'author') {
+    } else if (key === 'author') {
       this.meta.updateTag({
         property: 'og:author',
         content: value
       });
-    } else if (tag === 'publisher') {
+    } else if (key === 'publisher') {
       this.meta.updateTag({
         property: 'og:publisher',
         content: value
       });
-    } else if (tag === 'og:locale') {
+    } else if (key === 'og:locale') {
       const availableLocales = _.get(this.metaSettings, 'defaults["og:locale:alternate"]', '');
 
       this.updateLocales(value, availableLocales);
       this.isMetaTagSet['og:locale:alternate'] = true;
-    } else if (tag === 'og:locale:alternate') {
+    } else if (key === 'og:locale:alternate') {
       const currentLocale = this.meta.getTag('property="og:locale"').content;
 
       this.updateLocales(currentLocale, value);

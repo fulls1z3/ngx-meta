@@ -17,7 +17,7 @@ export class MetaGuard implements CanActivate, CanActivateChild {
     const url = state.url;
 
     const metaSettings = _.get(route.data, 'meta', undefined);
-    this.meta.updateMetaTags(url, metaSettings);
+    this.meta.update(url, metaSettings);
 
     return true;
   }
