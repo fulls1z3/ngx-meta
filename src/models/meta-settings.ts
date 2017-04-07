@@ -3,10 +3,6 @@ import { PageTitlePositioning } from './page-title-positioning';
 
 export interface MetaSettings {
   /**
-   * represents whether the initialization of meta service is immediate/deferred
-   */
-  defer?: boolean;
-  /**
    * callback function, to use a custom logic on the meta tag contents (http-get, translate, etc.)
    */
   callback?: Function;
