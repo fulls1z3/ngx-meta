@@ -1,7 +1,6 @@
 // angular
 import { Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { NavigationEnd, Router } from '@angular/router';
 
 // libs
 import { Observable } from 'rxjs/Observable';
@@ -16,7 +15,7 @@ import * as _ from 'lodash';
 // module
 import { PageTitlePositioning } from './models/page-title-positioning';
 import { MetaLoader } from './meta.loader';
-import { isObservable, timeout } from './util';
+import { isObservable } from './util';
 
 @Injectable()
 export class MetaService {
@@ -24,53 +23,19 @@ export class MetaService {
   private readonly isMetaTagSet: any;
   private useRouteData: boolean;
 
-  @timeout(1)
-  private static unsubscribe(sub: any): void {
-    sub.unsubscribe();
-  }
-
   constructor(public loader: MetaLoader,
-              private readonly router: Router,
               private readonly title: Title,
               private readonly meta: Meta) {
     this.metaSettings = loader.getSettings();
     this.isMetaTagSet = {};
-
-    if (!this.metaSettings.defer)
-      this.init();
   }
 
-  init(useRouteData: boolean = true): void {
-    // don't use route data unless allowed
-    if (!useRouteData)
-      return;
-
-    this.useRouteData = true;
-  }
-
-  refresh(): void {
-    // don't use route data unless allowed
-    if (!this.useRouteData)
-      return;
-  }
-
-  setTitle(title: string, override = false, deferred = true): void {
+  setTitle(title: string, override = false): void {
     const title$ = this.getTitleWithPositioning(title, override);
-
-    if (!deferred)
-      this.updateTitle(title$);
-    else {
-      const sub = this.router.events
-        .filter(event => (event instanceof NavigationEnd))
-        .subscribe(() => {
-          this.updateTitle(title$);
-        });
-
-      MetaService.unsubscribe(sub);
-    }
+    this.updateTitle(title$);
   }
 
-  setTag(tag: string, value: string, deferred = true): void {
+  setTag(tag: string, value: string): void {
     if (tag === 'title')
       throw new Error(`Attempt to set ${tag} through 'setTag': 'title' is a reserved tag name. `
         + `Please use 'MetaService.setTitle' instead.`);
@@ -81,17 +46,64 @@ export class MetaService {
       ? this.callback(value)
       : Observable.of(value);
 
-    if (!deferred)
-      this.updateMetaTag(tag, value$);
-    else {
-      const sub = this.router.events
-        .filter(event => (event instanceof NavigationEnd))
-        .subscribe(() => {
-          this.updateMetaTag(tag, value$);
-        });
+    this.updateMetaTag(tag, value$);
+  }
 
-      MetaService.unsubscribe(sub);
+  updateMetaTags(currentUrl: string, metaSettings?: any): void {
+    if (!metaSettings) {
+      const fallbackTitle = _.get(this.metaSettings, 'defaults.title', '') || this.metaSettings['applicationName'];
+
+      this.setTitle(fallbackTitle, true);
+    } else {
+      if (metaSettings.disabled) {
+        this.updateMetaTags(currentUrl);
+        return;
+      }
+
+      this.setTitle(metaSettings.title, metaSettings.override);
+
+      Object.keys(metaSettings)
+        .forEach(key => {
+          let value = metaSettings[key];
+
+          if (key === 'title' || key === 'override')
+            return;
+          else if (key === 'og:locale')
+            value = value.replace(/-/g, '_');
+          else if (key === 'og:locale:alternate') {
+            const currentLocale = metaSettings['og:locale'];
+            this.updateLocales(currentLocale, metaSettings[key]);
+
+            return;
+          }
+
+          this.setTag(key, value);
+        });
     }
+
+    Object.keys(_.get(this.metaSettings, 'defaults', {}))
+      .forEach(key => {
+        let value = this.metaSettings.defaults[key];
+
+        if ((!!metaSettings && (key in this.isMetaTagSet || key in metaSettings)) || key === 'title' || key === 'override')
+          return;
+        else if (key === 'og:locale')
+          value = value.replace(/-/g, '_');
+        else if (key === 'og:locale:alternate') {
+          const currentLocale = _.get(metaSettings, 'og:locale', undefined);
+          this.updateLocales(currentLocale, value);
+
+          return;
+        }
+
+        this.setTag(key, value);
+      });
+
+    const url = ((this.metaSettings.applicationUrl || '/') + currentUrl)
+      .replace(/(https?:\/\/)|(\/)+/g, '$1$2')
+      .replace(/\/$/g, '');
+
+    this.setTag('og:url', url || '/');
   }
 
   private callback(value: string): Observable<string> {
@@ -215,62 +227,5 @@ export class MetaService {
         this.isMetaTagSet['og:locale'] = true;
       }
     });
-  }
-
-  private updateMetaTags(currentUrl: string, metaSettings?: any): void {
-    if (!metaSettings) {
-      const fallbackTitle = _.get(this.metaSettings, 'defaults.title', '') || this.metaSettings['applicationName'];
-
-      this.setTitle(fallbackTitle, true, false);
-    } else {
-      if (metaSettings.disabled) {
-        this.updateMetaTags(currentUrl);
-        return;
-      }
-
-      this.setTitle(metaSettings.title, metaSettings.override, false);
-
-      Object.keys(metaSettings)
-        .forEach(key => {
-          let value = metaSettings[key];
-
-          if (key === 'title' || key === 'override')
-            return;
-          else if (key === 'og:locale')
-            value = value.replace(/-/g, '_');
-          else if (key === 'og:locale:alternate') {
-            const currentLocale = metaSettings['og:locale'];
-            this.updateLocales(currentLocale, metaSettings[key]);
-
-            return;
-          }
-
-          this.setTag(key, value, false);
-        });
-    }
-
-    Object.keys(_.get(this.metaSettings, 'defaults', {}))
-      .forEach(key => {
-        let value = this.metaSettings.defaults[key];
-
-        if ((!!metaSettings && (key in this.isMetaTagSet || key in metaSettings)) || key === 'title' || key === 'override')
-          return;
-        else if (key === 'og:locale')
-          value = value.replace(/-/g, '_');
-        else if (key === 'og:locale:alternate') {
-          const currentLocale = _.get(metaSettings, 'og:locale', undefined);
-          this.updateLocales(currentLocale, value);
-
-          return;
-        }
-
-        this.setTag(key, value, false);
-      });
-
-    const url = ((this.metaSettings.applicationUrl || '/') + currentUrl)
-      .replace(/(https?:\/\/)|(\/)+/g, '$1$2')
-      .replace(/\/$/g, '');
-
-    this.setTag('og:url', url || '/', false);
   }
 }
