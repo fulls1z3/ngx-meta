@@ -10,27 +10,13 @@
     "suppressImplicitAnyIndexErrors": true,
     "importHelpers": true,
     "lib": [ "es2015", "dom" ],
-    "declaration": true,
     "typeRoots": [
-      "node_modules/@types"
+      "../node_modules/@types"
     ]
   },
-  "files": [
-    "index.ts",
-    "src/models/meta-settings.ts",
-    "src/models/page-title-positioning.ts",
-    "src/meta.guard.ts",
-    "src/meta.loader.ts",
-    "src/meta.service.ts",
-    "src/util.ts"
+  "include": [
+    "*.spec.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ],
-  "angularCompilerOptions": {
-    "strictMetadataEmit": true,
-    "skipTemplateCodegen": true
-  },
   "compileOnSave": false,
   "buildOnSave": false
 }
