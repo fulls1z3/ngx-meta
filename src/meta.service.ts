@@ -5,11 +5,6 @@ import { Injectable } from '@angular/core';
 // libs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/concat';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/reduce';
-import 'rxjs/add/operator/take';
 import * as _ from 'lodash';
 
 // module
@@ -32,8 +27,39 @@ export class MetaService {
   }
 
   setTitle(title: string, override = false): void {
-    const title$ = this.getTitleWithPositioning(title, override);
-    this.updateTitle(title$);
+    const title$ = !!title
+      ? this.callback(title)
+      : Observable.of('');
+
+    title$.subscribe((res: string) => {
+      let fullTitle = '';
+
+      if (!res) {
+        const defaultTitle$ = _.has(this.metaSettings, 'defaults.title')
+          ? this.callback(this.metaSettings.defaults.title)
+          : Observable.of('');
+
+        defaultTitle$.subscribe((defaultTitle: string) => {
+          if (!override && this.metaSettings.pageTitleSeparator && this.metaSettings.applicationName) {
+            this.callback(this.metaSettings.applicationName).subscribe((applicationName: string) => {
+              fullTitle = !!applicationName ? this.getTitleWithPositioning(defaultTitle, applicationName) : defaultTitle;
+              this.updateTitle(fullTitle);
+            });
+          }
+          else
+            this.updateTitle(defaultTitle);
+        });
+      } else {
+        if (!override && this.metaSettings.pageTitleSeparator && this.metaSettings.applicationName) {
+          this.callback(this.metaSettings.applicationName).subscribe((applicationName: string) => {
+            fullTitle = !!applicationName ? this.getTitleWithPositioning(res, applicationName) : res;
+            this.updateTitle(fullTitle);
+          });
+        }
+        else
+          this.updateTitle(res);
+      }
+    });
   }
 
   setTag(tag: string, value: string): void {
@@ -47,7 +73,9 @@ export class MetaService {
       ? this.callback(value)
       : Observable.of(value);
 
-    this.updateMetaTag(tag, value$);
+    value$.subscribe((res: string) => {
+      this.updateMetaTag(tag, res);
+    });
   }
 
   updateMetaTags(currentUrl: string, metaSettings?: any): void {
@@ -120,42 +148,24 @@ export class MetaService {
     return Observable.of(value);
   }
 
-  private getTitleWithPositioning(title: string, override: boolean): Observable<string> {
-    const defaultTitle$ = _.has(this.metaSettings, 'defaults.title')
-      ? this.callback(this.metaSettings.defaults.title)
-      : Observable.of('');
-
-    const title$ = !!title
-      ? this.callback(title).concat(defaultTitle$).filter((res: string) => !!res).take(1)
-      : defaultTitle$;
-
+  private getTitleWithPositioning(title: string, applicationName: string): string {
     switch (this.metaSettings.pageTitlePositioning) {
       case PageTitlePositioning.AppendPageTitle:
-        return ((!override && !!this.metaSettings.pageTitleSeparator  && !!this.metaSettings.applicationName)
-          ? this.callback(this.metaSettings.applicationName).map((res: string) => res + this.metaSettings.pageTitleSeparator)
-          : Observable.of(''))
-          .concat(title$)
-          .reduce((acc: string, cur: string) => acc + cur);
+        return applicationName + this.metaSettings.pageTitleSeparator + title;
       case PageTitlePositioning.PrependPageTitle:
-        return title$
-          .concat((!override && !!this.metaSettings.pageTitleSeparator && !!this.metaSettings.applicationName)
-            ? this.callback(this.metaSettings.applicationName).map((res: string) => this.metaSettings.pageTitleSeparator + res)
-            : Observable.of(''))
-          .reduce((acc: string, cur: string) => acc + cur);
+        return title + this.metaSettings.pageTitleSeparator + applicationName;
       default:
         throw new Error(`Invalid pageTitlePositioning specified [${this.metaSettings.pageTitlePositioning}]!`);
     }
   }
 
-  private updateTitle(title$: Observable<string>): void {
-    title$.subscribe((res: string) => {
-      this.title.setTitle(res);
-      this.meta.updateMetaElement({
-        property: 'og:title',
-        content: res
-      });
+  private updateTitle(title: string): void {
+    this.title.setTitle(title);
+    this.meta.updateMetaElement({
+      property: 'og:title',
+      content: title
     });
-  }
+  };
 
   private updateLocales(currentLocale: string, availableLocales: string): void {
     currentLocale = currentLocale || _.get(this.metaSettings, 'defaults["og:locale"]', '');
@@ -186,47 +196,45 @@ export class MetaService {
     }
   }
 
-  private updateMetaTag(tag: string, value$: Observable<string>): void {
-    value$.subscribe((res: string) => {
-      if (tag.lastIndexOf('og:', 0) === 0)
-        this.meta.updateMetaElement({
-          property: tag,
-          content: tag === 'og:locale' ? res.replace(/-/g, '_') : res
-        });
-      else
-        this.meta.updateMetaElement({
-          name: tag,
-          content: res
-        });
+  private updateMetaTag(tag: string, value: string): void {
+    if (tag.lastIndexOf('og:', 0) === 0)
+      this.meta.updateMetaElement({
+        property: tag,
+        content: tag === 'og:locale' ? value.replace(/-/g, '_') : value
+      });
+    else
+      this.meta.updateMetaElement({
+        name: tag,
+        content: value
+      });
 
-      this.isMetaTagSet[tag] = true;
+    this.isMetaTagSet[tag] = true;
 
-      if (tag === 'description') {
-        this.meta.updateMetaElement({
-          property: 'og:description',
-          content: res
-        });
-      } else if (tag === 'author') {
-        this.meta.updateMetaElement({
-          property: 'og:author',
-          content: res
-        });
-      } else if (tag === 'publisher') {
-        this.meta.updateMetaElement({
-          property: 'og:publisher',
-          content: res
-        });
-      } else if (tag === 'og:locale') {
-        const availableLocales = _.get(this.metaSettings, 'defaults["og:locale:alternate"]', '');
+    if (tag === 'description') {
+      this.meta.updateMetaElement({
+        property: 'og:description',
+        content: value
+      });
+    } else if (tag === 'author') {
+      this.meta.updateMetaElement({
+        property: 'og:author',
+        content: value
+      });
+    } else if (tag === 'publisher') {
+      this.meta.updateMetaElement({
+        property: 'og:publisher',
+        content: value
+      });
+    } else if (tag === 'og:locale') {
+      const availableLocales = _.get(this.metaSettings, 'defaults["og:locale:alternate"]', '');
 
-        this.updateLocales(res, availableLocales);
-        this.isMetaTagSet['og:locale:alternate'] = true;
-      } else if (tag === 'og:locale:alternate') {
-        const currentLocale = this.meta.getMetaElement('property="og:locale"').content;
+      this.updateLocales(value, availableLocales);
+      this.isMetaTagSet['og:locale:alternate'] = true;
+    } else if (tag === 'og:locale:alternate') {
+      const currentLocale = this.meta.getMetaElement('property="og:locale"').content;
 
-        this.updateLocales(currentLocale, res);
-        this.isMetaTagSet['og:locale'] = true;
-      }
-    });
+      this.updateLocales(currentLocale, value);
+      this.isMetaTagSet['og:locale'] = true;
+    }
   }
 }
