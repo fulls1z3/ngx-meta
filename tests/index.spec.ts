@@ -6,7 +6,7 @@ import { Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 // module
-import { MetaModule, MetaService, MetaSettings, PageTitlePositioning } from '../index';
+import { MetaModule, MetaGuard, MetaService, MetaSettings, PageTitlePositioning } from '../index';
 
 @Component({template: '<router-outlet></router-outlet>'})
 export class TestBootstrapComponent {
@@ -21,50 +21,57 @@ export class TestComponent {
 const testRoutes: Routes = [
   {
     path: '',
-    component: TestBootstrapComponent,
+    canActivateChild: [MetaGuard],
     children: [
       {
-        path: 'duck',
-        component: TestComponent,
+        path: '',
+        component: TestBootstrapComponent,
+        canActivateChild: [MetaGuard],
+        children: [
+          {
+            path: 'duck',
+            component: TestComponent,
+            data: {
+              meta: {
+                disabled: true,
+                title: 'Rubber duckie',
+                description: 'Have you seen my rubber duckie?'
+              }
+            }
+          },
+          {
+            path: 'toothpaste',
+            component: TestComponent,
+            data: {
+              meta: {
+                title: 'Toothpaste',
+                override: true, // prevents appending/prepending the application name to the title attribute
+                description: 'Eating toothpaste is considered to be too healthy!',
+                'og:locale': 'fr-FR',
+                'og:locale:alternate': 'en-US,fr-FR,tr-TR'
+              }
+            }
+          },
+          {
+            path: 'no-data',
+            component: TestComponent
+          },
+          {
+            path: 'no-meta',
+            component: TestComponent,
+            data: {
+              dummy: 'yummy'
+            }
+          }
+        ],
         data: {
           meta: {
-            disabled: true,
-            title: 'Rubber duckie',
-            description: 'Have you seen my rubber duckie?'
+            title: 'Sweet home',
+            description: 'Home, home sweet home... and what?'
           }
         }
-      },
-      {
-        path: 'toothpaste',
-        component: TestComponent,
-        data: {
-          meta: {
-            title: 'Toothpaste',
-            override: true, // prevents appending/prepending the application name to the title attribute
-            description: 'Eating toothpaste is considered to be too healthy!',
-            'og:locale': 'fr-FR',
-            'og:locale:alternate': 'en-US,fr-FR,tr-TR'
-          }
-        }
-      },
-      {
-        path: 'no-data',
-        component: TestComponent
-      },
-      {
-        path: 'no-meta',
-        component: TestComponent,
-        data: {
-          dummy: 'yummy'
-        }
       }
-    ],
-    data: {
-      meta: {
-        title: 'Sweet home',
-        description: 'Home, home sweet home... and what?'
-      }
-    }
+    ]
   }
 ];
 
