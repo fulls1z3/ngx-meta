@@ -5,13 +5,14 @@ import { Title } from '@angular/platform-browser';
 // libs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/fromPromise';
 import * as _ from 'lodash';
 
 // module
 import { PageTitlePositioning } from './models/page-title-positioning';
 import { MetaHelper } from './meta.helper';
 import { MetaLoader } from './meta.loader';
-import { isObservable } from './util';
+import { isPromise, isObservable } from './util';
 
 @Injectable()
 export class MetaService {
@@ -139,7 +140,9 @@ export class MetaService {
       const value$ = this.metaSettings.callback(value);
 
       if (!isObservable(value$))
-        return Observable.of(value$);
+        return isPromise(value$)
+          ? Observable.fromPromise(value$)
+          : Observable.of(value$);
 
       return value$;
     }
