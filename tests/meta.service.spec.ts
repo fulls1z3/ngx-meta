@@ -713,10 +713,10 @@ describe('@nglibs/meta:',
                 });
             })));
 
-        it('should be able to set meta tags w/`non-observable` callback',
+        it('should be able to set meta tags w/`promise` callback',
           fakeAsync(inject([Title],
             (title: Title) => {
-              const callback = (value: string) => value;
+              const callback = (value: string) => Promise.resolve(value);
 
               const settings = _.cloneDeep(testSettings);
               settings['callback'] = (value: string) => callback(value);
