@@ -1,7 +1,25 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## v0.2.0-rc.4 - 2017-03-06
+## v0.2.0-rc.5 - 2017-04-08
+### Breaking change
+- Set meta tags thru `MetaGuard` (closes [#35](https://github.com/nglibs/meta/issue/35))
+
+### Added
+- Added prevent direct DOM manipulation (closes [#31](https://github.com/nglibs/meta/issue/31))
+
+### Fixed
+- Resolved observable combining (closes [#36](https://github.com/nglibs/meta/issue/36))
+- Resolved support Promises at the `callback` function (closes [#25](https://github.com/nglibs/meta/issue/25))
+
+### Changed
+- Removed `[].slice.call(elements)` (closes [#34](https://github.com/nglibs/meta/issue/34))
+- Removed manual & deferred initialization (closes [#37](https://github.com/nglibs/meta/issue/37))
+- Updated README.md
+- Updated deps, gulp tasks
+- Some refactoring
+
+## v0.2.0-rc.4 - 2017-03-14
 ### Added
 - Added callback function, to use a custom logic on the meta tag contents (http-get, translate, etc.) (closes [#7](https://github.com/nglibs/meta/issue/7))
 
