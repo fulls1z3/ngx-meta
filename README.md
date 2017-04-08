@@ -201,7 +201,7 @@ export function metaFactory(): MetaLoader {
 ### Using a `callback` function
 The `MetaStaticLoader` accepts a **`callback`** function to use a custom logic on the meta tag contents (*http-get, [ngx-translate](https://github.com/ngx-translate/core), etc.*).
 
-> Return type of the **`callback`** function must be **`string`** or **`Observable<string>`**.
+> Return type of the **`callback`** function must be **`string`**, **`Observable<string>`** or **`Promise<string>`**.
 
 When a **`callback`** function is supplied, the `MetaService` will try to **retrieve contents** of meta tags (*except `og:locale` and `og:locale:alternate`*) using the specified **`callback`**. You can customize the behavior for missing/empty values, directly from the **`callback`** function itself.
 
