@@ -9,6 +9,7 @@
 
 # IDEs and editors
 /.idea
+yarn.*
 
 # build tools
 /config
