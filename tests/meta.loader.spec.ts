@@ -5,7 +5,7 @@ import { getTestBed } from '@angular/core/testing';
 import { MetaLoader, MetaStaticLoader, MetaService, MetaSettings } from '../index';
 import { testSettings, defaultSettings, emptySettings, testModuleConfig } from './index.spec';
 
-describe('@nglibs/meta:',
+describe('@ngx-meta/core:',
   () => {
     beforeEach(() => {
       const metaFactory = () => new MetaStaticLoader(testSettings);

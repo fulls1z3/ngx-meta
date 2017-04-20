@@ -21,7 +21,7 @@ before_script:
   - npm i -g npm@^3
   - sleep 3
 after_failure:
-  - cat /home/travis/build/nglibs/meta/npm-debug.log
+  - cat /home/travis/build/ngx-meta/core/npm-debug.log
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
