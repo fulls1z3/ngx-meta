@@ -175,7 +175,7 @@ export class MetaService {
     if (!!currentLocale && !!this.metaSettings.defaults)
       this.metaSettings.defaults['og:locale'] = currentLocale.replace(/_/g, '-');
 
-    // TODO: set HTML lang attribute - https://github.com/nglibs/meta/issues/32
+    // TODO: set HTML lang attribute - https://github.com/ngx-meta/core/issues/32
     // const html = this.document.querySelector('html');
     // html.setAttribute('lang', currentLocale);
 

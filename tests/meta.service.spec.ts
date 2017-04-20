@@ -13,7 +13,7 @@ import { MetaLoader, MetaStaticLoader, MetaService, PageTitlePositioning } from 
 import { MetaHelper } from '../src/meta.helper';
 import { TestBootstrapComponent, testSettings, defaultSettings, emptySettings, testModuleConfig } from './index.spec';
 
-describe('@nglibs/meta:',
+describe('@ngx-meta/core:',
   () => {
     describe('MetaService',
       () => {
