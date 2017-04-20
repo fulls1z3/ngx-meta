@@ -1,10 +1,10 @@
 {
-  "name": "@nglibs/meta",
+  "name": "@ngx-meta/core",
   "version": "0.4.0-rc.1",
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nglibs/meta.git"
+    "url": "https://github.com/ngx-meta/core.git"
   },
   "keywords": [
     "open graph",
@@ -23,13 +23,13 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nglibs/meta/issues"
+    "url": "https://github.com/ngx-meta/core/issues"
   },
-  "homepage": "https://github.com/nglibs/meta#readme",
+  "homepage": "https://github.com/ngx-meta/core#readme",
   "scripts": {
     "test": "karma start"
   },
-  "main": "bundles/meta.umd.min.js",
+  "main": "bundles/core.umd.min.js",
   "module": "index.js",
   "typings": "index.d.ts",
   "dependencies": {

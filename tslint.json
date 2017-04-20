@@ -132,13 +132,13 @@
     "directive-selector": [
       true,
       "attribute",
-      [ "kr", "test" ],
+      [ "ngx", "test" ],
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      [ "kr", "test" ],
+      [ "ngx", "test" ],
       "kebab-case"
     ],
     "use-input-property-decorator": true,
@@ -149,7 +149,7 @@
     "no-output-rename": true,
     "no-forward-ref": false,
     "use-pipe-transform-interface": true,
-    "pipe-naming": [ true, "camelCase", "kr" ],
+    "pipe-naming": [ true, "camelCase", "ngx" ],
     "component-class-suffix": true,
     "directive-class-suffix": true,
     "invoke-injectable": true

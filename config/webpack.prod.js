@@ -60,10 +60,10 @@ module.exports = {
      *
      * See: http://webpack.github.io/docs/configuration.html#output-filename
      */
-    filename: 'meta.umd.min.js',
+    filename: 'core.umd.min.js',
 
     libraryTarget: 'umd',
-    library: 'meta'
+    library: 'ngx-meta'
   },
 
   /**

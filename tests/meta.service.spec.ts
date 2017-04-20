@@ -12,7 +12,7 @@ import * as _ from 'lodash';
 import { MetaLoader, MetaStaticLoader, MetaService, PageTitlePositioning } from '../index';
 import { TestBootstrapComponent, testSettings, defaultSettings, emptySettings, testModuleConfig } from './index.spec';
 
-describe('@nglibs/meta:',
+describe('@ngx-meta/core:',
   () => {
     describe('MetaService',
       () => {
