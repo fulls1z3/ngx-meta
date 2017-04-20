@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 // module
 import { MetaHelper } from '../src/meta.helper';
 
-describe('@nglibs/meta:',
+describe('@ngx-meta/core:',
   () => {
     const doc = getDOM().createHtmlDocument();
     const meta = new MetaHelper(doc);

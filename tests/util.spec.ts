@@ -5,7 +5,7 @@ import 'rxjs/add/observable/of';
 // module
 import { isPromise, isObservable } from '../src/util';
 
-describe('@nglibs/meta:', () => {
+describe('@ngx-meta/core:', () => {
   describe('isPromise', () => {
     it('should be true for native Promises',
       () => {
