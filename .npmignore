@@ -6,10 +6,10 @@
 
 # dependencies
 /node_modules
+yarn.*
 
 # IDEs and editors
 /.idea
-yarn.*
 
 # build tools
 /config
@@ -28,5 +28,6 @@ appveyor.yml
 # misc
 /.github
 /coverage
+/tests
 npm-debug.log
 tslint.json

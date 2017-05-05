@@ -42,6 +42,9 @@ const clean = {
   },
   'src/*.metadata.json': function(done) {
     $.rimraf('./src/**/*.metadata.json', done);
+  },
+  'tests/*.d.ts': function(done) {
+    $.rimraf('./tests/**/*.d.ts', done);
   }
 };
 
@@ -179,7 +182,8 @@ gulp.task('clean',
     clean['index.metadata.json'],
     clean['src/*.js'],
     clean['src/*.d.ts'],
-    clean['src/*.metadata.json']
+    clean['src/*.metadata.json'],
+    clean['tests/*.d.ts']
   ));
 
 /**
@@ -201,9 +205,9 @@ gulp.task('test',
   ));
 
 /**
- * Task: review:tslint
+ * Task: tslint
  */
-gulp.task('review:tslint',
+gulp.task('tslint',
   gulp.series(
     tasks.ts.lint
   ));

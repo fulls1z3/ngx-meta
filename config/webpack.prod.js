@@ -125,7 +125,7 @@ module.exports = {
      */
     new contextReplacementPlugin(
       // fix the warning in ./~/@angular/core/src/linker/system_js_ng_module_factory_loader.js
-      /angular([\\\/])core([\\\/])(esm([\\\/])src|src)([\\\/])linker/,
+      /angular([\\\/])core([\\\/])@angular/,
       helpers.root('src')
     ),
 
