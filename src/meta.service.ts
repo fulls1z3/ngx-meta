@@ -6,7 +6,6 @@ import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromPromise';
-import * as _ from 'lodash';
 
 // module
 import { PageTitlePositioning } from './models/page-title-positioning';
@@ -35,8 +34,8 @@ export class MetaService {
       let fullTitle = '';
 
       if (!res) {
-        const defaultTitle$ = _.has(this.metaSettings, 'defaults.title')
-          ? this.callback(this.metaSettings.defaults.title)
+        const defaultTitle$ = (!!this.metaSettings.defaults && !!this.metaSettings.defaults['title'])
+          ? this.callback(this.metaSettings.defaults['title'])
           : Observable.of('');
 
         defaultTitle$.subscribe((defaultTitle: string) => {
@@ -67,7 +66,9 @@ export class MetaService {
       throw new Error(`Attempt to set ${key} through 'setTag': 'title' is a reserved tag name. `
         + `Please use 'MetaService.setTitle' instead.`);
 
-    value = value || _.get(this.metaSettings, `defaults.${key}`, '');
+    value = value || ((!!this.metaSettings.defaults && !!this.metaSettings.defaults[key])
+        ? this.metaSettings.defaults[key]
+        : '');
 
     const value$ = (key !== 'og:locale' && key !== 'og:locale:alternate')
       ? this.callback(value)
@@ -80,7 +81,9 @@ export class MetaService {
 
   update(currentUrl: string, metaSettings?: any): void {
     if (!metaSettings) {
-      const fallbackTitle = _.get(this.metaSettings, 'defaults.title', '') || this.metaSettings['applicationName'];
+      const fallbackTitle = !!this.metaSettings.defaults
+        ? (this.metaSettings.defaults['title'] || this.metaSettings['applicationName'])
+        : this.metaSettings['applicationName'];
 
       this.setTitle(fallbackTitle, true);
     } else {
@@ -110,23 +113,25 @@ export class MetaService {
         });
     }
 
-    Object.keys(_.get(this.metaSettings, 'defaults', {}))
-      .forEach(key => {
-        let value = this.metaSettings.defaults[key];
+    if (!!this.metaSettings.defaults) {
+      Object.keys(this.metaSettings.defaults)
+        .forEach(key => {
+          let value = this.metaSettings.defaults[key];
 
-        if ((!!metaSettings && (key in this.isMetaTagSet || key in metaSettings)) || key === 'title' || key === 'override')
-          return;
-        else if (key === 'og:locale')
-          value = value.replace(/-/g, '_');
-        else if (key === 'og:locale:alternate') {
-          const currentLocale = _.get(metaSettings, 'og:locale', undefined);
-          this.updateLocales(currentLocale, value);
+          if ((!!metaSettings && (key in this.isMetaTagSet || key in metaSettings)) || key === 'title' || key === 'override')
+            return;
+          else if (key === 'og:locale')
+            value = value.replace(/-/g, '_');
+          else if (key === 'og:locale:alternate') {
+            const currentLocale = !!metaSettings ? metaSettings['og:locale'] : undefined;
+            this.updateLocales(currentLocale, value);
 
-          return;
-        }
+            return;
+          }
 
-        this.setTag(key, value);
-      });
+          this.setTag(key, value);
+        });
+    }
 
     const url = ((this.metaSettings.applicationUrl || '/') + currentUrl)
       .replace(/(https?:\/\/)|(\/)+/g, '$1$2')
@@ -170,7 +175,9 @@ export class MetaService {
   };
 
   private updateLocales(currentLocale: string, availableLocales: string): void {
-    currentLocale = currentLocale || _.get(this.metaSettings, 'defaults["og:locale"]', '');
+    currentLocale = currentLocale || (!!this.metaSettings.defaults
+        ? this.metaSettings.defaults['og:locale']
+        : '');
 
     if (!!currentLocale && !!this.metaSettings.defaults)
       this.metaSettings.defaults['og:locale'] = currentLocale.replace(/_/g, '-');
@@ -228,7 +235,9 @@ export class MetaService {
         content: value
       });
     } else if (key === 'og:locale') {
-      const availableLocales = _.get(this.metaSettings, 'defaults["og:locale:alternate"]', '');
+      const availableLocales = !!this.metaSettings.defaults
+        ? this.metaSettings.defaults['og:locale:alternate']
+        : '';
 
       this.updateLocales(value, availableLocales);
       this.isMetaTagSet['og:locale:alternate'] = true;
