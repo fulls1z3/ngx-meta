@@ -2,8 +2,8 @@
 import { getTestBed } from '@angular/core/testing';
 
 // module
-import { MetaLoader, MetaStaticLoader, MetaService, MetaSettings } from '../index';
-import { testSettings, defaultSettings, emptySettings, testModuleConfig } from './index.spec';
+import { MetaLoader, MetaService, MetaSettings, MetaStaticLoader } from '../index';
+import { defaultSettings, emptySettings, testModuleConfig, testSettings } from './index.spec';
 
 describe('@ngx-meta/core:',
   () => {

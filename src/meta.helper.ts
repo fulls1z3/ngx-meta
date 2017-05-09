@@ -1,7 +1,7 @@
 // angular
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
-import { getDOM, DomAdapter } from '@angular/platform-browser/src/dom/dom_adapter';
+import { DomAdapter, getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
 
 // module
 import { MetaDefinition } from './models/meta-definition';
@@ -22,7 +22,7 @@ export class MetaHelper {
 
   getMetaElement(selector: string): any {
     if (!selector)
-      return null;
+      return undefined;
 
     return this.dom.querySelector(this.document, `meta[${selector}]`);
   }
@@ -31,13 +31,12 @@ export class MetaHelper {
     let element: any;
 
     if (!forceCreation) {
-      let selector = MetaHelper.parseSelector(definition);
+      const selector = MetaHelper.parseSelector(definition);
       element = this.getMetaElement(selector);
 
       if (!element || !this.hasAttributes(definition, element))
         element = this.getOrCreateMetaElement(definition, true);
-    }
-    else {
+    } else {
       element = this.dom.createElement('meta');
       this.setAttributes(definition, element);
 
@@ -50,7 +49,7 @@ export class MetaHelper {
 
   updateMetaElement(definition: MetaDefinition, selector?: string): any {
     if (!definition)
-      return null;
+      return undefined;
 
     selector = selector || MetaHelper.parseSelector(definition);
     const element: any = this.getMetaElement(selector);

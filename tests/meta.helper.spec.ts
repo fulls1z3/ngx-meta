@@ -32,7 +32,7 @@ describe('@ngx-meta/core:',
             it('should return null w/o selector',
               () => {
                 const actual = meta.getMetaElement('');
-                expect(actual).toBeNull();
+                expect(actual).toBeUndefined();
               });
           });
 
@@ -57,8 +57,8 @@ describe('@ngx-meta/core:',
           () => {
             it('should return null w/o definition',
               () => {
-                const actual = meta.updateMetaElement(null);
-                expect(actual).toBeNull();
+                const actual = meta.updateMetaElement(undefined);
+                expect(actual).toBeUndefined();
               });
           });
 
