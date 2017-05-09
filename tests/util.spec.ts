@@ -1,9 +1,11 @@
-﻿// libs
+﻿/* tslint:disable */
+
+// libs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 // module
-import { isPromise, isObservable } from '../src/util';
+import { isObservable, isPromise } from '../src/util';
 
 describe('@ngx-meta/core:', () => {
   describe('isPromise', () => {

@@ -69,7 +69,7 @@ module.exports = {
   /**
    * Require those dependencies but don't bundle them
    */
-  externals: [/^@angular\//, /^rxjs\//, /^lodash/],
+  externals: [/^@angular\//, /^rxjs\//],
 
   /**
    * Options affecting the normal modules.

@@ -1,5 +1,5 @@
 // angular
-import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
 // module
 import { MetaGuard } from './src/meta.guard';
@@ -38,8 +38,7 @@ export class MetaModule {
     };
   }
 
-  constructor(@Optional()
-              @SkipSelf() parentModule: MetaModule) {
+  constructor(@Optional() @SkipSelf() parentModule: MetaModule) {
     if (parentModule)
       throw new Error('MetaModule already loaded; import in root module only.');
   }
