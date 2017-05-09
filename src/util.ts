@@ -1,7 +1,7 @@
-﻿// libs
+// libs
 import { Observable } from 'rxjs/Observable';
 // TODO use Symbol.observable when https://github.com/ReactiveX/rxjs/issues/2415 will be resolved
-import {$$observable as symbolObservable} from 'rxjs/symbol/observable';
+import { $$observable as symbolObservable } from 'rxjs/symbol/observable';
 
 /**
  * Determine if the argument is shaped like a Promise
