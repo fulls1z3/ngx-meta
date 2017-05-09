@@ -6,7 +6,7 @@ import { Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 // module
-import { MetaModule, MetaGuard, MetaService, MetaSettings, PageTitlePositioning } from '../index';
+import { MetaGuard, MetaModule, MetaService, MetaSettings, PageTitlePositioning } from '../index';
 
 @Component({template: '<router-outlet></router-outlet>'})
 export class TestBootstrapComponent {
@@ -92,8 +92,8 @@ export const testSettings: MetaSettings = {
   defaults: {
     title: 'Mighty mighty mouse',
     description: 'Mighty Mouse is an animated superhero mouse character',
-    'author': 'Mighty Mouse',
-    'publisher': 'a superhero',
+    author: 'Mighty Mouse',
+    publisher: 'a superhero',
     'og:image': 'https://upload.wikimedia.org/wikipedia/commons/f/f8/superraton.jpg',
     'og:type': 'website',
     'og:locale': 'en-US',

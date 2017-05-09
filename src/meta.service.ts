@@ -10,7 +10,7 @@ import 'rxjs/add/observable/fromPromise';
 // module
 import { PageTitlePositioning } from './models/page-title-positioning';
 import { MetaLoader } from './meta.loader';
-import { isPromise, isObservable } from './util';
+import { isObservable, isPromise } from './util';
 
 @Injectable()
 export class MetaService {
@@ -43,8 +43,7 @@ export class MetaService {
               fullTitle = !!applicationName ? this.getTitleWithPositioning(defaultTitle, applicationName) : defaultTitle;
               this.updateTitle(fullTitle);
             });
-          }
-          else
+          } else
             this.updateTitle(defaultTitle);
         });
       } else {
@@ -53,8 +52,7 @@ export class MetaService {
             fullTitle = !!applicationName ? this.getTitleWithPositioning(res, applicationName) : res;
             this.updateTitle(fullTitle);
           });
-        }
-        else
+        } else
           this.updateTitle(res);
       }
     });
@@ -88,6 +86,7 @@ export class MetaService {
     } else {
       if (metaSettings.disabled) {
         this.update(currentUrl);
+
         return;
       }
 
@@ -171,7 +170,7 @@ export class MetaService {
       property: 'og:title',
       content: title
     });
-  };
+  }
 
   private updateLocales(currentLocale: string, availableLocales: string): void {
     currentLocale = currentLocale || (!!this.metaSettings.defaults
@@ -185,7 +184,7 @@ export class MetaService {
     // const html = this.document.querySelector('html');
     // html.setAttribute('lang', currentLocale);
 
-    let elements = this.meta.getTags(`property="og:locale:alternate"`);
+    const elements = this.meta.getTags(`property="og:locale:alternate"`);
 
     elements.forEach((element: any) => {
       this.meta.removeTagElement(element);

@@ -7,10 +7,10 @@ import { MetaService } from './meta.service';
 
 @Injectable()
 export class MetaGuard implements CanActivate, CanActivateChild {
-  public constructor(private readonly meta: MetaService) {
+  constructor(private readonly meta: MetaService) {
   }
 
-  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const url = state.url;
 
     const metaSettings = (!!route && !!route.data && !!route.data['meta'])
@@ -22,7 +22,7 @@ export class MetaGuard implements CanActivate, CanActivateChild {
     return true;
   }
 
-  public canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     return this.canActivate(route, state);
   }
 }
