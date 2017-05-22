@@ -17,7 +17,7 @@ export class MetaService {
   private readonly metaSettings: any;
   private readonly isMetaTagSet: any;
 
-  constructor(public loader: MetaLoader,
+  constructor(public readonly loader: MetaLoader,
               private readonly title: Title,
               private readonly meta: Meta) {
     this.metaSettings = loader.getSettings();
