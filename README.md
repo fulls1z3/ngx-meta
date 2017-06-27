@@ -267,11 +267,8 @@ export class AppComponent implements OnInit {
     this.translate.addLangs(['en', 'tr']);
     this.translate.setDefaultLang(defaultLanguage.code);
 
-    this.meta.setTag('og:locale', 'en-US');
-
     this.translate.use('en').subscribe(() => {
-      // refresh meta tags
-      this.meta.refresh();
+      this.meta.setTag('og:locale', 'en-US');
     });
   }
   ...
