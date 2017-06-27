@@ -268,8 +268,7 @@ export class AppComponent implements OnInit {
     this.meta.setTag('og:locale', 'en-US');
 
     this.translate.use('en').subscribe(() => {
-      // refresh meta tags
-      this.meta.refresh();
+      this.meta.setTag('og:locale', 'en-US');
     });
   }
   ...
