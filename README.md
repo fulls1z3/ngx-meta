@@ -37,7 +37,7 @@ However, the [v0.2.x] branch keeps ongoing support for `@angular v2.x.x` - depen
 - If you're using `@angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
 - If you're using `@angular v2.x.x`, use the latest release of `v0.2.x` (*[v0.2.x] branch*).
 
-Also, please ensure that you are using **`Typescript v2.1.6`** or higher.
+Also, please ensure that you are using **`Typescript v2.3.4`** or higher.
 
 ## Getting started
 ### Installation
