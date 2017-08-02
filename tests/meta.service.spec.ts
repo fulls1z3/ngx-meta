@@ -357,8 +357,8 @@ describe('@ngx-meta/core:',
           inject([MetaService],
             (metaService: MetaService) => {
               expect(() => metaService.setTag('title', ''))
-                .toThrowError(`Attempt to set title through 'setTag': 'title' is a reserved tag name. `
-                  + `Please use 'MetaService.setTitle' instead.`);
+                .toThrowError('Attempt to set title through "setTag": "title" is a reserved tag name. '
+                  + 'Please use `MetaService.setTitle` instead.');
             }));
 
         it('should be able to set meta `description`',
