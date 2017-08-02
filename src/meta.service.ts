@@ -39,30 +39,29 @@ export class MetaService {
           : Observable.of('');
 
         defaultTitle$.subscribe((defaultTitle: string) => {
-          if (!override && this.metaSettings.pageTitleSeparator && this.metaSettings.applicationName) {
+          if (!override && this.metaSettings.pageTitleSeparator && this.metaSettings.applicationName)
             this.callback(this.metaSettings.applicationName).subscribe((applicationName: string) => {
               fullTitle = !!applicationName ? this.getTitleWithPositioning(defaultTitle, applicationName) : defaultTitle;
               this.updateTitle(fullTitle);
             });
-          } else
+          else
             this.updateTitle(defaultTitle);
         });
-      } else {
-        if (!override && this.metaSettings.pageTitleSeparator && this.metaSettings.applicationName) {
+      } else
+        if (!override && this.metaSettings.pageTitleSeparator && this.metaSettings.applicationName)
           this.callback(this.metaSettings.applicationName).subscribe((applicationName: string) => {
             fullTitle = !!applicationName ? this.getTitleWithPositioning(res, applicationName) : res;
             this.updateTitle(fullTitle);
           });
-        } else
+        else
           this.updateTitle(res);
-      }
     });
   }
 
   setTag(key: string, value: string): void {
     if (key === 'title')
-      throw new Error(`Attempt to set ${key} through 'setTag': 'title' is a reserved tag name. `
-        + `Please use 'MetaService.setTitle' instead.`);
+      throw new Error(`Attempt to set ${key} through "setTag": "title" is a reserved tag name. `
+        + 'Please use `MetaService.setTitle` instead.');
 
     value = value || ((!!this.metaSettings.defaults && !!this.metaSettings.defaults[key])
         ? this.metaSettings.defaults[key]
@@ -112,7 +111,7 @@ export class MetaService {
         });
     }
 
-    if (!!this.metaSettings.defaults) {
+    if (!!this.metaSettings.defaults)
       Object.keys(this.metaSettings.defaults)
         .forEach(key => {
           let value = this.metaSettings.defaults[key];
@@ -130,7 +129,6 @@ export class MetaService {
 
           this.setTag(key, value);
         });
-    }
 
     const url = ((this.metaSettings.applicationUrl || '/') + currentUrl)
       .replace(/(https?:\/\/)|(\/)+/g, '$1$2')
@@ -185,23 +183,21 @@ export class MetaService {
     // const html = this.document.querySelector('html');
     // html.setAttribute('lang', currentLocale);
 
-    const elements = this.meta.getMetaElements(`property="og:locale:alternate"`);
+    const elements = this.meta.getMetaElements('property="og:locale:alternate"');
 
     elements.forEach((element: any) => {
       this.meta.removeElement(element);
     });
 
-    if (!!currentLocale && !!availableLocales) {
+    if (!!currentLocale && !!availableLocales)
       availableLocales.split(',')
         .forEach((locale: string) => {
-          if (currentLocale.replace(/-/g, '_') !== locale.replace(/-/g, '_')) {
+          if (currentLocale.replace(/-/g, '_') !== locale.replace(/-/g, '_'))
             this.meta.getOrCreateMetaElement({
               property: 'og:locale:alternate',
               content: locale.replace(/-/g, '_')
             }, true);
-          }
         });
-    }
   }
 
   private updateTag(key: string, value: string): void {
@@ -218,22 +214,22 @@ export class MetaService {
 
     this.isMetaTagSet[key] = true;
 
-    if (key === 'description') {
+    if (key === 'description')
       this.meta.updateMetaElement({
         property: 'og:description',
         content: value
       });
-    } else if (key === 'author') {
+    else if (key === 'author')
       this.meta.updateMetaElement({
         property: 'og:author',
         content: value
       });
-    } else if (key === 'publisher') {
+    else if (key === 'publisher')
       this.meta.updateMetaElement({
         property: 'og:publisher',
         content: value
       });
-    } else if (key === 'og:locale') {
+    else if (key === 'og:locale') {
       const availableLocales = !!this.metaSettings.defaults
         ? this.metaSettings.defaults['og:locale:alternate']
         : '';
