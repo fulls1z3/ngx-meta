@@ -12,18 +12,18 @@
     "lib": [ "es2015", "dom" ],
     "declaration": true,
     "typeRoots": [
-      "node_modules/@types"
+      "../../../node_modules/@types"
     ]
   },
   "files": [
-    "index.ts",
-    "src/models/meta-definition.ts",
-    "src/models/meta-settings.ts",
-    "src/models/page-title-positioning.ts",
-    "src/meta.helper.ts",
-    "src/meta.loader.ts",
-    "src/meta.service.ts",
-    "src/util.ts"
+    "./index.ts",
+    "./src/models/meta-definition.ts",
+    "./src/models/meta-settings.ts",
+    "./src/models/page-title-positioning.ts",
+    "./src/meta.helper.ts",
+    "./src/meta.loader.ts",
+    "./src/meta.service.ts",
+    "./src/util.ts"
   ],
   "exclude": [
     "node_modules"

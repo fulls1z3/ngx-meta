@@ -8,26 +8,11 @@
 /node_modules
 yarn.*
 
-# IDEs and editors
-/.idea
-
 # build tools
 /config
-.gitignore
-.gitattributes
 .npmignore
-gulpfile.js
-karma.conf.js
 tsconfig.json
 
-# ci tools
-.bithoundrc
-.travis.yml
-appveyor.yml
-
 # misc
-/.github
-/coverage
 /tests
 npm-debug.log
-tslint.json
