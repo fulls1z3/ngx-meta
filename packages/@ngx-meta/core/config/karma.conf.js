@@ -1,8 +1,6 @@
 /**
  * Dependencies
  */
-const webpackConfig = require('./webpack.test.js');
-
 module.exports = function(config) {
   const configuration = {
     // base path that will be used to resolve all patterns (e.g. files, exclude)
@@ -25,7 +23,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       {
-        pattern: './config/spec-bundle.js',
+        pattern: './spec-bundle.js',
         watched: false
       }
     ],
@@ -36,10 +34,8 @@ module.exports = function(config) {
      * See: https://npmjs.org/browse/keyword/karma-preprocessor
      */
     preprocessors: {
-      './config/spec-bundle.js': ['coverage', 'webpack', 'sourcemap']
+      './spec-bundle.js': ['coverage', 'webpack', 'sourcemap']
     },
-
-    webpack: webpackConfig,
 
     // webpack please don't spam the console when running in karma!
     webpackMiddleware: {
@@ -62,17 +58,6 @@ module.exports = function(config) {
 
     coverageReporter: {
       type: 'in-memory'
-    },
-
-    coverageIstanbulReporter: {
-      reports: ['html', 'text-summary'],
-      dir: './coverage',
-      fixWebpackSourcePaths: true,
-      'report-config': {
-        html: {
-          subdir: 'html'
-        }
-      }
     },
 
     // web server port
