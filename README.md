@@ -30,9 +30,9 @@ Name | Description | NPM
 
 ## Contributing
 If you want to file a bug, contribute some code, or improve documentation, please read up on the following contribution guidelines:
-- [Issue guidelines](.github/CONTRIBUTING.md#submit)
-- [Contributing guidelines](.github/CONTRIBUTING.md)
-- [Coding rules](.github/CODING.md)
+- [Issue guidelines](CONTRIBUTING.md#submit)
+- [Contributing guidelines](CONTRIBUTING.md)
+- [Coding rules](CONTRIBUTING.md#rules)
 - [ChangeLog](CHANGELOG.md)
 
 ## License
