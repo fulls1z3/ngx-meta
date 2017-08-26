@@ -17,6 +17,7 @@ yarn.lock
 coverage/
 !gulpfile.js
 !karma.conf.js
+!spec-bundle.js
 
 # misc
 !config/*.js

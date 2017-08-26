@@ -1,8 +1,5 @@
 'use strict';
 
-/**
- * Gulp helpers & dependencies
- */
 const packages = require('./build-config.json');
 const gulp = require('gulp'),
   $ = require('gulp-load-plugins')({
@@ -14,14 +11,8 @@ const gulp = require('gulp'),
   }),
   $$ = require('./helpers');
 
-/**
- * Define tasks
- */
 const tasks = {};
 
-/**
- * Clean file(s)
- */
 const clean = {
   bundles: done => {
     for (const group of Object.keys(packages))
@@ -73,9 +64,6 @@ clean['src/*.js'].displayName = 'clean:./src/*.js';
 clean['src/*.d.ts'].displayName = 'clean:./src/*.js';
 clean['src/*.metadata.json'].displayName = 'clean:./src/*.js';
 
-/**
- * AoT compilation
- */
 const ts = {
   compile: done => {
     const options = {
@@ -125,9 +113,6 @@ const ts = {
 ts.compile.displayName = 'compile:ngc';
 ts.lint.displayName = 'tslint';
 
-/**
- * Bundle
- */
 const bundle = {
   webpack: done => {
     const chalk = require('chalk');
@@ -183,9 +168,6 @@ const bundle = {
 
 bundle.webpack.displayName = 'bundle:webpack';
 
-/**
- * Tests
- */
 const tests = {
   run: done => {
     const server = require('karma').Server;
@@ -229,17 +211,11 @@ const tests = {
 
 tests.run.displayName = 'tests:run';
 
-/**
- * Tasks
- */
 tasks.clean = clean;
 tasks.ts = ts;
 tasks.bundle = bundle;
 tasks.tests = tests;
 
-/**
- * Task: clean
- */
 gulp.task('clean',
   gulp.parallel(
     clean.bundles,
@@ -252,9 +228,6 @@ gulp.task('clean',
     clean['tests/*.d.ts']
   ));
 
-/**
- * Task: make
- */
 gulp.task('make',
   gulp.series(
     'clean',
@@ -262,17 +235,11 @@ gulp.task('make',
     tasks.bundle.webpack
   ));
 
-/**
- * Task: test
- */
 gulp.task('test',
   gulp.series(
     tasks.tests.run
   ));
 
-/**
- * Task: tslint
- */
 gulp.task('tslint',
   gulp.series(
     tasks.ts.lint
