@@ -20,9 +20,9 @@ branches:
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - npm i -g npm@^3
+  - yarn
   - cd packages/@ngx-meta/core
-  - npm i -g npm@^3
+  - yarn
   - cd ../../..
   - sleep 3
 after_failure:
