@@ -2,6 +2,8 @@
 environment:
   matrix:
     - nodejs_version: "6"
+    - nodejs_version: "7"
+    - nodejs_version: "8"
 cache:
   # local npm modules
   - node_modules -> package.json
@@ -18,12 +20,12 @@ install:
   - npm install -g npm
   # install modules
   - npm install
+  - cd packages/@ngx-meta/core
+  - npm install
+  - cd ../../..
 # Post-install test scripts
 test_script:
   # Output useful info for debugging.
   - node --version && npm --version
-  # We test multiple Windows shells because of prior stdout buffering issues
-  # filed against Grunt. https://github.com/joyent/node/issues/3584
-  - ps: "npm test # PowerShell" # Pass comment to PS for easier debugging
   # run tests
   - cmd: npm test
