@@ -1,0 +1,6 @@
+coverage:
+  status:
+    project:
+      ngx-meta/core:
+        target: 80%
+        paths: packages/@ngx-meta/core

@@ -4,6 +4,7 @@ Dynamic page title &amp; meta tags generator for **Angular**
 [![Linux build](https://travis-ci.org/fulls1z3/ngx-meta.svg?branch=master)](https://travis-ci.org/fulls1z3/ngx-meta)
 [![Windows build](https://ci.appveyor.com/api/projects/status/github/fulls1z3/ngx-meta?branch=master&svg=true)](https://ci.appveyor.com/project/fulls1z3/ngx-meta)
 [![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=master)](https://codecov.io/gh/fulls1z3/ngx-meta)
+[![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
 > Please support this project by simply putting a Github star. Share this library with friends on Twitter and everywhere else you can.
 
@@ -26,14 +27,15 @@ Name | Description | NPM
 [@ngx-meta/core](https://github.com/fulls1z3/ngx-meta/tree/master/packages/@ngx-meta/core) | Dynamic page title &amp; meta tags generator for **Angular** | [![npm version](https://badge.fury.io/js/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core)
 
 ### Examples
-- [ng-seed/universal] and [ng-seed/spa] are officially maintained seed projects, showcasing common patterns and best practices for **`ngx-meta`**.
+- [ng-seed/universal] and [fulls1z3/example-app] are officially maintained projects, showcasing common patterns and best
+practices for **`ngx-meta`**.
 
 ## Contributing
 If you want to file a bug, contribute some code, or improve documentation, please read up on the following contribution guidelines:
 - [Issue guidelines](CONTRIBUTING.md#submit)
 - [Contributing guidelines](CONTRIBUTING.md)
 - [Coding rules](CONTRIBUTING.md#rules)
-- [ChangeLog](CHANGELOG.md)
+- [Change log](CHANGELOG.md)
 
 ## License
 The MIT License (MIT)
@@ -44,5 +46,5 @@ Copyright (c) 2017 [Burak Tasci]
 [master]: https://github.com/ngx-meta/core/tree/master
 [v0.2.x]: https://github.com/ngx-meta/core/tree/v0.2.x
 [ng-seed/universal]: https://github.com/ng-seed/universal
-[ng-seed/spa]: https://github.com/ng-seed/spa
+[fulls1z3/example-app]: https://github.com/fulls1z3/example-app
 [Burak Tasci]: https://github.com/fulls1z3
