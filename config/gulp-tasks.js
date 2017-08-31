@@ -49,10 +49,15 @@ const clean = {
       for (const item of Object.keys(packages[group]))
         $.rimraf(`./packages/${group}/${item}/src/**/*.metadata.json`, done);
   },
-  'tests/*.d.ts': done => {
+  'testing/*.js': done => {
     for (const group of Object.keys(packages))
       for (const item of Object.keys(packages[group]))
-        $.rimraf(`./packages/${group}/${item}/tests/**/*.d.ts`, done);
+        $.rimraf(`./packages/${group}/${item}/testing/**/*.js`, done);
+  },
+  'testing/*.d.ts': done => {
+    for (const group of Object.keys(packages))
+      for (const item of Object.keys(packages[group]))
+        $.rimraf(`./packages/${group}/${item}/testing/**/*.d.ts`, done);
   }
 };
 
@@ -63,6 +68,8 @@ clean['index.metadata.json'].displayName = 'clean:./index.metadata.json';
 clean['src/*.js'].displayName = 'clean:./src/*.js';
 clean['src/*.d.ts'].displayName = 'clean:./src/*.js';
 clean['src/*.metadata.json'].displayName = 'clean:./src/*.js';
+clean['testing/*.js'].displayName = 'clean:./testing/*.js';
+clean['testing/*.d.ts'].displayName = 'clean:./testing/*.d.ts';
 
 const ts = {
   compile: done => {
@@ -100,6 +107,8 @@ const ts = {
       './**/index.ts',
       './**/src/**/*.ts',
       '!./**/src/**/*.d.ts',
+      './**/testing/**/*.ts',
+      '!./**/testing/**/*.d.ts',
       './**/tests/**/*.ts',
       '!./**/tests/**/*.d.ts',
       '!./**/node_modules/**/*'
@@ -179,13 +188,16 @@ const tests = {
         configFile: $$.root(`./packages/${group}/${item}/config/karma.conf.js`),
         webpack: webpack(group, item, settings),
         coverageIstanbulReporter: {
-          reports: ['html', 'text-summary'],
+          reports: [
+            'html',
+            'json',
+            'lcovonly',
+            'text-summary'
+          ],
           dir: `./coverage/${group}/${item}`,
           fixWebpackSourcePaths: true,
           'report-config': {
-            html: {
-              subdir: 'html'
-            }
+            html: {subdir: 'html'}
           }
         }
       }, () => d()).start();
@@ -225,7 +237,8 @@ gulp.task('clean',
     clean['src/*.js'],
     clean['src/*.d.ts'],
     clean['src/*.metadata.json'],
-    clean['tests/*.d.ts']
+    clean['testing/*.js'],
+    clean['testing/*.d.ts']
   ));
 
 gulp.task('make',
