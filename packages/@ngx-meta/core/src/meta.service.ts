@@ -30,32 +30,35 @@ export class MetaService {
       ? this.callback(title)
       : Observable.of('');
 
-    title$.subscribe((res: string) => {
-      let fullTitle = '';
+    title$
+      .subscribe((res: string) => {
+        let fullTitle = '';
 
-      if (!res) {
-        const defaultTitle$ = (this.settings.defaults && this.settings.defaults['title'])
-          ? this.callback(this.settings.defaults['title'])
-          : Observable.of('');
+        if (!res) {
+          const defaultTitle$ = (this.settings.defaults && this.settings.defaults['title'])
+            ? this.callback(this.settings.defaults['title'])
+            : Observable.of('');
 
-        defaultTitle$.subscribe((defaultTitle: string) => {
-          if (!override && this.settings.pageTitleSeparator && this.settings.applicationName)
-            this.callback(this.settings.applicationName).subscribe((applicationName: string) => {
-              fullTitle = applicationName ? this.getTitleWithPositioning(defaultTitle, applicationName) : defaultTitle;
+          defaultTitle$
+            .subscribe((defaultTitle: string) => {
+              if (!override && this.settings.pageTitleSeparator && this.settings.applicationName)
+                this.callback(this.settings.applicationName)
+                  .subscribe((applicationName: string) => {
+                    fullTitle = applicationName ? this.getTitleWithPositioning(defaultTitle, applicationName) : defaultTitle;
+                    this.updateTitle(fullTitle);
+                  });
+              else
+                this.updateTitle(defaultTitle);
+            });
+        } else if (!override && this.settings.pageTitleSeparator && this.settings.applicationName)
+          this.callback(this.settings.applicationName)
+            .subscribe((applicationName: string) => {
+              fullTitle = applicationName ? this.getTitleWithPositioning(res, applicationName) : res;
               this.updateTitle(fullTitle);
             });
-          else
-            this.updateTitle(defaultTitle);
-        });
-      } else
-        if (!override && this.settings.pageTitleSeparator && this.settings.applicationName)
-          this.callback(this.settings.applicationName).subscribe((applicationName: string) => {
-            fullTitle = applicationName ? this.getTitleWithPositioning(res, applicationName) : res;
-            this.updateTitle(fullTitle);
-          });
         else
           this.updateTitle(res);
-    });
+      });
   }
 
   setTag(key: string, value: string): void {
@@ -64,16 +67,17 @@ export class MetaService {
         + 'Please use `MetaService.setTitle` instead.');
 
     value = value || ((this.settings.defaults && this.settings.defaults[key])
-        ? this.settings.defaults[key]
-        : '');
+      ? this.settings.defaults[key]
+      : '');
 
     const value$ = (key !== 'og:locale' && key !== 'og:locale:alternate')
       ? this.callback(value)
       : Observable.of(value);
 
-    value$.subscribe((res: string) => {
-      this.updateTag(key, res);
-    });
+    value$
+      .subscribe((res: string) => {
+        this.updateTag(key, res);
+      });
   }
 
   update(currentUrl: string, metaSettings?: any): void {
@@ -173,8 +177,8 @@ export class MetaService {
 
   private updateLocales(currentLocale: string, availableLocales: string): void {
     currentLocale = currentLocale || (this.settings.defaults
-        ? this.settings.defaults['og:locale']
-        : '');
+      ? this.settings.defaults['og:locale']
+      : '');
 
     if (currentLocale && this.settings.defaults)
       this.settings.defaults['og:locale'] = currentLocale.replace(/_/g, '-');

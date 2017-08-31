@@ -21,9 +21,9 @@ export function metaFactory(): MetaLoader {
 @NgModule()
 export class MetaModule {
   static forRoot(configuredProvider: any = {
-                   provide: MetaLoader,
-                   useFactory: (metaFactory)
-                 }): ModuleWithProviders {
+    provide: MetaLoader,
+    useFactory: (metaFactory)
+  }): ModuleWithProviders {
     return {
       ngModule: MetaModule,
       providers: [
