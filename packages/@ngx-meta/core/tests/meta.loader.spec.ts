@@ -18,10 +18,10 @@ describe('@ngx-meta/core:',
 
     describe('MetaLoader',
       () => {
-        it('should be able to return the default metaSettings',
+        it('should be able to return the default settings',
           () => {
             const loader = new MetaStaticLoader();
-            const loadedApiEndpoint = loader.getSettings();
+            const loadedApiEndpoint = loader.settings;
 
             expect(loadedApiEndpoint).toEqual(defaultSettings);
           });
@@ -46,7 +46,7 @@ describe('@ngx-meta/core:',
         it('should be able to provide any `MetaLoader`',
           () => {
             class CustomLoader implements MetaLoader {
-              getSettings(): MetaSettings {
+              get settings(): MetaSettings {
                 return emptySettings;
               }
             }

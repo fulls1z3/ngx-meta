@@ -70,7 +70,7 @@ export class MetaHelper {
   }
 
   removeElement(element: any): void {
-    if (!!element)
+    if (element)
       this.dom.remove(element);
   }
 
