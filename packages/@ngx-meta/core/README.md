@@ -2,6 +2,7 @@
 Dynamic page title &amp; meta tags generator for **Angular**
 
 [![npm version](https://badge.fury.io/js/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core)
+[![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
 > Please support this project by simply putting a Github star. Share this library with friends on Twitter and everywhere else you can.
 
@@ -51,8 +52,8 @@ npm install @ngx-meta/core --save
 ```
 
 ### <a name="examples"></a> Examples
-- [ng-seed/universal] and [ng-seed/spa] are officially maintained seed projects, showcasing common patterns and best practices
-for **`@ngx-meta/core`**.
+- [ng-seed/universal] and [fulls1z3/example-app] are officially maintained projects, showcasing common patterns and best
+practices for **`@ngx-meta/core`**.
 
 ### <a name="recommended-packages"></a> Recommended packages
 The following package(s) have no dependency for **`@ngx-meta/core`**, however may provide supplementary/shorthand functionality:
@@ -201,7 +202,7 @@ export function metaFactory(): MetaLoader {
 ```
 
 `MetaStaticLoader` has one parameter:
-- **settings**: `MetaSettings` : meta settings (*by default, prepend page titles*)
+- **providedSettings**: `MetaSettings` : meta settings (*by default, prepend page titles*)
 
 > :+1: Holy cow! **`@ngx-meta/core`** will update the **page title** and **meta tags** every time the route changes.
 
@@ -309,7 +310,7 @@ export const routes: Routes = [
 ];
 ```
 
-You can find out in-depth examples about the use of **`callback`** function on [ng-seed/universal] and on [ng-seed/spa],
+You can find out in-depth examples about the use of **`callback`** function on [ng-seed/universal] and on [fulls1z3/example-app],
 which are officially maintained seed projects showcasing common patterns and best practices.
 
 ## <a name="set-meta-tags-programmatically"></a> Set meta tags programmatically
@@ -347,7 +348,7 @@ Copyright (c) 2017 [Burak Tasci]
 [master]: https://github.com/ngx-meta/core/tree/master
 [v0.2.x]: https://github.com/ngx-meta/core/tree/v0.2.x
 [ng-seed/universal]: https://github.com/ng-seed/universal
-[ng-seed/spa]: https://github.com/ng-seed/spa
+fulls1z3/example-app]: https://github.com/fulls1z3/example-app
 [@ngx-config/core]: https://github.com/fulls1z3/ngx-config/tree/master/packages/@ngx-config/core
 [forRoot]: https://angular.io/docs/ts/latest/guide/ngmodule.html#!#core-for-root
 [AoT compilation]: https://angular.io/docs/ts/latest/cookbook/aot-compiler.html
