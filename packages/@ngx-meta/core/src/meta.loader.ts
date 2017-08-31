@@ -7,13 +7,13 @@ export abstract class MetaLoader {
 }
 
 export class MetaStaticLoader implements MetaLoader {
-  constructor(private readonly metaSettings: MetaSettings = {
-                pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
-                defaults: {}
-              }) {
+  get settings(): MetaSettings {
+    return this.providedSettings;
   }
 
-  get settings(): MetaSettings {
-    return this.metaSettings;
+  constructor(private readonly providedSettings: MetaSettings = {
+    pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
+    defaults: {}
+  }) {
   }
 }
