@@ -15,7 +15,7 @@ node_js:
 cache:
   directories: node_modules
 branches:
-  only: master
+  only: v0.2.x
 
 before_script:
   - export DISPLAY=:99.0
