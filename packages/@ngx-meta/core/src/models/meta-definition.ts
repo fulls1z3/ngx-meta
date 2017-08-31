@@ -11,5 +11,6 @@ export interface MetaDefinition {
   property?: string;
   scheme?: string;
   url?: string;
+
   [prop: string]: string;
 }

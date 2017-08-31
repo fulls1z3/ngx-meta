@@ -57,14 +57,12 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
                   expect(meta.getMetaElement('name="description"').content).toEqual('Home, home sweet home... and what?');
                   expect(meta.getMetaElement('property="og:url"').content).toEqual('http://localhost:3000');
 
-                  // navigate to /toothpaste (override applicationName)
                   router.navigate(['/toothpaste'])
                     .then(() => {
                       expect(title.getTitle()).toEqual('Toothpaste');
@@ -72,7 +70,6 @@ describe('@ngx-meta/core:',
                         .toEqual('Eating toothpaste is considered to be too healthy!');
                       expect(meta.getMetaElement('property="og:url"').content).toEqual('http://localhost:3000/toothpaste');
 
-                      // navigate to /duck (meta disable)
                       router.navigate(['/duck'])
                         .then(() => {
                           expect(title.getTitle()).toEqual('Mighty mighty mouse');
@@ -80,7 +77,6 @@ describe('@ngx-meta/core:',
                             .toEqual('Mighty Mouse is an animated superhero mouse character');
                           expect(meta.getMetaElement('property="og:url"').content).toEqual('http://localhost:3000/duck');
 
-                          // navigate to /no-data
                           router.navigate(['/no-data'])
                             .then(() => {
                               expect(title.getTitle()).toEqual('Mighty mighty mouse');
@@ -88,7 +84,6 @@ describe('@ngx-meta/core:',
                                 .toEqual('Mighty Mouse is an animated superhero mouse character');
                               expect(meta.getMetaElement('property="og:url"').content).toEqual('http://localhost:3000/no-data');
 
-                              // navigate to /no-meta
                               router.navigate(['/no-meta'])
                                 .then(() => {
                                   expect(title.getTitle()).toEqual('Mighty mighty mouse');
@@ -111,7 +106,6 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // navigate to /no-data
               router.navigate(['/no-data'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Mighty mighty mouse');
@@ -138,7 +132,6 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Sweet home');
@@ -169,7 +162,6 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // navigate to /no-data
               router.navigate(['/no-data'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes');
@@ -196,7 +188,6 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // navigate to /no-data
               router.navigate(['/no-data'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('');
@@ -213,24 +204,18 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default title
                   metaService.setTitle('');
                   expect(title.getTitle()).toEqual('Mighty mighty mouse - Tour of (lazy/busy) heroes');
 
-                  // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      // given title
                       metaService.setTitle('Mighty tiny mouse');
                       expect(title.getTitle()).toEqual('Mighty tiny mouse - Tour of (lazy/busy) heroes');
 
-                      // navigate to /
                       router.navigate(['/'])
                         .then(() => {
-                          // override applicationName
                           metaService.setTitle('Mighty tiny mouse', true);
                           expect(title.getTitle()).toEqual('Mighty tiny mouse');
                         });
@@ -258,24 +243,18 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default title
                   metaService.setTitle('');
                   expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes - Mighty mighty mouse');
 
-                  // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      // given title
                       metaService.setTitle('Mighty tiny mouse');
                       expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes - Mighty tiny mouse');
 
-                      // navigate to /
                       router.navigate(['/'])
                         .then(() => {
-                          // override applicationName
                           metaService.setTitle('Mighty tiny mouse', true);
                           expect(title.getTitle()).toEqual('Mighty tiny mouse');
                         });
@@ -301,10 +280,8 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default title
                   metaService.setTitle('');
                   expect(title.getTitle()).toEqual('');
                 });
@@ -330,10 +307,8 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default title
                   metaService.setTitle('');
                   expect(title.getTitle()).toEqual('');
                 });
@@ -374,18 +349,14 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default meta description
                   metaService.setTag('description', '');
                   expect(meta.getMetaElement('name="description"').content)
                     .toEqual('Mighty Mouse is an animated superhero mouse character');
 
-                  // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      // given meta description
                       metaService.setTag('description', 'Mighty Mouse is a cool character');
                       expect(meta.getMetaElement('name="description"').content).toEqual('Mighty Mouse is a cool character');
                     });
@@ -410,10 +381,8 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default meta description
                   metaService.setTag('description', '');
                   expect(meta.getMetaElement('name="description"').content).toEqual('');
                 });
@@ -428,17 +397,13 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default meta author
                   metaService.setTag('author', '');
                   expect(meta.getMetaElement('name="author"').content).toEqual('Mighty Mouse');
 
-                  // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      // given meta author
                       metaService.setTag('author', 'Mickey Mouse');
                       expect(meta.getMetaElement('name="author"').content).toEqual('Mickey Mouse');
                     });
@@ -454,17 +419,13 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default meta publisher
                   metaService.setTag('publisher', '');
                   expect(meta.getMetaElement('name="publisher"').content).toEqual('a superhero');
 
-                  // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      // given meta publisher
                       metaService.setTag('publisher', 'another superhero');
                       expect(meta.getMetaElement('name="publisher"').content).toEqual('another superhero');
                     });
@@ -480,10 +441,8 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default og:locale
                   metaService.setTag('og:locale', '');
                   expect(meta.getMetaElement('property="og:locale"').content).toEqual('en_US');
 
@@ -493,10 +452,8 @@ describe('@ngx-meta/core:',
                   expect(elements[0].content).toEqual('nl_NL');
                   expect(elements[1].content).toEqual('tr_TR');
 
-                  // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      // given og:locale
                       metaService.setTag('og:locale', 'tr-TR');
                       expect(meta.getMetaElement('property="og:locale"').content).toEqual('tr_TR');
 
@@ -518,10 +475,8 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default og:locale:alternate
                   metaService.setTag('og:locale:alternate', '');
                   const elements = meta.getMetaElements('property="og:locale:alternate"');
 
@@ -529,10 +484,8 @@ describe('@ngx-meta/core:',
                   expect(elements[0].content).toEqual('nl_NL');
                   expect(elements[1].content).toEqual('tr_TR');
 
-                  // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      // given og:locale:alternate
                       metaService.setTag('og:locale:alternate', 'tr-TR');
                       expect(meta.getMetaElement('property="og:locale:alternate"').content).toEqual('tr_TR');
                     });
@@ -557,17 +510,13 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default og:locale
                   metaService.setTag('og:locale', '');
                   expect(meta.getMetaElement('property="og:locale"').content).toEqual('');
 
-                  // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      // given og:locale
                       metaService.setTag('og:locale', 'tr-TR');
                       expect(meta.getMetaElement('property="og:locale"').content).toEqual('tr_TR');
                     });
@@ -592,7 +541,6 @@ describe('@ngx-meta/core:',
 
               expect(meta.getMetaElement('property="og:locale"').content).toEqual('tr_TR');
 
-              // given og:locale:alternate
               metaService.setTag('og:locale:alternate', 'tr-TR');
               expect(meta.getMetaElement('property="og:locale:alternate"')).toBeNull();
             }));
@@ -616,7 +564,6 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Sweet home');
@@ -635,17 +582,13 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default og:type
                   metaService.setTag('og:type', '');
                   expect(meta.getMetaElement('property="og:type"').content).toEqual('website');
 
-                  // navigate to /no-data
                   router.navigate(['/no-data'])
                     .then(() => {
-                      // given og:type
                       metaService.setTag('og:type', 'blog');
                       expect(meta.getMetaElement('property="og:type"').content).toEqual('blog');
                     });
@@ -676,10 +619,8 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default title
                   metaService.setTitle('test');
                   expect(title.getTitle()).toEqual('test');
                 });
@@ -709,10 +650,8 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
-                  // default title
                   metaService.setTitle('');
                   expect(title.getTitle()).toEqual('test');
                 });
@@ -738,7 +677,6 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
@@ -763,7 +701,6 @@ describe('@ngx-meta/core:',
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
 
-              // initial navigation
               router.navigate(['/'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');

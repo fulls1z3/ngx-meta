@@ -38,11 +38,11 @@ module.exports = (group, item, settings) => {
                 sourceMap: false,
                 inlineSourceMap: true,
                 compilerOptions: {
-                  // Remove TypeScript helpers to be injected
+                  // remove TypeScript helpers to be injected
                   // below by DefinePlugin
                   removeComments: true
                 },
-                configFileName: helpers.root(`packages/${group}/${item}/tsconfig.json`)
+                configFileName: helpers.root(`packages/${group}/${item}/tests/tsconfig.json`)
               }
             }
           ],
