@@ -11,50 +11,54 @@ import 'rxjs/add/observable/fromPromise';
 import { PageTitlePositioning } from './models/page-title-positioning';
 import { MetaLoader } from './meta.loader';
 import { isObservable, isPromise } from './util';
+import { MetaSettings } from './models/meta-settings';
 
 @Injectable()
 export class MetaService {
-  private readonly metaSettings: any;
+  protected readonly settings: MetaSettings;
   private readonly isMetaTagSet: any;
 
   constructor(public readonly loader: MetaLoader,
               private readonly title: Title,
               private readonly meta: Meta) {
-    this.metaSettings = loader.getSettings();
+    this.settings = loader.settings;
     this.isMetaTagSet = {};
   }
 
   setTitle(title: string, override = false): void {
-    const title$ = !!title
+    const title$ = title
       ? this.callback(title)
       : Observable.of('');
 
-    title$.subscribe((res: string) => {
-      let fullTitle = '';
+    title$
+      .subscribe((res: string) => {
+        let fullTitle = '';
 
-      if (!res) {
-        const defaultTitle$ = (!!this.metaSettings.defaults && !!this.metaSettings.defaults['title'])
-          ? this.callback(this.metaSettings.defaults['title'])
-          : Observable.of('');
+        if (!res) {
+          const defaultTitle$ = (this.settings.defaults && this.settings.defaults['title'])
+            ? this.callback(this.settings.defaults['title'])
+            : Observable.of('');
 
-        defaultTitle$.subscribe((defaultTitle: string) => {
-          if (!override && this.metaSettings.pageTitleSeparator && this.metaSettings.applicationName)
-            this.callback(this.metaSettings.applicationName).subscribe((applicationName: string) => {
-              fullTitle = !!applicationName ? this.getTitleWithPositioning(defaultTitle, applicationName) : defaultTitle;
+          defaultTitle$
+            .subscribe((defaultTitle: string) => {
+              if (!override && this.settings.pageTitleSeparator && this.settings.applicationName)
+                this.callback(this.settings.applicationName)
+                  .subscribe((applicationName: string) => {
+                    fullTitle = applicationName ? this.getTitleWithPositioning(defaultTitle, applicationName) : defaultTitle;
+                    this.updateTitle(fullTitle);
+                  });
+              else
+                this.updateTitle(defaultTitle);
+            });
+        } else if (!override && this.settings.pageTitleSeparator && this.settings.applicationName)
+          this.callback(this.settings.applicationName)
+            .subscribe((applicationName: string) => {
+              fullTitle = applicationName ? this.getTitleWithPositioning(res, applicationName) : res;
               this.updateTitle(fullTitle);
             });
-          else
-            this.updateTitle(defaultTitle);
-        });
-      } else
-        if (!override && this.metaSettings.pageTitleSeparator && this.metaSettings.applicationName)
-          this.callback(this.metaSettings.applicationName).subscribe((applicationName: string) => {
-            fullTitle = !!applicationName ? this.getTitleWithPositioning(res, applicationName) : res;
-            this.updateTitle(fullTitle);
-          });
         else
           this.updateTitle(res);
-    });
+      });
   }
 
   setTag(key: string, value: string): void {
@@ -62,24 +66,25 @@ export class MetaService {
       throw new Error(`Attempt to set ${key} through "setTag": "title" is a reserved tag name. `
         + 'Please use `MetaService.setTitle` instead.');
 
-    value = value || ((!!this.metaSettings.defaults && !!this.metaSettings.defaults[key])
-        ? this.metaSettings.defaults[key]
-        : '');
+    value = value || ((this.settings.defaults && this.settings.defaults[key])
+      ? this.settings.defaults[key]
+      : '');
 
     const value$ = (key !== 'og:locale' && key !== 'og:locale:alternate')
       ? this.callback(value)
       : Observable.of(value);
 
-    value$.subscribe((res: string) => {
-      this.updateTag(key, res);
-    });
+    value$
+      .subscribe((res: string) => {
+        this.updateTag(key, res);
+      });
   }
 
   update(currentUrl: string, metaSettings?: any): void {
     if (!metaSettings) {
-      const fallbackTitle = !!this.metaSettings.defaults
-        ? (this.metaSettings.defaults['title'] || this.metaSettings['applicationName'])
-        : this.metaSettings['applicationName'];
+      const fallbackTitle = this.settings.defaults
+        ? (this.settings.defaults['title'] || this.settings['applicationName'])
+        : this.settings['applicationName'];
 
       this.setTitle(fallbackTitle, true);
     } else {
@@ -110,17 +115,17 @@ export class MetaService {
         });
     }
 
-    if (!!this.metaSettings.defaults)
-      Object.keys(this.metaSettings.defaults)
+    if (this.settings.defaults)
+      Object.keys(this.settings.defaults)
         .forEach(key => {
-          let value = this.metaSettings.defaults[key];
+          let value = this.settings.defaults[key];
 
-          if ((!!metaSettings && (key in this.isMetaTagSet || key in metaSettings)) || key === 'title' || key === 'override')
+          if ((metaSettings && (key in this.isMetaTagSet || key in metaSettings)) || key === 'title' || key === 'override')
             return;
           else if (key === 'og:locale')
             value = value.replace(/-/g, '_');
           else if (key === 'og:locale:alternate') {
-            const currentLocale = !!metaSettings ? metaSettings['og:locale'] : undefined;
+            const currentLocale = metaSettings ? metaSettings['og:locale'] : undefined;
             this.updateLocales(currentLocale, value);
 
             return;
@@ -129,7 +134,7 @@ export class MetaService {
           this.setTag(key, value);
         });
 
-    const url = ((this.metaSettings.applicationUrl || '/') + currentUrl)
+    const url = ((this.settings.applicationUrl || '/') + currentUrl)
       .replace(/(https?:\/\/)|(\/)+/g, '$1$2')
       .replace(/\/$/g, '');
 
@@ -137,8 +142,8 @@ export class MetaService {
   }
 
   private callback(value: string): Observable<string> {
-    if (!!this.metaSettings.callback) {
-      const value$ = this.metaSettings.callback(value);
+    if (this.settings.callback) {
+      const value$ = this.settings.callback(value);
 
       if (!isObservable(value$))
         return isPromise(value$)
@@ -152,13 +157,13 @@ export class MetaService {
   }
 
   private getTitleWithPositioning(title: string, applicationName: string): string {
-    switch (this.metaSettings.pageTitlePositioning) {
+    switch (this.settings.pageTitlePositioning) {
       case PageTitlePositioning.AppendPageTitle:
-        return applicationName + this.metaSettings.pageTitleSeparator + title;
+        return applicationName + this.settings.pageTitleSeparator + title;
       case PageTitlePositioning.PrependPageTitle:
-        return title + this.metaSettings.pageTitleSeparator + applicationName;
+        return title + this.settings.pageTitleSeparator + applicationName;
       default:
-        throw new Error(`Invalid pageTitlePositioning specified [${this.metaSettings.pageTitlePositioning}]!`);
+        throw new Error(`Invalid pageTitlePositioning specified [${this.settings.pageTitlePositioning}]!`);
     }
   }
 
@@ -171,12 +176,12 @@ export class MetaService {
   }
 
   private updateLocales(currentLocale: string, availableLocales: string): void {
-    currentLocale = currentLocale || (!!this.metaSettings.defaults
-        ? this.metaSettings.defaults['og:locale']
-        : '');
+    currentLocale = currentLocale || (this.settings.defaults
+      ? this.settings.defaults['og:locale']
+      : '');
 
-    if (!!currentLocale && !!this.metaSettings.defaults)
-      this.metaSettings.defaults['og:locale'] = currentLocale.replace(/_/g, '-');
+    if (currentLocale && this.settings.defaults)
+      this.settings.defaults['og:locale'] = currentLocale.replace(/_/g, '-');
 
     // TODO: set HTML lang attribute - https://github.com/ngx-meta/core/issues/32
     // const html = this.document.querySelector('html');
@@ -188,7 +193,7 @@ export class MetaService {
       this.meta.removeTagElement(element);
     });
 
-    if (!!currentLocale && !!availableLocales)
+    if (currentLocale && availableLocales)
       availableLocales.split(',')
         .forEach((locale: string) => {
           if (currentLocale.replace(/-/g, '_') !== locale.replace(/-/g, '_'))
@@ -229,8 +234,8 @@ export class MetaService {
         content: value
       });
     else if (key === 'og:locale') {
-      const availableLocales = !!this.metaSettings.defaults
-        ? this.metaSettings.defaults['og:locale:alternate']
+      const availableLocales = this.settings.defaults
+        ? this.settings.defaults['og:locale:alternate']
         : '';
 
       this.updateLocales(value, availableLocales);

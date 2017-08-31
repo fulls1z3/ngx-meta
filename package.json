@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/fulls1z3/ngx-meta#readme",
   "scripts": {
-    "clean": "gulp clean",
-    "lint": "gulp tslint",
-    "make": "gulp make",
-    "test": "gulp test"
+    "clean": "gulp clean --color",
+    "lint": "gulp tslint --color",
+    "make": "gulp make --color",
+    "test": "gulp test --color"
   },
   "devDependencies": {
     "@angular/common": "~4.3.0",
@@ -42,7 +42,7 @@
     "tslint-loader": "^3.5.3",
     "awesome-typescript-loader": "^3.2.3",
     "jasmine-core": "^2.8.0",
-    "karma": "^1.7.0",
+    "karma": "^1.7.1",
     "karma-jasmine": "^1.1.0",
     "karma-coverage": "^1.1.1",
     "karma-mocha-reporter": "^2.2.4",

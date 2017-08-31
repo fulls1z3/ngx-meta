@@ -3,9 +3,7 @@ module.exports = function(config) {
     basePath: '',
     frameworks: ['jasmine'],
     exclude: [],
-    client: {
-      captureConsole: false
-    },
+    client: {captureConsole: false},
     files: [
       {
         pattern: './spec-bundle.js',
@@ -13,25 +11,27 @@ module.exports = function(config) {
       }
     ],
     preprocessors: {
-      './spec-bundle.js': ['coverage', 'webpack', 'sourcemap']
+      './spec-bundle.js': [
+        'coverage',
+        'webpack',
+        'sourcemap'
+      ]
     },
     webpackMiddleware: {
       noInfo: true,
-      stats: {
-        chunks: false
-      }
+      stats: {chunks: false}
     },
-    reporters: ['mocha', 'coverage', 'coverage-istanbul'],
-    coverageReporter: {
-      type: 'in-memory'
-    },
+    reporters: [
+      'mocha',
+      'coverage',
+      'coverage-istanbul'
+    ],
+    coverageReporter: {type: 'in-memory'},
     port: 9876,
     colors: true,
     logLevel: config.LOG_WARN,
     autoWatch: false,
-    browsers: [
-      'Chrome'
-    ],
+    browsers: ['Chrome'],
     customLaunchers: {
       ChromeTravisCi: {
         base: 'Chrome',

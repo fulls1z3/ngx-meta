@@ -3,17 +3,17 @@ import { PageTitlePositioning } from './models/page-title-positioning';
 import { MetaSettings } from './models/meta-settings';
 
 export abstract class MetaLoader {
-  abstract getSettings(): MetaSettings;
+  abstract get settings(): MetaSettings;
 }
 
 export class MetaStaticLoader implements MetaLoader {
-  constructor(private readonly settings: MetaSettings = {
-                pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
-                defaults: {}
-              }) {
+  get settings(): MetaSettings {
+    return this.providedSettings;
   }
 
-  getSettings(): MetaSettings {
-    return this.settings;
+  constructor(private readonly providedSettings: MetaSettings = {
+    pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
+    defaults: {}
+  }) {
   }
 }

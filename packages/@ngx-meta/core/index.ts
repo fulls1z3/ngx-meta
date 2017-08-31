@@ -17,15 +17,12 @@ export function metaFactory(): MetaLoader {
   return new MetaStaticLoader();
 }
 
-/**
- * Do not specify providers for modules that might be imported by a lazy loaded module.
- */
 @NgModule()
 export class MetaModule {
   static forRoot(configuredProvider: any = {
-                   provide: MetaLoader,
-                   useFactory: (metaFactory)
-                 }): ModuleWithProviders {
+    provide: MetaLoader,
+    useFactory: (metaFactory)
+  }): ModuleWithProviders {
     return {
       ngModule: MetaModule,
       providers: [

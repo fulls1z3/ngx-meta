@@ -45,7 +45,7 @@ const testRoutes: Routes = [
             data: {
               meta: {
                 title: 'Toothpaste',
-                override: true, // prevents appending/prepending the application name to the title attribute
+                override: true,
                 description: 'Eating toothpaste is considered to be too healthy!',
                 'og:locale': 'fr-FR',
                 'og:locale:alternate': 'en-US,fr-FR,tr-TR'
@@ -101,20 +101,18 @@ export const testSettings: MetaSettings = {
   }
 };
 
-// test module configuration for each test
 export const testModuleConfig = (moduleOptions?: any) => {
-  // reset the test environment before initializing it.
   TestBed.resetTestEnvironment();
 
   TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting())
     .configureTestingModule({
-      declarations: [
-        TestBootstrapComponent,
-        TestComponent
-      ],
       imports: [
         RouterTestingModule.withRoutes(testRoutes),
         MetaModule.forRoot(moduleOptions)
+      ],
+      declarations: [
+        TestBootstrapComponent,
+        TestComponent
       ]
     });
 };
