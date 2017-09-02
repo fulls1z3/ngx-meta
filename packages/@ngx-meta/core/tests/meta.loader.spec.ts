@@ -1,9 +1,9 @@
 // angular
-import { getTestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 // module
 import { MetaLoader, MetaService, MetaSettings, MetaStaticLoader } from '../index';
-import { defaultSettings, emptySettings, testModuleConfig, testSettings } from './index.spec';
+import { defaultSettings, emptySettings, testModuleConfig, testSettings } from './common';
 
 describe('@ngx-meta/core:',
   () => {
@@ -35,8 +35,7 @@ describe('@ngx-meta/core:',
               useFactory: (metaFactory)
             });
 
-            const injector = getTestBed();
-            const meta = injector.get(MetaService);
+            const meta = TestBed.get(MetaService);
 
             expect(MetaStaticLoader).toBeDefined();
             expect(meta.loader).toBeDefined();
@@ -56,8 +55,7 @@ describe('@ngx-meta/core:',
               useClass: CustomLoader
             });
 
-            const injector = getTestBed();
-            const meta = injector.get(MetaService);
+            const meta = TestBed.get(MetaService);
 
             expect(CustomLoader).toBeDefined();
             expect(meta.loader).toBeDefined();
