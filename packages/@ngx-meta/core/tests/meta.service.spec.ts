@@ -1,5 +1,5 @@
 // angular
-import { fakeAsync, getTestBed, inject, TestBed } from '@angular/core/testing';
+import { fakeAsync,  inject, TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 
 // module
 import { MetaLoader, MetaService, MetaStaticLoader, PageTitlePositioning } from '../index';
-import { defaultSettings, emptySettings, TestBootstrapComponent, testModuleConfig, testSettings } from './index.spec';
+import { defaultSettings, emptySettings, TestBootstrapComponent, testModuleConfig, testSettings } from './common';
 
 describe('@ngx-meta/core:',
   () => {
@@ -50,8 +50,7 @@ describe('@ngx-meta/core:',
         it('should be able to set meta tags using routes',
           fakeAsync(inject([Meta, Title],
             (meta: Meta, title: Title) => {
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -98,8 +97,7 @@ describe('@ngx-meta/core:',
         it('should be able to set meta tags using routes w/o `meta` property',
           fakeAsync(inject([Meta, Title],
             (meta: Meta, title: Title) => {
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -123,8 +121,7 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -153,8 +150,7 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -178,8 +174,7 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -194,8 +189,7 @@ describe('@ngx-meta/core:',
         it('should be able to set the `title`',
           fakeAsync(inject([MetaService, Title],
             (metaService: MetaService, title: Title) => {
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -232,9 +226,8 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const metaService = injector.get(MetaService);
-              const router = injector.get(Router);
+              const metaService = TestBed.get(MetaService);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -269,9 +262,8 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const metaService = injector.get(MetaService);
-              const router = injector.get(Router);
+              const metaService = TestBed.get(MetaService);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -296,9 +288,8 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const metaService = injector.get(MetaService);
-              const router = injector.get(Router);
+              const metaService = TestBed.get(MetaService);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -322,8 +313,7 @@ describe('@ngx-meta/core:',
               useFactory: (metaFactory)
             });
 
-            const injector = getTestBed();
-            const metaService = injector.get(MetaService);
+            const metaService = TestBed.get(MetaService);
 
             expect(() => metaService.setTitle('')).toThrowError('Invalid pageTitlePositioning specified [undefined]!');
           });
@@ -339,8 +329,7 @@ describe('@ngx-meta/core:',
         it('should be able to set meta `description`',
           fakeAsync(inject([MetaService, Meta],
             (metaService: MetaService, meta: Meta) => {
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -369,9 +358,8 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const metaService = injector.get(MetaService);
-              const router = injector.get(Router);
+              const metaService = TestBed.get(MetaService);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -386,8 +374,7 @@ describe('@ngx-meta/core:',
         it('should be able to set meta `author`',
           fakeAsync(inject([MetaService, Meta],
             (metaService: MetaService, meta: Meta) => {
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -408,8 +395,7 @@ describe('@ngx-meta/core:',
         it('should be able to set meta `publisher`',
           fakeAsync(inject([MetaService, Meta],
             (metaService: MetaService, meta: Meta) => {
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -430,8 +416,7 @@ describe('@ngx-meta/core:',
         it('should be able to set `og:locale`',
           fakeAsync(inject([MetaService, Meta],
             (metaService: MetaService, meta: Meta) => {
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -464,8 +449,7 @@ describe('@ngx-meta/core:',
         it('should be able to set `og:locale:alternate` w/ `og:locale:alternate`',
           fakeAsync(inject([MetaService, Meta],
             (metaService: MetaService, meta: Meta) => {
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -498,9 +482,8 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const router = injector.get(Router);
-              const metaService = injector.get(MetaService);
+              const router = TestBed.get(Router);
+              const metaService = TestBed.get(MetaService);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -531,8 +514,7 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const metaService = injector.get(MetaService);
+              const metaService = TestBed.get(MetaService);
 
               expect(meta.getTag('property="og:locale"').content).toEqual('tr_TR');
 
@@ -553,8 +535,7 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -571,8 +552,7 @@ describe('@ngx-meta/core:',
         it('should be able to set any other meta tag',
           fakeAsync(inject([MetaService, Meta],
             (metaService: MetaService, meta: Meta) => {
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -607,9 +587,8 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const metaService = injector.get(MetaService);
-              const router = injector.get(Router);
+              const metaService = TestBed.get(MetaService);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -638,9 +617,8 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const metaService = injector.get(MetaService);
-              const router = injector.get(Router);
+              const metaService = TestBed.get(MetaService);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -666,8 +644,7 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();
@@ -690,8 +667,7 @@ describe('@ngx-meta/core:',
                 useFactory: (metaFactory)
               });
 
-              const injector = getTestBed();
-              const router = injector.get(Router);
+              const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
               fixture.detectChanges();

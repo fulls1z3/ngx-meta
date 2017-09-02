@@ -1,5 +1,3 @@
-﻿/* tslint:disable */
-
 // libs
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -18,6 +16,7 @@ describe('@ngx-meta/core:', () => {
       () => {
         expect(isPromise({
           then: () => {
+            // NOTE: go on
           }
         })).toEqual(true);
       });
@@ -35,6 +34,7 @@ describe('@ngx-meta/core:', () => {
     it('should be false if the argument is undefined or null',
       () => {
         expect(isPromise(undefined)).toEqual(false);
+        // tslint:disable-next-line
         expect(isPromise(null)).toEqual(false);
       });
   });
@@ -52,6 +52,7 @@ describe('@ngx-meta/core:', () => {
 
     it('should be false if the argument is null',
       () => {
+        // tslint:disable-next-line
         expect(isObservable(null)).toEqual(false);
       });
 
@@ -63,6 +64,7 @@ describe('@ngx-meta/core:', () => {
     it('should be false if the argument is a function',
       () => {
         expect(isObservable(() => {
+          // NOTE: go on
         })).toEqual(false);
       });
 
