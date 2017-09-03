@@ -5,8 +5,6 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
     "importHelpers": true,
     "lib": [
       "es2017",
@@ -14,10 +12,7 @@
     ]
   },
   "include": [
-    "scripts/*.ts",
+    "tools/**/*.ts",
     "packages/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
   ]
 }
