@@ -26,21 +26,17 @@
     "url": "https://github.com/fulls1z3/ngx-meta/core/issues"
   },
   "homepage": "https://github.com/fulls1z3/ngx-meta/tree/master/packages/@ngx-meta/core#readme",
-  "main": "./bundles/core.umd.min.js",
-  "module": "./index.js",
-  "typings": "./index.d.ts",
+  "main": "./bundles/core.umd.js",
+  "module": "./@ngx-meta/core.es5.js",
+  "es2015": "./@ngx-meta/core.js",
+  "typings": "./core.d.ts",
   "dependencies": {
-    "tslib": "^1.7.1"
-  },
-  "devDependencies": {
-    "@angular/compiler-cli": "~4.3.0",
-    "lodash": "^4.17.4",
-    "@types/lodash": "4.14.55"
+    "tslib": "~1.7.1"
   },
   "peerDependencies": {
-    "@angular/core": "^4.0.0",
-    "@angular/platform-browser": "^4.0.0",
-    "@angular/router": "^4.0.0",
-    "rxjs": "^5.0.1"
+    "@angular/core": ">=4.0.0 <5.0.0",
+    "@angular/platform-browser": ">=4.0.0 <5.0.0",
+    "@angular/router": ">=4.0.0 <5.0.0",
+    "rxjs": ">=5.0.1"
   }
 }
