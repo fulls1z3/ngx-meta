@@ -17,9 +17,10 @@
   },
   "homepage": "https://github.com/fulls1z3/ngx-meta#readme",
   "scripts": {
-    "clean": "gulp clean --color",
-    "lint": "gulp tslint --color",
-    "make": "gulp make --color",
+    "clean": "rimraf .temp dist",
+    "build": "ts-node ./tools/build/rollup.ts && rimraf .temp",
+    "lint": "tslint -p ./tslint.json --force",
+    "rebuild": "npm run clean && npm run build",
     "test": "jest --runInBand --colors"
   },
   "devDependencies": {
@@ -53,7 +54,7 @@
   },
   "jest": {
     "preset": "jest-preset-angular",
-    "setupTestFrameworkScriptFile": "./config/jest.setup.ts",
+    "setupTestFrameworkScriptFile": "./tools/test/jest.setup.ts",
     "globals": {
       "ts-jest": {
         "tsConfigFile": "./tsconfig.json"
