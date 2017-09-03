@@ -1,0 +1,20 @@
+{
+  "@ngx-meta": {
+    "core": {
+      "angularVersion": 2,
+      "bundle": {
+        "globals": {
+          "@angular/platform-browser": "ng.platformBrowser",
+          "@angular/platform-browser/src/dom/dom_adapter": "_angular_platformBrowser_src_dom_dom_adapter",
+          "@angular/router": "ng.router",
+          "rxjs/Observable": "Rx.Observable"
+        },
+        "external": [
+          "rxjs/add/observable/of",
+          "rxjs/add/observable/fromPromise"
+        ]
+      },
+      "runTests": true
+    }
+  }
+}

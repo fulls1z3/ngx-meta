@@ -1,4 +1,4 @@
-export enum PageTitlePositioning {
+enum PageTitlePositioning {
   /**
    * append page title after application name
    */
@@ -8,3 +8,5 @@ export enum PageTitlePositioning {
    */
   PrependPageTitle = 10
 }
+
+export { PageTitlePositioning };

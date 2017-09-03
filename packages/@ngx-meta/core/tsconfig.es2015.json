@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "declaration": true,
+    "removeComments": true,
+    "stripInternal": true,
+    "outDir": "../../../../.temp/packages/@ngx-meta/core-es2015/",
+    "rootDir": "./",
+    "baseUrl": "",
+    "typeRoots": ["../../../../node_modules/@types"],
+    "types": ["node"],
+    "lib": [
+      "es2015",
+      "dom"
+    ]
+  },
+  "files": ["./index.ts"],
+  "angularCompilerOptions": {
+    "annotateForClosureCompiler": true,
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true,
+    "flatModuleOutFile": "core.js",
+    "flatModuleId": "core",
+    "genDir": "../../../../.temp/gen-dir/"
+  }
+}
