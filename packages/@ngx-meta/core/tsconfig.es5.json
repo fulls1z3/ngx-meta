@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.es2015.json",
+  "compilerOptions": {
+    "target": "es5",
+    "outDir": "../../../../.temp/packages/@ngx-meta/core-es5/"
+  },
+  "files": ["./index.ts"],
+  "angularCompilerOptions": {
+    "annotateForClosureCompiler": true,
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true,
+    "flatModuleOutFile": "core.js",
+    "flatModuleId": "core",
+    "genDir": "../../../../.temp/gen-dir/"
+  }
+}
