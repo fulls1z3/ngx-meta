@@ -1,24 +1,18 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-bundles/
-*.js
-*.d.ts
-*.metadata.json
+.temp/
+dist/
 
 # dependencies
 node_modules/
-yarn.lock
+yarn.*
 
 # IDEs and editors
 .idea/
 
 # build tools
 coverage/
-!gulpfile.js
-!karma.conf.js
-!spec-bundle.js
 
 # misc
-!config/*.js
 npm-debug.log
