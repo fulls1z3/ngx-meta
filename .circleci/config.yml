@@ -4,7 +4,9 @@ jobs:
     docker:
       - image: circleci/node:7
     branches:
-      only: master
+      only:
+        - master
+        - v0.2.x
     steps:
       - checkout
       - run:
