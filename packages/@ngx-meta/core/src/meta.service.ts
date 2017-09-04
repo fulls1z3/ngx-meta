@@ -1,6 +1,6 @@
 // angular
 import { Injectable } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 
 // libs
 import { Observable } from 'rxjs/Observable';
@@ -9,6 +9,7 @@ import 'rxjs/add/observable/fromPromise';
 
 // module
 import { PageTitlePositioning } from './models/page-title-positioning';
+import { MetaHelper } from './meta.helper';
 import { MetaLoader } from './meta.loader';
 import { isObservable, isPromise } from './util';
 import { MetaSettings } from './models/meta-settings';
@@ -20,7 +21,7 @@ export class MetaService {
 
   constructor(public readonly loader: MetaLoader,
               private readonly title: Title,
-              private readonly meta: Meta) {
+              private readonly meta: MetaHelper) {
     this.settings = loader.settings;
     this.isMetaTagSet = {};
   }
@@ -169,7 +170,7 @@ export class MetaService {
 
   private updateTitle(title: string): void {
     this.title.setTitle(title);
-    this.meta.updateTag({
+    this.meta.updateMetaElement({
       property: 'og:title',
       content: title
     });
@@ -187,31 +188,31 @@ export class MetaService {
     // const html = this.document.querySelector('html');
     // html.setAttribute('lang', currentLocale);
 
-    const elements = this.meta.getTags('property="og:locale:alternate"');
+    const elements = this.meta.getMetaElements('property="og:locale:alternate"');
 
     elements.forEach((element: any) => {
-      this.meta.removeTagElement(element);
+      this.meta.removeElement(element);
     });
 
     if (currentLocale && availableLocales)
       availableLocales.split(',')
         .forEach((locale: string) => {
           if (currentLocale.replace(/-/g, '_') !== locale.replace(/-/g, '_'))
-            this.meta.addTag({
+            this.meta.getOrCreateMetaElement({
               property: 'og:locale:alternate',
               content: locale.replace(/-/g, '_')
-            });
+            }, true);
         });
   }
 
   private updateTag(key: string, value: string): void {
     if (key.lastIndexOf('og:', 0) === 0)
-      this.meta.updateTag({
+      this.meta.updateMetaElement({
         property: key,
         content: key === 'og:locale' ? value.replace(/-/g, '_') : value
       });
     else
-      this.meta.updateTag({
+      this.meta.updateMetaElement({
         name: key,
         content: value
       });
@@ -219,17 +220,17 @@ export class MetaService {
     this.isMetaTagSet[key] = true;
 
     if (key === 'description')
-      this.meta.updateTag({
+      this.meta.updateMetaElement({
         property: 'og:description',
         content: value
       });
     else if (key === 'author')
-      this.meta.updateTag({
+      this.meta.updateMetaElement({
         property: 'og:author',
         content: value
       });
     else if (key === 'publisher')
-      this.meta.updateTag({
+      this.meta.updateMetaElement({
         property: 'og:publisher',
         content: value
       });
@@ -241,7 +242,7 @@ export class MetaService {
       this.updateLocales(value, availableLocales);
       this.isMetaTagSet['og:locale:alternate'] = true;
     } else if (key === 'og:locale:alternate') {
-      const currentLocale = this.meta.getTag('property="og:locale"').content;
+      const currentLocale = this.meta.getMetaElement('property="og:locale"').content;
 
       this.updateLocales(currentLocale, value);
       this.isMetaTagSet['og:locale'] = true;

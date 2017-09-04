@@ -3,6 +3,7 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 
 // module
 import { MetaGuard } from './src/meta.guard';
+import { MetaHelper } from './src/meta.helper';
 import { MetaLoader, MetaStaticLoader } from './src/meta.loader';
 import { MetaService } from './src/meta.service';
 
@@ -28,6 +29,7 @@ export class MetaModule {
       providers: [
         configuredProvider,
         MetaGuard,
+        MetaHelper,
         MetaService
       ]
     };

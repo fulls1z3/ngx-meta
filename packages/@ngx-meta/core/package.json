@@ -1,6 +1,6 @@
 {
   "name": "@ngx-meta/core",
-  "version": "0.4.0-rc.2",
+  "version": "0.2.0-rc.6",
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
@@ -23,9 +23,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fulls1z3/ngx-meta/core/issues"
+    "url": "https://github.com/fulls1z3/ngx-meta/issues"
   },
-  "homepage": "https://github.com/fulls1z3/ngx-meta/tree/master/packages/@ngx-meta/core#readme",
+  "homepage": "https://github.com/fulls1z3/ngx-meta/tree/v0.2.x/packages/@ngx-meta/core/#readme",
   "main": "./bundles/core.umd.js",
   "module": "./@ngx-meta/core.es5.js",
   "es2015": "./@ngx-meta/core.js",
@@ -34,9 +34,9 @@
     "tslib": "~1.7.1"
   },
   "peerDependencies": {
-    "@angular/core": ">=4.0.0 <5.0.0",
-    "@angular/platform-browser": ">=4.0.0 <5.0.0",
-    "@angular/router": ">=4.0.0 <5.0.0",
+    "@angular/core": ">=2.0.0 <4.0.0",
+    "@angular/platform-browser": ">=2.0.0 <4.0.0",
+    "@angular/router": ">=3.0.0 <4.0.0",
     "rxjs": ">=5.0.1"
   }
 }

@@ -36,15 +36,13 @@ meta tag contents (*`http-get`, [@ngx-translate/core], etc.*).
 - [License](#license)
 
 ## <a name="prerequisites"></a> Prerequisites
-This package depends on `Angular v4.0.0`, and the [master] branch does no longer support `Angular v2.x.x`.
+This [v0.2.x] branch of **`@ngx-meta/core`** depends on `Angular v2.0.0` but it's highly recommended that you are running
+at least **`@angular v2.4.0`** and **`@angular/router v3.4.0`**. Older versions contain outdated dependencies, might produce
+errors.
 
-However, the [v0.2.x] branch keeps ongoing support for `Angular v2.x.x` - depending on `Angular v2.0.0`, and it's highly
-recommended that you are running at least **`@angular v2.4.0`** and **`@angular/router v3.4.0`**. Older versions contain
-outdated dependencies, might produce errors.
-- If you're using `Angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
-- If you're using `Angular v2.x.x`, use the latest release of `v0.2.x` (*[v0.2.x] branch*).
+Also, please ensure that you are using **`Typescript v2.1.6`** or higher.
 
-Also, please ensure that you are using **`Typescript v2.3.4`** or higher.
+> If you're using `Angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
 
 ## <a name="getting-started"> Getting started
 ### <a name="installation"> Installation

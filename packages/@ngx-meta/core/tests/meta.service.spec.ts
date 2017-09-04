@@ -1,6 +1,6 @@
 // angular
-import { fakeAsync,  inject, TestBed } from '@angular/core/testing';
-import { Meta, Title } from '@angular/platform-browser';
+import { fakeAsync, inject, TestBed } from '@angular/core/testing';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 // libs
@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 
 // module
 import { MetaLoader, MetaService, MetaStaticLoader, PageTitlePositioning } from '../index';
+import { MetaHelper } from '../src/meta.helper';
 import { defaultSettings, emptySettings, TestBootstrapComponent, testModuleConfig, testSettings } from './common';
 
 describe('@ngx-meta/core:',
@@ -48,8 +49,8 @@ describe('@ngx-meta/core:',
         });
 
         it('should be able to set meta tags using routes',
-          fakeAsync(inject([Meta, Title],
-            (meta: Meta, title: Title) => {
+          fakeAsync(inject([MetaHelper, Title],
+            (meta: MetaHelper, title: Title) => {
               const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -58,35 +59,36 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
-                  expect(meta.getTag('name="description"').content).toEqual('Home, home sweet home... and what?');
-                  expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000');
+                  expect(meta.getMetaElement('name="description"').content).toEqual('Home, home sweet home... and what?');
+                  expect(meta.getMetaElement('property="og:url"').content).toEqual('http://localhost:3000');
 
                   router.navigate(['/toothpaste'])
                     .then(() => {
                       expect(title.getTitle()).toEqual('Toothpaste');
-                      expect(meta.getTag('name="description"').content).toEqual('Eating toothpaste is considered to be too healthy!');
-                      expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000/toothpaste');
+                      expect(meta.getMetaElement('name="description"').content)
+                        .toEqual('Eating toothpaste is considered to be too healthy!');
+                      expect(meta.getMetaElement('property="og:url"').content).toEqual('http://localhost:3000/toothpaste');
 
                       router.navigate(['/duck'])
                         .then(() => {
                           expect(title.getTitle()).toEqual('Mighty mighty mouse');
-                          expect(meta.getTag('name="description"').content)
+                          expect(meta.getMetaElement('name="description"').content)
                             .toEqual('Mighty Mouse is an animated superhero mouse character');
-                          expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000/duck');
+                          expect(meta.getMetaElement('property="og:url"').content).toEqual('http://localhost:3000/duck');
 
                           router.navigate(['/no-data'])
                             .then(() => {
                               expect(title.getTitle()).toEqual('Mighty mighty mouse');
-                              expect(meta.getTag('name="description"').content)
+                              expect(meta.getMetaElement('name="description"').content)
                                 .toEqual('Mighty Mouse is an animated superhero mouse character');
-                              expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000/no-data');
+                              expect(meta.getMetaElement('property="og:url"').content).toEqual('http://localhost:3000/no-data');
 
                               router.navigate(['/no-meta'])
                                 .then(() => {
                                   expect(title.getTitle()).toEqual('Mighty mighty mouse');
-                                  expect(meta.getTag('name="description"').content)
+                                  expect(meta.getMetaElement('name="description"').content)
                                     .toEqual('Mighty Mouse is an animated superhero mouse character');
-                                  expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000/no-meta');
+                                  expect(meta.getMetaElement('property="og:url"').content).toEqual('http://localhost:3000/no-meta');
                                 });
                             });
                         });
@@ -95,8 +97,8 @@ describe('@ngx-meta/core:',
             })));
 
         it('should be able to set meta tags using routes w/o `meta` property',
-          fakeAsync(inject([Meta, Title],
-            (meta: Meta, title: Title) => {
+          fakeAsync(inject([MetaHelper, Title],
+            (meta: MetaHelper, title: Title) => {
               const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -105,14 +107,15 @@ describe('@ngx-meta/core:',
               router.navigate(['/no-data'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Mighty mighty mouse');
-                  expect(meta.getTag('name="description"').content).toEqual('Mighty Mouse is an animated superhero mouse character');
-                  expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000/no-data');
+                  expect(meta.getMetaElement('name="description"').content)
+                    .toEqual('Mighty Mouse is an animated superhero mouse character');
+                  expect(meta.getMetaElement('property="og:url"').content).toEqual('http://localhost:3000/no-data');
                 });
             })));
 
         it('should be able to set meta tags using routes w/o default settings',
-          fakeAsync(inject([Meta, Title],
-            (meta: Meta, title: Title) => {
+          fakeAsync(inject([MetaHelper, Title],
+            (meta: MetaHelper, title: Title) => {
               const settings = _.cloneDeep(emptySettings);
               const metaFactory = () => new MetaStaticLoader(settings);
 
@@ -129,14 +132,14 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Sweet home');
-                  expect(meta.getTag('name="description"').content).toEqual('Home, home sweet home... and what?');
-                  expect(meta.getTag('property="og:url"').content).toEqual('/');
+                  expect(meta.getMetaElement('name="description"').content).toEqual('Home, home sweet home... and what?');
+                  expect(meta.getMetaElement('property="og:url"').content).toEqual('/');
                 });
             })));
 
         it('should be able to set meta tags using routes w/o default `title` w/o `meta` property',
-          fakeAsync(inject([Meta, Title],
-            (meta: Meta, title: Title) => {
+          fakeAsync(inject([MetaHelper, Title],
+            (meta: MetaHelper, title: Title) => {
               const settings = _.cloneDeep(defaultSettings);
               settings.applicationName = 'Tour of (lazy/busy) heroes';
               settings.defaults = {
@@ -158,14 +161,15 @@ describe('@ngx-meta/core:',
               router.navigate(['/no-data'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes');
-                  expect(meta.getTag('name="description"').content).toEqual('Mighty Mouse is an animated superhero mouse character');
-                  expect(meta.getTag('property="og:url"').content).toEqual('/no-data');
+                  expect(meta.getMetaElement('name="description"').content)
+                    .toEqual('Mighty Mouse is an animated superhero mouse character');
+                  expect(meta.getMetaElement('property="og:url"').content).toEqual('/no-data');
                 });
             })));
 
         it('should be able to set meta tags using routes w/o default settings w/o `meta` property',
-          fakeAsync(inject([Meta, Title],
-            (meta: Meta, title: Title) => {
+          fakeAsync(inject([MetaHelper, Title],
+            (meta: MetaHelper, title: Title) => {
               const settings = _.cloneDeep(emptySettings);
               const metaFactory = () => new MetaStaticLoader(settings);
 
@@ -182,7 +186,7 @@ describe('@ngx-meta/core:',
               router.navigate(['/no-data'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('');
-                  expect(meta.getTag('property="og:url"').content).toEqual('/no-data');
+                  expect(meta.getMetaElement('property="og:url"').content).toEqual('/no-data');
                 });
             })));
 
@@ -327,8 +331,8 @@ describe('@ngx-meta/core:',
             }));
 
         it('should be able to set meta `description`',
-          fakeAsync(inject([MetaService, Meta],
-            (metaService: MetaService, meta: Meta) => {
+          fakeAsync(inject([MetaService, MetaHelper],
+            (metaService: MetaService, meta: MetaHelper) => {
               const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -337,19 +341,20 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('description', '');
-                  expect(meta.getTag('name="description"').content).toEqual('Mighty Mouse is an animated superhero mouse character');
+                  expect(meta.getMetaElement('name="description"').content)
+                    .toEqual('Mighty Mouse is an animated superhero mouse character');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('description', 'Mighty Mouse is a cool character');
-                      expect(meta.getTag('name="description"').content).toEqual('Mighty Mouse is a cool character');
+                      expect(meta.getMetaElement('name="description"').content).toEqual('Mighty Mouse is a cool character');
                     });
                 });
             })));
 
         it('should be able to set meta `description` w/o default settings',
-          fakeAsync(inject([Meta],
-            (meta: Meta) => {
+          fakeAsync(inject([MetaHelper],
+            (meta: MetaHelper) => {
               const settings = _.cloneDeep(emptySettings);
               const metaFactory = () => new MetaStaticLoader(settings);
 
@@ -367,13 +372,13 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('description', '');
-                  expect(meta.getTag('name="description"').content).toEqual('');
+                  expect(meta.getMetaElement('name="description"').content).toEqual('');
                 });
             })));
 
         it('should be able to set meta `author`',
-          fakeAsync(inject([MetaService, Meta],
-            (metaService: MetaService, meta: Meta) => {
+          fakeAsync(inject([MetaService, MetaHelper],
+            (metaService: MetaService, meta: MetaHelper) => {
               const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -382,19 +387,19 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('author', '');
-                  expect(meta.getTag('name="author"').content).toEqual('Mighty Mouse');
+                  expect(meta.getMetaElement('name="author"').content).toEqual('Mighty Mouse');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('author', 'Mickey Mouse');
-                      expect(meta.getTag('name="author"').content).toEqual('Mickey Mouse');
+                      expect(meta.getMetaElement('name="author"').content).toEqual('Mickey Mouse');
                     });
                 });
             })));
 
         it('should be able to set meta `publisher`',
-          fakeAsync(inject([MetaService, Meta],
-            (metaService: MetaService, meta: Meta) => {
+          fakeAsync(inject([MetaService, MetaHelper],
+            (metaService: MetaService, meta: MetaHelper) => {
               const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -403,19 +408,19 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('publisher', '');
-                  expect(meta.getTag('name="publisher"').content).toEqual('a superhero');
+                  expect(meta.getMetaElement('name="publisher"').content).toEqual('a superhero');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('publisher', 'another superhero');
-                      expect(meta.getTag('name="publisher"').content).toEqual('another superhero');
+                      expect(meta.getMetaElement('name="publisher"').content).toEqual('another superhero');
                     });
                 });
             })));
 
         it('should be able to set `og:locale`',
-          fakeAsync(inject([MetaService, Meta],
-            (metaService: MetaService, meta: Meta) => {
+          fakeAsync(inject([MetaService, MetaHelper],
+            (metaService: MetaService, meta: MetaHelper) => {
               const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -424,9 +429,9 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('og:locale', '');
-                  expect(meta.getTag('property="og:locale"').content).toEqual('en_US');
+                  expect(meta.getMetaElement('property="og:locale"').content).toEqual('en_US');
 
-                  let elements = meta.getTags('property="og:locale:alternate"');
+                  let elements = meta.getMetaElements('property="og:locale:alternate"');
 
                   expect(elements.length).toEqual(2);
                   expect(elements[0].content).toEqual('nl_NL');
@@ -435,9 +440,9 @@ describe('@ngx-meta/core:',
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('og:locale', 'tr-TR');
-                      expect(meta.getTag('property="og:locale"').content).toEqual('tr_TR');
+                      expect(meta.getMetaElement('property="og:locale"').content).toEqual('tr_TR');
 
-                      elements = meta.getTags('property="og:locale:alternate"');
+                      elements = meta.getMetaElements('property="og:locale:alternate"');
 
                       expect(elements.length).toEqual(2);
                       expect(elements[0].content).toEqual('en_US');
@@ -447,8 +452,8 @@ describe('@ngx-meta/core:',
             })));
 
         it('should be able to set `og:locale:alternate` w/ `og:locale:alternate`',
-          fakeAsync(inject([MetaService, Meta],
-            (metaService: MetaService, meta: Meta) => {
+          fakeAsync(inject([MetaService, MetaHelper],
+            (metaService: MetaService, meta: MetaHelper) => {
               const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -457,7 +462,7 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('og:locale:alternate', '');
-                  const elements = meta.getTags('property="og:locale:alternate"');
+                  const elements = meta.getMetaElements('property="og:locale:alternate"');
 
                   expect(elements.length).toEqual(2);
                   expect(elements[0].content).toEqual('nl_NL');
@@ -466,14 +471,14 @@ describe('@ngx-meta/core:',
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('og:locale:alternate', 'tr-TR');
-                      expect(meta.getTag('property="og:locale:alternate"').content).toEqual('tr_TR');
+                      expect(meta.getMetaElement('property="og:locale:alternate"').content).toEqual('tr_TR');
                     });
                 });
             })));
 
         it('should be able to set `og:locale` w/o default settings',
-          fakeAsync(inject([Meta],
-            (meta: Meta) => {
+          fakeAsync(inject([MetaHelper],
+            (meta: MetaHelper) => {
               const settings = _.cloneDeep(emptySettings);
               const metaFactory = () => new MetaStaticLoader(settings);
 
@@ -491,19 +496,19 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('og:locale', '');
-                  expect(meta.getTag('property="og:locale"').content).toEqual('');
+                  expect(meta.getMetaElement('property="og:locale"').content).toEqual('');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('og:locale', 'tr-TR');
-                      expect(meta.getTag('property="og:locale"').content).toEqual('tr_TR');
+                      expect(meta.getMetaElement('property="og:locale"').content).toEqual('tr_TR');
                     });
                 });
             })));
 
         it('should be able to do not set `og:locale:alternate` as current `og:locale`',
-          inject([Meta],
-            (meta: Meta) => {
+          inject([MetaHelper],
+            (meta: MetaHelper) => {
               const settings = _.cloneDeep(defaultSettings);
               settings.defaults['og:locale'] = 'tr-TR';
 
@@ -516,15 +521,15 @@ describe('@ngx-meta/core:',
 
               const metaService = TestBed.get(MetaService);
 
-              expect(meta.getTag('property="og:locale"').content).toEqual('tr_TR');
+              expect(meta.getMetaElement('property="og:locale"').content).toEqual('tr_TR');
 
               metaService.setTag('og:locale:alternate', 'tr-TR');
-              expect(meta.getTag('property="og:locale:alternate"')).toBeNull();
+              expect(meta.getMetaElement('property="og:locale:alternate"')).toBeNull();
             }));
 
         it('should be able to do not set `og:locale:alternate` using routes w/o default settings & w/o `og:locale`',
-          fakeAsync(inject([Meta, Title],
-            (meta: Meta, title: Title) => {
+          fakeAsync(inject([MetaHelper, Title],
+            (meta: MetaHelper, title: Title) => {
               const settings = _.cloneDeep(defaultSettings);
               settings.defaults['og:locale:alternate'] = 'en-US';
 
@@ -543,15 +548,15 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   expect(title.getTitle()).toEqual('Sweet home');
-                  expect(meta.getTag('name="description"').content).toEqual('Home, home sweet home... and what?');
-                  expect(meta.getTag('property="og:url"').content).toEqual('/');
-                  expect(meta.getTag('property="og:locale:alternate"')).toBeNull();
+                  expect(meta.getMetaElement('name="description"').content).toEqual('Home, home sweet home... and what?');
+                  expect(meta.getMetaElement('property="og:url"').content).toEqual('/');
+                  expect(meta.getMetaElement('property="og:locale:alternate"')).toBeNull();
                 });
             })));
 
         it('should be able to set any other meta tag',
-          fakeAsync(inject([MetaService, Meta],
-            (metaService: MetaService, meta: Meta) => {
+          fakeAsync(inject([MetaService, MetaHelper],
+            (metaService: MetaService, meta: MetaHelper) => {
               const router = TestBed.get(Router);
 
               const fixture = TestBed.createComponent(TestBootstrapComponent);
@@ -560,12 +565,12 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('og:type', '');
-                  expect(meta.getTag('property="og:type"').content).toEqual('website');
+                  expect(meta.getMetaElement('property="og:type"').content).toEqual('website');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('og:type', 'blog');
-                      expect(meta.getTag('property="og:type"').content).toEqual('blog');
+                      expect(meta.getMetaElement('property="og:type"').content).toEqual('blog');
                     });
                 });
             })));
