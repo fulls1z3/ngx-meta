@@ -6,13 +6,14 @@ dist/
 
 # dependencies
 node_modules/
-yarn.*
 
 # IDEs and editors
 .idea/
 
 # build tools
 coverage/
+test-report.xml
 
 # misc
 npm-debug.log
+yarn-error.log

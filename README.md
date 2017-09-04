@@ -1,8 +1,7 @@
 # ngx-meta
 Dynamic page title &amp; meta tags generator for **Angular**
 
-[![Linux build](https://travis-ci.org/fulls1z3/ngx-meta.svg?branch=v0.2.x)](https://travis-ci.org/fulls1z3/ngx-meta)
-[![Windows build](https://ci.appveyor.com/api/projects/status/github/fulls1z3/ngx-meta?branch=v0.2.x&svg=true)](https://ci.appveyor.com/project/fulls1z3/ngx-meta)
+[![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta/tree/v0.2.x.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
 [![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=v0.2.x)](https://codecov.io/gh/fulls1z3/ngx-meta)
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
@@ -25,7 +24,7 @@ to use a custom logic on the meta tag contents (*`http-get`, [@ngx-translate/cor
 ## Packages:
 Name | Description | NPM
 --- | --- | ---
-[@ngx-meta/core](https://github.com/fulls1z3/ngx-meta/tree/v0.2.x/packages/@ngx-meta/core) | Dynamic page title &amp; meta tags generator for **Angular** | [![npm version](https://badge.fury.io/js/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core)
+[@ngx-meta/core](https://github.com/fulls1z3/ngx-meta/tree/master/packages/@ngx-meta/core) | Dynamic page title &amp; meta tags generator for **Angular** | [![npm version](https://badge.fury.io/js/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core)
 
 ### Examples
 - [ng-seed/universal] and [fulls1z3/example-app] are officially maintained projects, showcasing common patterns and best

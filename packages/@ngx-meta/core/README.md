@@ -12,7 +12,7 @@ route configuration.
 successfully appear on HTML source, due to its platform-free workflow. This allows the SPA to be **crawled and rendered**
 by the search engines, as well as **sharing** the website **link** on social networks (facebook, twitter, etc).
 - It also supports resolving values [using a `callback` function](#using-a-callback-function) to use a custom logic on the
-meta tag contents (*`http-get`, [@ngx-translate/core], etc.*).
+meta tag contents (*`http-get`, [@ngx-translate/core], etc.*). 
 
 #### NOTICE
 > If you're using `Angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
@@ -58,7 +58,7 @@ practices for **`@ngx-meta/core`**.
 ### <a name="recommended-packages"></a> Recommended packages
 The following package(s) have no dependency for **`@ngx-meta/core`**, however may provide supplementary/shorthand functionality:
 - [@ngx-config/core]: provides meta settings from the application settings loaded during application initialization
-- [@ngx-translate/core]: provides internationalization (i18n) features to retrieve the translated meta settings
+- [@ngx-translate/core]: provides internationalization (i18n) features to retrieve the translated meta settings  
 
 ### <a name="adding-systemjs"></a> Adding `@ngx-meta/core` to your project (SystemJS)
 Add `map` for **`@ngx-meta/core`** in your `systemjs.config`
@@ -281,8 +281,6 @@ export class AppComponent implements OnInit {
     this.translate.addLangs(['en', 'tr']);
     this.translate.setDefaultLang(defaultLanguage.code);
 
-    this.meta.setTag('og:locale', 'en-US');
-
     this.translate.use('en').subscribe(() => {
       this.meta.setTag('og:locale', 'en-US');
     });
@@ -345,10 +343,10 @@ The MIT License (MIT)
 Copyright (c) 2017 [Burak Tasci]
 
 [@ngx-translate/core]: https://github.com/ngx-translate/core
-[master]: https://github.com/ngx-meta/core/tree/master
-[v0.2.x]: https://github.com/ngx-meta/core/tree/v0.2.x
+[master]: https://github.com/fulls1z3/ngx-meta/tree/master
+[v0.2.x]: https://github.com/fulls1z3/ngx-meta/tree/v0.2.x
 [ng-seed/universal]: https://github.com/ng-seed/universal
-fulls1z3/example-app]: https://github.com/fulls1z3/example-app
+[fulls1z3/example-app]: https://github.com/fulls1z3/example-app
 [@ngx-config/core]: https://github.com/fulls1z3/ngx-config/tree/master/packages/@ngx-config/core
 [forRoot]: https://angular.io/docs/ts/latest/guide/ngmodule.html#!#core-for-root
 [AoT compilation]: https://angular.io/docs/ts/latest/cookbook/aot-compiler.html

@@ -12,10 +12,11 @@ import { PageTitlePositioning } from './models/page-title-positioning';
 import { MetaHelper } from './meta.helper';
 import { MetaLoader } from './meta.loader';
 import { isObservable, isPromise } from './util';
+import { MetaSettings } from './models/meta-settings';
 
 @Injectable()
 export class MetaService {
-  protected readonly settings: any;
+  protected readonly settings: MetaSettings;
   private readonly isMetaTagSet: any;
 
   constructor(public readonly loader: MetaLoader,
