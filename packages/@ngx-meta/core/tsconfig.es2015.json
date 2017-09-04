@@ -1,8 +1,10 @@
 {
-  "extends": "../../../../tsconfig.json",
   "compilerOptions": {
     "target": "es2015",
     "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
     "importHelpers": true,
@@ -21,7 +23,6 @@
       "dom"
     ]
   },
-  "include": [],
   "files": ["./index.ts"],
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,
