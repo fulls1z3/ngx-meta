@@ -21,10 +21,11 @@
     "build": "ts-node ./tools/build/rollup.ts && rimraf .temp",
     "lint": "tslint -p ./tslint.json --force",
     "rebuild": "npm run clean && npm run build",
+    "ci:before": "greenkeeper-lockfile-update",
+    "ci:after": "greenkeeper-lockfile-upload",
     "test": "jest --runInBand --colors",
-    "test:ci": "jest --ci --updateSnapshot",
-    "release": "standard-version",
-    "release:patch": "standard-version --release-as patch"
+    "test:ci": "jest --ci --updateSnapshot --colors",
+    "release": "npm run standard-version"
   },
   "devDependencies": {
     "@angular/common": "~2.4.0",
