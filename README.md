@@ -18,9 +18,8 @@ engines, as well as **sharing** the website **link** on social networks (faceboo
 to use a custom logic on the meta tag contents (*`http-get`, [@ngx-translate/core], etc.*).  
 
 #### NOTICE
-> If you're using `@angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
-
-> If you're using `@angular v2.x.x`, use the latest release of `v0.2.x` (*[v0.2.x] branch*).
+> This *[4.x.x] branch* is intented to work with `@angular v4.x.x`. If you're developing on a later release of **Angular**
+than `v4.x.x`, then you should probably choose the appropriate version of this library by visiting the *[master] branch*.
 
 ## Packages:
 Name | Description | NPM
@@ -43,9 +42,9 @@ The MIT License (MIT)
 
 Copyright (c) 2017 [Burak Tasci]
 
-[@ngx-translate/core]: https://github.com/ngx-translate/core
 [master]: https://github.com/ngx-meta/core/tree/master
-[v0.2.x]: https://github.com/ngx-meta/core/tree/v0.2.x
+[4.x.x]: https://github.com/ngx-meta/core/tree/4.x.x
+[@ngx-translate/core]: https://github.com/ngx-translate/core
 [ng-seed/universal]: https://github.com/ng-seed/universal
 [fulls1z3/example-app]: https://github.com/fulls1z3/example-app
 [Burak Tasci]: https://github.com/fulls1z3
