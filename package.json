@@ -22,7 +22,9 @@
     "lint": "tslint -p ./tslint.json --force",
     "rebuild": "npm run clean && npm run build",
     "test": "jest --runInBand --colors",
-    "test.ci": "jest --ci --updateSnapshot"
+    "test.ci": "jest --ci --updateSnapshot",
+    "release": "standard-version",
+    "release:patch": "standard-version --release-as patch"
   },
   "devDependencies": {
     "@angular/common": "~4.3.0",
@@ -51,6 +53,7 @@
     "jest": "^20.0.4",
     "jest-preset-angular": "^2.0.5",
     "jest-junit-reporter": "^1.1.0",
+    "standard-version": "^4.2.0",
     "codelyzer": "^3.1.2",
     "tslint": "~5.7.0",
     "angular-tslint-rules": "^1.0.4",
