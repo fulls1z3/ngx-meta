@@ -1,8 +1,8 @@
 # ngx-meta
 Dynamic page title &amp; meta tags generator for **Angular**
 
-[![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta/tree/v0.2.x.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
-[![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=v0.2.x)](https://codecov.io/gh/fulls1z3/ngx-meta)
+[![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta/tree/2.x.x.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
+[![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=2.x.x)](https://codecov.io/gh/fulls1z3/ngx-meta)
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
@@ -18,9 +18,8 @@ engines, as well as **sharing** the website **link** on social networks (faceboo
 to use a custom logic on the meta tag contents (*`http-get`, [@ngx-translate/core], etc.*).  
 
 #### NOTICE
-> If you're using `@angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
-
-> If you're using `@angular v2.x.x`, use the latest release of `v0.2.x` (*[v0.2.x] branch*).
+> This *[2.x.x] branch* is intented to work with `@angular v2.x.x`. If you're developing on a later release of **Angular**
+than `v2.x.x`, then you should probably choose the appropriate version of this library by visiting the *[master] branch*.
 
 ## Packages:
 Name | Description | NPM
@@ -31,21 +30,14 @@ Name | Description | NPM
 - [ng-seed/universal] and [fulls1z3/example-app] are officially maintained projects, showcasing common patterns and best
 practices for **`ngx-meta`**.
 
-## Contributing
-If you want to file a bug, contribute some code, or improve documentation, please read up on the following contribution guidelines:
-- [Issue guidelines](CONTRIBUTING.md#submit)
-- [Contributing guidelines](CONTRIBUTING.md)
-- [Coding rules](CONTRIBUTING.md#rules)
-- [Change log](CHANGELOG.md)
-
 ## License
 The MIT License (MIT)
 
 Copyright (c) 2017 [Burak Tasci]
 
-[@ngx-translate/core]: https://github.com/ngx-translate/core
 [master]: https://github.com/ngx-meta/core/tree/master
-[v0.2.x]: https://github.com/ngx-meta/core/tree/v0.2.x
+[2.x.x]: https://github.com/ngx-meta/core/tree/2.x.x
+[@ngx-translate/core]: https://github.com/ngx-translate/core
 [ng-seed/universal]: https://github.com/ng-seed/universal
 [fulls1z3/example-app]: https://github.com/fulls1z3/example-app
 [Burak Tasci]: https://github.com/fulls1z3
