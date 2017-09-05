@@ -1,6 +1,6 @@
 {
   "name": "@ngx-meta/core",
-  "version": "0.2.0-rc.6",
+  "version": "2.0.0",
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/fulls1z3/ngx-meta/issues"
   },
-  "homepage": "https://github.com/fulls1z3/ngx-meta/tree/v0.2.x/packages/@ngx-meta/core/#readme",
+  "homepage": "https://github.com/fulls1z3/ngx-meta/tree/master/packages/@ngx-meta/core/#readme",
   "main": "./bundles/core.umd.js",
   "module": "./@ngx-meta/core.es5.js",
   "es2015": "./@ngx-meta/core.js",
