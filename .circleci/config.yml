@@ -23,7 +23,7 @@ jobs:
           command: yarn build
       - run:
           name: Test & coverage
-          command: yarn test.ci
+          command: yarn test:ci
       - store_artifacts:
           path: test-report.xml
           prefix: tests
