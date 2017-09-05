@@ -25,7 +25,7 @@
     "ci:after": "greenkeeper-lockfile-upload",
     "test": "jest --runInBand --colors",
     "test:ci": "jest --ci --updateSnapshot --colors",
-    "release": "npm run standard-version"
+    "release": "standard-version"
   },
   "devDependencies": {
     "@angular/common": "~2.4.0",
