@@ -22,7 +22,7 @@
     "lint": "tslint -p ./tslint.json --force",
     "rebuild": "npm run clean && npm run build",
     "test": "jest --runInBand --colors",
-    "test.ci": "jest --ci --updateSnapshot",
+    "test:ci": "jest --ci --updateSnapshot",
     "release": "standard-version",
     "release:patch": "standard-version --release-as patch"
   },
