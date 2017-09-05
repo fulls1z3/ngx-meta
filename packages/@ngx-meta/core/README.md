@@ -1,7 +1,9 @@
-# @ngx-meta/core
+# @ngx-meta/core [![npm version](https://badge.fury.io/js/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core) [![npm downloads](https://img.shields.io/npm/dm/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core)
 Dynamic page title &amp; meta tags generator for **Angular**
 
-[![npm version](https://badge.fury.io/js/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core)
+[![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta/tree/v0.2.x.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
+[![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=v0.2.x)](https://codecov.io/gh/fulls1z3/ngx-meta)
+[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
