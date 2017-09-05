@@ -1,8 +1,8 @@
 # @ngx-meta/core [![npm version](https://badge.fury.io/js/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core) [![npm downloads](https://img.shields.io/npm/dm/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core)
 Dynamic page title &amp; meta tags generator for **Angular**
 
-[![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta/tree/v0.2.x.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
-[![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=v0.2.x)](https://codecov.io/gh/fulls1z3/ngx-meta)
+[![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta/tree/2.x.x.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
+[![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=2.x.x)](https://codecov.io/gh/fulls1z3/ngx-meta)
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
@@ -18,9 +18,8 @@ by the search engines, as well as **sharing** the website **link** on social net
 meta tag contents (*`http-get`, [@ngx-translate/core], etc.*). 
 
 #### NOTICE
-> If you're using `Angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
-
-> If you're using `Angular v2.x.x`, use the latest release of `v0.2.x` (*[v0.2.x] branch*).
+> This *[2.x.x] branch* is intented to work with `@angular v2.x.x`. If you're developing on a later release of **Angular**
+than `v2.x.x`, then you should probably choose the appropriate version of this library by visiting the *[master] branch*.
 
 ## Table of contents:
 - [Prerequisites](#prerequisites)
@@ -39,13 +38,10 @@ meta tag contents (*`http-get`, [@ngx-translate/core], etc.*).
 - [License](#license)
 
 ## <a name="prerequisites"></a> Prerequisites
-This [v0.2.x] branch of **`@ngx-meta/core`** depends on `Angular v2.0.0` but it's highly recommended that you are running
-at least **`@angular v2.4.0`** and **`@angular/router v3.4.0`**. Older versions contain outdated dependencies, might produce
-errors.
+This library depends on `Angular v2.0.0` but it's highly recommended that you are running at least **`@angular v2.4.0`**.
+Older versions contain outdated dependencies, might produce errors.
 
 Also, please ensure that you are using **`Typescript v2.1.6`** or higher.
-
-> If you're using `Angular v4.x.x`, use the latest release of `v0.4.x` (*[master] branch*).
 
 ## <a name="getting-started"> Getting started
 ### <a name="installation"> Installation
@@ -345,9 +341,9 @@ The MIT License (MIT)
 
 Copyright (c) 2017 [Burak Tasci]
 
+[master]: https://github.com/ngx-meta/core/tree/master
+[2.x.x]: https://github.com/ngx-meta/core/tree/2.x.x
 [@ngx-translate/core]: https://github.com/ngx-translate/core
-[master]: https://github.com/fulls1z3/ngx-meta/tree/master
-[v0.2.x]: https://github.com/fulls1z3/ngx-meta/tree/v0.2.x
 [ng-seed/universal]: https://github.com/ng-seed/universal
 [fulls1z3/example-app]: https://github.com/fulls1z3/example-app
 [@ngx-config/core]: https://github.com/fulls1z3/ngx-config/tree/master/packages/@ngx-config/core
