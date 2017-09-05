@@ -1,4 +1,6 @@
 # ngx-meta
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/fulls1z3/ngx-meta.svg)](https://greenkeeper.io/)
 Dynamic page title &amp; meta tags generator for **Angular**
 
 [![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
