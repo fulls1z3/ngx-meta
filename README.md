@@ -4,6 +4,7 @@ Dynamic page title &amp; meta tags generator for **Angular**
 [![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
 [![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=master)](https://codecov.io/gh/fulls1z3/ngx-meta)
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
 > Please support this project by simply putting a Github star. Share this library with friends on Twitter and everywhere else you can.
