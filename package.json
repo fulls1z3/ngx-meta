@@ -25,7 +25,7 @@
     "ci:after": "greenkeeper-lockfile-upload",
     "test": "jest --runInBand --colors",
     "test:ci": "jest --ci --updateSnapshot --colors",
-    "release": "npm run standard-version"
+    "release": "standard-version"
   },
   "devDependencies": {
     "@angular/common": "~4.3.0",
@@ -35,11 +35,11 @@
     "@angular/platform-browser": "~4.3.0",
     "@angular/platform-browser-dynamic": "~4.3.0",
     "@angular/router": "~4.3.0",
-    "core-js": "^2.5.0",
+    "core-js": "^2.5.1",
     "rxjs": "^5.4.3",
     "zone.js": "^0.8.17",
     "lodash": "^4.17.4",
-    "@types/node": "^8.0.25",
+    "@types/node": "^8.0.26",
     "@types/lodash": "4.14.55",
     "@types/jest": "^20.0.8",
     "rimraf": "^2.6.1",
@@ -51,14 +51,14 @@
     "rollup-plugin-commonjs": "^8.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-uglify": "^2.0.1",
-    "jest": "^20.0.4",
+    "jest": "^21.0.1",
     "jest-preset-angular": "^2.0.5",
     "jest-junit-reporter": "^1.1.0",
     "standard-version": "^4.2.0",
     "codelyzer": "^3.1.2",
     "tslint": "~5.7.0",
     "angular-tslint-rules": "^1.0.4",
-    "typescript": "~2.3.4"
+    "typescript": "~2.5.2"
   },
   "jest": {
     "preset": "jest-preset-angular",
