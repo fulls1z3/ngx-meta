@@ -70,8 +70,8 @@
       },
       "__TRANSFORM_HTML__": true
     },
+    "moduleNameMapper": null,
     "cache": false,
-    "noStackTrace": true,
     "silent": true,
     "collectCoverage": true,
     "collectCoverageFrom": [
