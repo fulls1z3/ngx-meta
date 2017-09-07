@@ -28,7 +28,7 @@
     "strictMetadataEmit": true,
     "skipTemplateCodegen": true,
     "flatModuleOutFile": "core.js",
-    "flatModuleId": "core",
+    "flatModuleId": "@ngx-meta/core",
     "genDir": "../../../../.temp/gen-dir/"
   }
 }
