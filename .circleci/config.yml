@@ -5,7 +5,7 @@ jobs:
       - image: circleci/node:7
     steps:
       - checkout
-      - run: sudo npm install -g yarn@latest
+      - run: sudo npm install -g yarn@0
       - run: sudo yarn global add greenkeeper-lockfile@1
       - restore_cache:
           keys:
