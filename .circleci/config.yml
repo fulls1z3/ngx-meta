@@ -15,10 +15,10 @@ jobs:
       - save_cache:
           key: deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths: 'node_modules'
-      - run: yarn ci:before
+      # - run: yarn ci:before
       - run: yarn test:ci
       - run: yarn build
-      - run: yarn ci:after
+      # - run: yarn ci:after
       - run: bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
           path: coverage
