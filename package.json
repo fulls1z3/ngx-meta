@@ -31,7 +31,7 @@
     "@angular/common": "4.4.1",
     "@angular/compiler": "4.4.1",
     "@angular/compiler-cli": "4.4.1",
-    "@angular/core": "~4.3.0",
+    "@angular/core": "4.4.1",
     "@angular/platform-browser": "~4.3.0",
     "@angular/platform-browser-dynamic": "~4.3.0",
     "@angular/router": "~4.3.0",
