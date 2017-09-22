@@ -41,7 +41,7 @@
     "lodash": "~4.17.4",
     "@types/node": "~8.0.26",
     "@types/lodash": "4.14.55",
-    "@types/jest": "~20.0.8",
+    "@types/jest": "~21.1.0",
     "rimraf": "~2.6.1",
     "ts-node": "~3.3.0",
     "glob": "~7.1.2",
