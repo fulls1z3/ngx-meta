@@ -142,8 +142,7 @@ export class MetaService {
   }
 
   removeTag(key: string): void {
-    const tag = `property="${key}"`;
-    this.meta.removeTag(tag);
+    this.meta.removeTag(key);
   }
 
   private callback(value: string): Observable<string> {
