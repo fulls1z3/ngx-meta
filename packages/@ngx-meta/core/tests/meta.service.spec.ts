@@ -580,7 +580,7 @@ describe('@ngx-meta/core:',
 
               router.navigate(['/'])
                 .then(() => {
-                  metaService.removeTag('og:type');
+                  metaService.removeTag('property="og:type"');
                   expect(meta.getTag('property="og:type"')).toBeNull();
                 });
             })));
