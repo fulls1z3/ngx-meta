@@ -569,6 +569,21 @@ describe('@ngx-meta/core:',
                     });
                 });
             })));
+
+        it('should be able to remove tag',
+          fakeAsync(inject([MetaService, Meta],
+            (metaService: MetaService, meta: Meta) => {
+              const router = TestBed.get(Router);
+
+              const fixture = TestBed.createComponent(TestBootstrapComponent);
+              fixture.detectChanges();
+
+              router.navigate(['/'])
+                .then(() => {
+                  metaService.removeTag('og:type');
+                  expect(meta.getTag('property="og:type"')).toBeNull();
+                });
+            })));
       });
 
     describe('MetaService w/callback',

@@ -141,6 +141,11 @@ export class MetaService {
     this.setTag('og:url', url || '/');
   }
 
+  removeTag(key: string): void {
+    const tag = `property="${key}"`;
+    this.meta.removeTag(tag);
+  }
+
   private callback(value: string): Observable<string> {
     if (this.settings.callback) {
       const value$ = this.settings.callback(value);
