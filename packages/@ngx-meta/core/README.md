@@ -312,14 +312,14 @@ which are officially maintained seed projects showcasing common patterns and bes
 ## <a name="set-meta-tags-programmatically"></a> Set meta tags programmatically
 ```TypeScript
 ...
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MetaService } from '@ngx-meta/core';
 ...
 
 @Component({
   ...
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent implements OnInit, OnDestroy {
   ...
   constructor(private readonly meta: MetaService) { }
   ...
@@ -327,6 +327,9 @@ export class ItemComponent implements OnInit {
     this.item = //HTTP GET for "item" in the repository
     this.meta.setTitle(`Page for ${this.item.name}`);
     this.meta.setTag('og:image', this.item.imageUrl);
+  }
+  ngOnDestroy() {
+     this.meta.removeTag('og:image');
   }
 }
 
