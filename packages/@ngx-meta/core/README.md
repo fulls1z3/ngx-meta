@@ -329,7 +329,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     this.meta.setTag('og:image', this.item.imageUrl);
   }
   ngOnDestroy() {
-     this.meta.removeTag('og:image');
+     this.meta.removeTag('property="og:type"');
   }
 }
 
