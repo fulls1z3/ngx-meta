@@ -28,7 +28,7 @@
     "release": "standard-version"
   },
   "devDependencies": {
-    "@angular/common": "~4.4.4",
+    "@angular/common": "~5.0.0",
     "@angular/compiler": "~4.4.4",
     "@angular/compiler-cli": "~4.4.4",
     "@angular/core": "~4.4.4",
