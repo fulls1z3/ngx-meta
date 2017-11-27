@@ -57,7 +57,7 @@
     "standard-version": "~4.2.0",
     "codelyzer": "~3.2.0",
     "tslint": "~5.7.0",
-    "angular-tslint-rules": "1.0.4",
+    "angular-tslint-rules": "1.1.0",
     "typescript": "~2.5.3"
   },
   "jest": {
