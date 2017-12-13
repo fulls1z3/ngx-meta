@@ -39,7 +39,7 @@
     "rxjs": "~5.4.3",
     "zone.js": "~0.8.18",
     "lodash": "~4.17.4",
-    "@types/node": "~8.0.32",
+    "@types/node": "~8.5.0",
     "@types/lodash": "4.14.55",
     "@types/jest": "~21.1.2",
     "rimraf": "~2.6.2",
