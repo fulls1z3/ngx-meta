@@ -41,6 +41,6 @@ export interface MetaSettings {
     /**
      * represents a key/value pair of default meta tag and its value
      */
-    [key: string]: string;
+    [key: string]: string | undefined;
   };
 }
