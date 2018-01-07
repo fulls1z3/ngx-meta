@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.0"></a>
+# 5.0.0 (2018-01-07)
+
+
+### Features
+
+* upgrade to angular 5 ([#127](https://github.com/fulls1z3/ngx-meta/issues/127)) ([b05a1a0](https://github.com/fulls1z3/ngx-meta/commit/b05a1a0))
+
+
+
 <a name="4.0.1"></a>
 ## 4.0.1 (2017-09-07)
 
