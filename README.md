@@ -41,7 +41,7 @@ If you want to file a bug, contribute some code, or improve documentation, pleas
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2017 [Burak Tasci]
+Copyright (c) 2018 [Burak Tasci]
 
 [master]: https://github.com/ngx-meta/core/tree/master
 [5.x.x]: https://github.com/ngx-meta/core/tree/5.x.x

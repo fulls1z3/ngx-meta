@@ -341,7 +341,7 @@ export class ItemComponent implements OnInit, OnDestroy {
 ## <a name="license"></a> License
 The MIT License (MIT)
 
-Copyright (c) 2017 [Burak Tasci]
+Copyright (c) 2018 [Burak Tasci]
 
 [master]: https://github.com/ngx-meta/core/tree/master
 [5.x.x]: https://github.com/ngx-meta/core/tree/5.x.x
