@@ -15,6 +15,7 @@ export class TestBootstrapComponent {
 }
 
 @Component({template: ''})
+// tslint:disable-next-line
 export class TestComponent {
 }
 
