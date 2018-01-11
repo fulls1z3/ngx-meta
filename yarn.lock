@@ -29,9 +29,9 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser-dynamic@5.1.2":
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-5.1.2.tgz#120d49ce16bcb91b8ac1c5e5c634fba592359ad7"
+"@angular/platform-browser-dynamic@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-5.2.0.tgz#6d3e074363606b559c3319d2433d1c08ccaefbad"
   dependencies:
     tslib "^1.7.1"
 
