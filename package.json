@@ -32,7 +32,7 @@
     "@angular/compiler": "5.1.2",
     "@angular/compiler-cli": "5.1.2",
     "@angular/core": "5.1.2",
-    "@angular/platform-browser": "5.1.2",
+    "@angular/platform-browser": "5.2.0",
     "@angular/platform-browser-dynamic": "5.1.2",
     "@angular/router": "5.1.2",
     "core-js": "~2.5.3",
