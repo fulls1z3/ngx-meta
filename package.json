@@ -19,7 +19,7 @@
   "scripts": {
     "clean": "rimraf .temp dist",
     "build": "ts-node ./tools/build/rollup.ts && rimraf .temp",
-    "lint": "tslint -p ./tslint.json --force",
+    "lint": "tslint -p ./tsconfig.json --force",
     "rebuild": "npm run clean && npm run build",
     "ci:before": "greenkeeper-lockfile-update",
     "ci:after": "greenkeeper-lockfile-upload",
