@@ -23,9 +23,9 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/core@5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-5.2.0.tgz#f91bf83de3e0defd621adcc007c25d7cd5a85af1"
+"@angular/core@5.2.1":
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-5.2.1.tgz#47347e4098b0e997220d77652f4d9ca44dda8923"
   dependencies:
     tslib "^1.7.1"
 
