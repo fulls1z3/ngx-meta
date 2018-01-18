@@ -56,7 +56,7 @@
     "jest-preset-angular": "~5.0.0",
     "jest-junit-reporter": "~1.1.0",
     "standard-version": "~4.3.0",
-    "codelyzer": "~4.0.2",
+    "codelyzer": "~4.1.0",
     "tslint": "~5.9.1",
     "angular-tslint-rules": "1.1.0",
     "typescript": "~2.6.2"
