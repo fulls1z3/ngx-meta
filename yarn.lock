@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@angular/common@5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@angular/common/-/common-5.2.0.tgz#d184fb90763da1d1bab1f6c4f41dd80c79e47506"
+"@angular/common@5.2.1":
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-5.2.1.tgz#a6f2d349f6102e6be7cc488899578a0dc327b755"
   dependencies:
     tslib "^1.7.1"
 
