@@ -3403,7 +3403,7 @@ tsconfig@^7.0.0:
     strip-bom "^3.0.0"
     strip-json-comments "^2.0.0"
 
-tsickle@^0.26.0, tsickle@~0.26.0:
+tsickle@^0.26.0:
   version "0.26.0"
   resolved "https://registry.yarnpkg.com/tsickle/-/tsickle-0.26.0.tgz#40b30a2dd6abcb33b182e37596674bd1cfe4039c"
   dependencies:
@@ -3411,6 +3411,15 @@ tsickle@^0.26.0, tsickle@~0.26.0:
     mkdirp "^0.5.1"
     source-map "^0.5.6"
     source-map-support "^0.4.2"
+
+tsickle@~0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/tsickle/-/tsickle-0.27.0.tgz#b201810a0d13d4b7914f62711ae09d9e53ac107d"
+  dependencies:
+    minimist "^1.2.0"
+    mkdirp "^0.5.1"
+    source-map "^0.5.6"
+    source-map-support "^0.5.0"
 
 tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1:
   version "1.9.0"
