@@ -44,7 +44,7 @@
     "@types/jest": "~22.1.0",
     "@types/lodash": "4.14.55",
     "rimraf": "~2.6.2",
-    "ts-node": "~4.1.0",
+    "ts-node": "~5.0.0",
     "glob": "~7.1.2",
     "camelcase": "~4.1.0",
     "rollup": "~0.42.0",
