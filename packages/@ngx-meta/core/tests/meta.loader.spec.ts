@@ -23,7 +23,8 @@ describe('@ngx-meta/core:',
             const loader = new MetaStaticLoader();
             const loadedApiEndpoint = loader.settings;
 
-            expect(loadedApiEndpoint).toEqual(defaultSettings);
+            expect(loadedApiEndpoint)
+              .toEqual(defaultSettings);
           });
 
         it('should be able to provide `MetaStaticLoader`',
@@ -37,9 +38,12 @@ describe('@ngx-meta/core:',
 
             const meta = TestBed.get(MetaService);
 
-            expect(MetaStaticLoader).toBeDefined();
-            expect(meta.loader).toBeDefined();
-            expect(meta.loader instanceof MetaStaticLoader).toBeTruthy();
+            expect(MetaStaticLoader)
+              .toBeDefined();
+            expect(meta.loader)
+              .toBeDefined();
+            expect(meta.loader instanceof MetaStaticLoader)
+              .toBeTruthy();
           });
 
         it('should be able to provide any `MetaLoader`',
@@ -57,9 +61,12 @@ describe('@ngx-meta/core:',
 
             const meta = TestBed.get(MetaService);
 
-            expect(CustomLoader).toBeDefined();
-            expect(meta.loader).toBeDefined();
-            expect(meta.loader instanceof CustomLoader).toBeTruthy();
+            expect(CustomLoader)
+              .toBeDefined();
+            expect(meta.loader)
+              .toBeDefined();
+            expect(meta.loader instanceof CustomLoader)
+              .toBeTruthy();
           });
       });
   });

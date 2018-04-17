@@ -4,12 +4,5 @@
   ],
   "extends": [
     "angular-tslint-rules"
-  ],
-  "rules": {
-    "pipe-naming": [
-      true,
-      "camelCase",
-      "config"
-    ]
-  }
+  ]
 }

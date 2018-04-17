@@ -1,5 +1,5 @@
 // libs
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 // TODO use Symbol.observable when https://github.com/ReactiveX/rxjs/issues/2415 will be resolved
 // import { $$observable as symbolObservable } from 'rxjs/symbol/observable';
 

@@ -1,6 +1,5 @@
 // libs
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { of as observableOf } from 'rxjs';
 
 // module
 import { isObservable, isPromise } from '../src/util';
@@ -9,7 +8,8 @@ describe('@ngx-meta/core:', () => {
   describe('isPromise', () => {
     it('should be true for native Promises',
       () => {
-        expect(isPromise(Promise.resolve(true))).toEqual(true);
+        expect(isPromise(Promise.resolve(true)))
+          .toEqual(true);
       });
 
     it('should be true for thenables',
@@ -18,54 +18,64 @@ describe('@ngx-meta/core:', () => {
           then: () => {
             // NOTE: go on
           }
-        })).toEqual(true);
+        }))
+          .toEqual(true);
       });
 
     it('should be false if "then" is not a function',
       () => {
-        expect(isPromise({then: 0})).toEqual(false);
+        expect(isPromise({then: 0}))
+          .toEqual(false);
       });
 
     it('should be false if the argument has no "then" function',
       () => {
-        expect(isPromise({})).toEqual(false);
+        expect(isPromise({}))
+          .toEqual(false);
       });
 
     it('should be false if the argument is undefined or null',
       () => {
-        expect(isPromise(undefined)).toEqual(false);
+        expect(isPromise(undefined))
+          .toEqual(false);
         // tslint:disable-next-line
-        expect(isPromise(null)).toEqual(false);
+        expect(isPromise(null))
+          .toEqual(false);
       });
   });
 
   describe('isObservable', () => {
     it('should be true for an Observable',
       () => {
-        expect(isObservable(Observable.of(true))).toEqual(true);
+        expect(isObservable(observableOf(true)))
+          .toEqual(true);
       });
 
     it('should be false if the argument is undefined',
       () => {
-        expect(isObservable(undefined)).toEqual(false);
+        expect(isObservable(undefined))
+          .toEqual(false);
       });
 
     it('should be false if the argument is null',
       () => {
         // tslint:disable-next-line
-        expect(isObservable(null)).toEqual(false);
+        expect(isObservable(null))
+          .toEqual(false);
       });
 
     it('should be false if the argument is an object',
       () => {
-        expect(isObservable({})).toEqual(false);
+        expect(isObservable({}))
+          .toEqual(false);
       });
 
     it('should be false if the argument is a function',
       () => {
         expect(isObservable(() => {
           // NOTE: go on
-        })).toEqual(false);
+        }))
+          .toEqual(false);
       });
 
     // TODO use Symbol.observable when https://github.com/ReactiveX/rxjs/issues/2415 will be resolved
@@ -74,7 +84,8 @@ describe('@ngx-meta/core:', () => {
     //     expect(isObservable({
     //       subscribe: () => {
     //       }
-    //     })).toEqual(false);
+    //     }))
+    //       .toEqual(false);
     //   });
   });
 });

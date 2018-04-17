@@ -6,6 +6,7 @@
     "no-implicit-dependencies": [
       true,
       "dev"
-    ]
+    ],
+    "no-dynamic-delete": false
   }
 }
