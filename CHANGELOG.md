@@ -2,8 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.0-rc.1"></a>
+# [6.0.0.rc-1](https://github.com/fulls1z3/ngx-auth/compare/v5.0.0...v6.0.0.rc-1) (2018-04-17)
+
+
+### Features
+
+* **core:** upgrade to angular 6 ([73453fd](https://github.com/fulls1z3/ngx-meta/commit/73453fd))
+
+
+
 <a name="5.0.0"></a>
-# 5.0.0 (2018-01-07)
+# [5.0.0](https://github.com/fulls1z3/ngx-auth/compare/v4.0.1...v5.0.0) (2018-01-07)
 
 
 ### Features
@@ -13,7 +23,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 <a name="4.0.1"></a>
-## 4.0.1 (2017-09-07)
+## [4.0.1](https://github.com/fulls1z3/ngx-auth/compare/v4.0.0...v4.0.1) (2017-09-07)
 
 
 ### Bug Fixes
@@ -40,6 +50,3 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **core:** add callback function ([#7](https://github.com/fulls1z3/ngx-meta/issues/7)) ([6a11bc7](https://github.com/fulls1z3/ngx-meta/commit/6a11bc7))
 * **core:** remove `lodash` dependency ([#40](https://github.com/fulls1z3/ngx-meta/issues/40)) ([a0ef731](https://github.com/fulls1z3/ngx-meta/commit/a0ef731))
-
-
-
