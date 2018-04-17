@@ -4,8 +4,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 // libs
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { of as observableOf } from 'rxjs';
 import * as _ from 'lodash';
 
 // module
@@ -29,9 +28,12 @@ describe('@ngx-meta/core:',
         it('is defined',
           inject([MetaService],
             (metaService: MetaService) => {
-              expect(MetaService).toBeDefined();
-              expect(metaService).toBeDefined();
-              expect(metaService instanceof MetaService).toBeTruthy();
+              expect(MetaService)
+                .toBeDefined();
+              expect(metaService)
+                .toBeDefined();
+              expect(metaService instanceof MetaService)
+                .toBeTruthy();
             }));
       });
 
@@ -57,36 +59,48 @@ describe('@ngx-meta/core:',
 
               router.navigate(['/'])
                 .then(() => {
-                  expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
-                  expect(meta.getTag('name="description"').content).toEqual('Home, home sweet home... and what?');
-                  expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000');
+                  expect(title.getTitle())
+                    .toEqual('Sweet home - Tour of (lazy/busy) heroes');
+                  expect(meta.getTag('name="description"').content)
+                    .toEqual('Home, home sweet home... and what?');
+                  expect(meta.getTag('property="og:url"').content)
+                    .toEqual('http://localhost:3000');
 
                   router.navigate(['/toothpaste'])
                     .then(() => {
-                      expect(title.getTitle()).toEqual('Toothpaste');
-                      expect(meta.getTag('name="description"').content).toEqual('Eating toothpaste is considered to be too healthy!');
-                      expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000/toothpaste');
+                      expect(title.getTitle())
+                        .toEqual('Toothpaste');
+                      expect(meta.getTag('name="description"').content)
+                        .toEqual('Eating toothpaste is considered to be too healthy!');
+                      expect(meta.getTag('property="og:url"').content)
+                        .toEqual('http://localhost:3000/toothpaste');
 
                       router.navigate(['/duck'])
                         .then(() => {
-                          expect(title.getTitle()).toEqual('Mighty mighty mouse');
+                          expect(title.getTitle())
+                            .toEqual('Mighty mighty mouse');
                           expect(meta.getTag('name="description"').content)
                             .toEqual('Mighty Mouse is an animated superhero mouse character');
-                          expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000/duck');
+                          expect(meta.getTag('property="og:url"').content)
+                            .toEqual('http://localhost:3000/duck');
 
                           router.navigate(['/no-data'])
                             .then(() => {
-                              expect(title.getTitle()).toEqual('Mighty mighty mouse');
+                              expect(title.getTitle())
+                                .toEqual('Mighty mighty mouse');
                               expect(meta.getTag('name="description"').content)
                                 .toEqual('Mighty Mouse is an animated superhero mouse character');
-                              expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000/no-data');
+                              expect(meta.getTag('property="og:url"').content)
+                                .toEqual('http://localhost:3000/no-data');
 
                               router.navigate(['/no-meta'])
                                 .then(() => {
-                                  expect(title.getTitle()).toEqual('Mighty mighty mouse');
+                                  expect(title.getTitle())
+                                    .toEqual('Mighty mighty mouse');
                                   expect(meta.getTag('name="description"').content)
                                     .toEqual('Mighty Mouse is an animated superhero mouse character');
-                                  expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000/no-meta');
+                                  expect(meta.getTag('property="og:url"').content)
+                                    .toEqual('http://localhost:3000/no-meta');
                                 });
                             });
                         });
@@ -104,9 +118,12 @@ describe('@ngx-meta/core:',
 
               router.navigate(['/no-data'])
                 .then(() => {
-                  expect(title.getTitle()).toEqual('Mighty mighty mouse');
-                  expect(meta.getTag('name="description"').content).toEqual('Mighty Mouse is an animated superhero mouse character');
-                  expect(meta.getTag('property="og:url"').content).toEqual('http://localhost:3000/no-data');
+                  expect(title.getTitle())
+                    .toEqual('Mighty mighty mouse');
+                  expect(meta.getTag('name="description"').content)
+                    .toEqual('Mighty Mouse is an animated superhero mouse character');
+                  expect(meta.getTag('property="og:url"').content)
+                    .toEqual('http://localhost:3000/no-data');
                 });
             })));
 
@@ -128,9 +145,12 @@ describe('@ngx-meta/core:',
 
               router.navigate(['/'])
                 .then(() => {
-                  expect(title.getTitle()).toEqual('Sweet home');
-                  expect(meta.getTag('name="description"').content).toEqual('Home, home sweet home... and what?');
-                  expect(meta.getTag('property="og:url"').content).toEqual('/');
+                  expect(title.getTitle())
+                    .toEqual('Sweet home');
+                  expect(meta.getTag('name="description"').content)
+                    .toEqual('Home, home sweet home... and what?');
+                  expect(meta.getTag('property="og:url"').content)
+                    .toEqual('/');
                 });
             })));
 
@@ -157,9 +177,12 @@ describe('@ngx-meta/core:',
 
               router.navigate(['/no-data'])
                 .then(() => {
-                  expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes');
-                  expect(meta.getTag('name="description"').content).toEqual('Mighty Mouse is an animated superhero mouse character');
-                  expect(meta.getTag('property="og:url"').content).toEqual('/no-data');
+                  expect(title.getTitle())
+                    .toEqual('Tour of (lazy/busy) heroes');
+                  expect(meta.getTag('name="description"').content)
+                    .toEqual('Mighty Mouse is an animated superhero mouse character');
+                  expect(meta.getTag('property="og:url"').content)
+                    .toEqual('/no-data');
                 });
             })));
 
@@ -181,8 +204,10 @@ describe('@ngx-meta/core:',
 
               router.navigate(['/no-data'])
                 .then(() => {
-                  expect(title.getTitle()).toEqual('');
-                  expect(meta.getTag('property="og:url"').content).toEqual('/no-data');
+                  expect(title.getTitle())
+                    .toEqual('');
+                  expect(meta.getTag('property="og:url"').content)
+                    .toEqual('/no-data');
                 });
             })));
 
@@ -197,17 +222,20 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTitle('');
-                  expect(title.getTitle()).toEqual('Mighty mighty mouse - Tour of (lazy/busy) heroes');
+                  expect(title.getTitle())
+                    .toEqual('Mighty mighty mouse - Tour of (lazy/busy) heroes');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTitle('Mighty tiny mouse');
-                      expect(title.getTitle()).toEqual('Mighty tiny mouse - Tour of (lazy/busy) heroes');
+                      expect(title.getTitle())
+                        .toEqual('Mighty tiny mouse - Tour of (lazy/busy) heroes');
 
                       router.navigate(['/'])
                         .then(() => {
                           metaService.setTitle('Mighty tiny mouse', true);
-                          expect(title.getTitle()).toEqual('Mighty tiny mouse');
+                          expect(title.getTitle())
+                            .toEqual('Mighty tiny mouse');
                         });
                     });
                 });
@@ -235,17 +263,20 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTitle('');
-                  expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes - Mighty mighty mouse');
+                  expect(title.getTitle())
+                    .toEqual('Tour of (lazy/busy) heroes - Mighty mighty mouse');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTitle('Mighty tiny mouse');
-                      expect(title.getTitle()).toEqual('Tour of (lazy/busy) heroes - Mighty tiny mouse');
+                      expect(title.getTitle())
+                        .toEqual('Tour of (lazy/busy) heroes - Mighty tiny mouse');
 
                       router.navigate(['/'])
                         .then(() => {
                           metaService.setTitle('Mighty tiny mouse', true);
-                          expect(title.getTitle()).toEqual('Mighty tiny mouse');
+                          expect(title.getTitle())
+                            .toEqual('Mighty tiny mouse');
                         });
                     });
                 });
@@ -271,7 +302,8 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTitle('');
-                  expect(title.getTitle()).toEqual('');
+                  expect(title.getTitle())
+                    .toEqual('');
                 });
             })));
 
@@ -297,12 +329,13 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTitle('');
-                  expect(title.getTitle()).toEqual('');
+                  expect(title.getTitle())
+                    .toEqual('');
                 });
             })));
 
-        it('should throw if you provide an invalid `PageTitlePositioning`',
-          () => {
+        it('should be able to set `title` as blank if you provide an invalid `PageTitlePositioning`',
+          inject([Title], (title: Title) => {
             const settings = _.cloneDeep(testSettings);
             settings.pageTitlePositioning = undefined;
 
@@ -314,9 +347,11 @@ describe('@ngx-meta/core:',
             });
 
             const metaService = TestBed.get(MetaService);
+            metaService.setTitle('');
 
-            expect(() => metaService.setTitle('')).toThrowError('Invalid pageTitlePositioning specified [undefined]!');
-          });
+            expect(title.getTitle())
+              .toEqual('');
+          }));
 
         it('should throw if you attempt to set `title` through `setTag` method',
           inject([MetaService],
@@ -337,12 +372,14 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('description', '');
-                  expect(meta.getTag('name="description"').content).toEqual('Mighty Mouse is an animated superhero mouse character');
+                  expect(meta.getTag('name="description"').content)
+                    .toEqual('Mighty Mouse is an animated superhero mouse character');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('description', 'Mighty Mouse is a cool character');
-                      expect(meta.getTag('name="description"').content).toEqual('Mighty Mouse is a cool character');
+                      expect(meta.getTag('name="description"').content)
+                        .toEqual('Mighty Mouse is a cool character');
                     });
                 });
             })));
@@ -367,7 +404,8 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('description', '');
-                  expect(meta.getTag('name="description"').content).toEqual('');
+                  expect(meta.getTag('name="description"').content)
+                    .toEqual('');
                 });
             })));
 
@@ -382,12 +420,14 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('author', '');
-                  expect(meta.getTag('name="author"').content).toEqual('Mighty Mouse');
+                  expect(meta.getTag('name="author"').content)
+                    .toEqual('Mighty Mouse');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('author', 'Mickey Mouse');
-                      expect(meta.getTag('name="author"').content).toEqual('Mickey Mouse');
+                      expect(meta.getTag('name="author"').content)
+                        .toEqual('Mickey Mouse');
                     });
                 });
             })));
@@ -403,12 +443,14 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('publisher', '');
-                  expect(meta.getTag('name="publisher"').content).toEqual('a superhero');
+                  expect(meta.getTag('name="publisher"').content)
+                    .toEqual('a superhero');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('publisher', 'another superhero');
-                      expect(meta.getTag('name="publisher"').content).toEqual('another superhero');
+                      expect(meta.getTag('name="publisher"').content)
+                        .toEqual('another superhero');
                     });
                 });
             })));
@@ -424,24 +466,32 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('og:locale', '');
-                  expect(meta.getTag('property="og:locale"').content).toEqual('en_US');
+                  expect(meta.getTag('property="og:locale"').content)
+                    .toEqual('en_US');
 
                   let elements = meta.getTags('property="og:locale:alternate"');
 
-                  expect(elements.length).toEqual(2);
-                  expect(elements[0].content).toEqual('nl_NL');
-                  expect(elements[1].content).toEqual('tr_TR');
+                  expect(elements.length)
+                    .toEqual(2);
+                  expect(elements[0].content)
+                    .toEqual('nl_NL');
+                  expect(elements[1].content)
+                    .toEqual('tr_TR');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('og:locale', 'tr-TR');
-                      expect(meta.getTag('property="og:locale"').content).toEqual('tr_TR');
+                      expect(meta.getTag('property="og:locale"').content)
+                        .toEqual('tr_TR');
 
                       elements = meta.getTags('property="og:locale:alternate"');
 
-                      expect(elements.length).toEqual(2);
-                      expect(elements[0].content).toEqual('en_US');
-                      expect(elements[1].content).toEqual('nl_NL');
+                      expect(elements.length)
+                        .toEqual(2);
+                      expect(elements[0].content)
+                        .toEqual('en_US');
+                      expect(elements[1].content)
+                        .toEqual('nl_NL');
                     });
                 });
             })));
@@ -459,14 +509,18 @@ describe('@ngx-meta/core:',
                   metaService.setTag('og:locale:alternate', '');
                   const elements = meta.getTags('property="og:locale:alternate"');
 
-                  expect(elements.length).toEqual(2);
-                  expect(elements[0].content).toEqual('nl_NL');
-                  expect(elements[1].content).toEqual('tr_TR');
+                  expect(elements.length)
+                    .toEqual(2);
+                  expect(elements[0].content)
+                    .toEqual('nl_NL');
+                  expect(elements[1].content)
+                    .toEqual('tr_TR');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('og:locale:alternate', 'tr-TR');
-                      expect(meta.getTag('property="og:locale:alternate"').content).toEqual('tr_TR');
+                      expect(meta.getTag('property="og:locale:alternate"').content)
+                        .toEqual('tr_TR');
                     });
                 });
             })));
@@ -491,12 +545,14 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('og:locale', '');
-                  expect(meta.getTag('property="og:locale"').content).toEqual('');
+                  expect(meta.getTag('property="og:locale"').content)
+                    .toEqual('');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('og:locale', 'tr-TR');
-                      expect(meta.getTag('property="og:locale"').content).toEqual('tr_TR');
+                      expect(meta.getTag('property="og:locale"').content)
+                        .toEqual('tr_TR');
                     });
                 });
             })));
@@ -516,10 +572,12 @@ describe('@ngx-meta/core:',
 
               const metaService = TestBed.get(MetaService);
 
-              expect(meta.getTag('property="og:locale"').content).toEqual('tr_TR');
+              expect(meta.getTag('property="og:locale"').content)
+                .toEqual('tr_TR');
 
               metaService.setTag('og:locale:alternate', 'tr-TR');
-              expect(meta.getTag('property="og:locale:alternate"')).toBeNull();
+              expect(meta.getTag('property="og:locale:alternate"'))
+                .toBeNull();
             }));
 
         it('should be able to do not set `og:locale:alternate` using routes w/o default settings & w/o `og:locale`',
@@ -542,10 +600,14 @@ describe('@ngx-meta/core:',
 
               router.navigate(['/'])
                 .then(() => {
-                  expect(title.getTitle()).toEqual('Sweet home');
-                  expect(meta.getTag('name="description"').content).toEqual('Home, home sweet home... and what?');
-                  expect(meta.getTag('property="og:url"').content).toEqual('/');
-                  expect(meta.getTag('property="og:locale:alternate"')).toBeNull();
+                  expect(title.getTitle())
+                    .toEqual('Sweet home');
+                  expect(meta.getTag('name="description"').content)
+                    .toEqual('Home, home sweet home... and what?');
+                  expect(meta.getTag('property="og:url"').content)
+                    .toEqual('/');
+                  expect(meta.getTag('property="og:locale:alternate"'))
+                    .toBeNull();
                 });
             })));
 
@@ -560,12 +622,14 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTag('og:type', '');
-                  expect(meta.getTag('property="og:type"').content).toEqual('website');
+                  expect(meta.getTag('property="og:type"').content)
+                    .toEqual('website');
 
                   router.navigate(['/no-data'])
                     .then(() => {
                       metaService.setTag('og:type', 'blog');
-                      expect(meta.getTag('property="og:type"').content).toEqual('blog');
+                      expect(meta.getTag('property="og:type"').content)
+                        .toEqual('blog');
                     });
                 });
             })));
@@ -581,7 +645,8 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.removeTag('property="og:type"');
-                  expect(meta.getTag('property="og:type"')).toBeNull();
+                  expect(meta.getTag('property="og:type"'))
+                    .toBeNull();
                 });
             })));
       });
@@ -611,7 +676,8 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTitle('test');
-                  expect(title.getTitle()).toEqual('test');
+                  expect(title.getTitle())
+                    .toEqual('test');
                 });
             })));
 
@@ -641,7 +707,8 @@ describe('@ngx-meta/core:',
               router.navigate(['/'])
                 .then(() => {
                   metaService.setTitle('');
-                  expect(title.getTitle()).toEqual('test');
+                  expect(title.getTitle())
+                    .toEqual('test');
                 });
             })));
 
@@ -666,7 +733,8 @@ describe('@ngx-meta/core:',
 
               router.navigate(['/'])
                 .then(() => {
-                  expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
+                  expect(title.getTitle())
+                    .toEqual('Sweet home - Tour of (lazy/busy) heroes');
                 });
             })));
 
@@ -674,7 +742,7 @@ describe('@ngx-meta/core:',
           fakeAsync(inject([Title],
             (title: Title) => {
               const settings = _.cloneDeep(testSettings);
-              settings['callback'] = (value: string) => Observable.of(value);
+              settings['callback'] = (value: string) => observableOf(value);
               const metaFactory = () => new MetaStaticLoader(settings);
 
               testModuleConfig({
@@ -689,7 +757,8 @@ describe('@ngx-meta/core:',
 
               router.navigate(['/'])
                 .then(() => {
-                  expect(title.getTitle()).toEqual('Sweet home - Tour of (lazy/busy) heroes');
+                  expect(title.getTitle())
+                    .toEqual('Sweet home - Tour of (lazy/busy) heroes');
                 });
             })));
       });

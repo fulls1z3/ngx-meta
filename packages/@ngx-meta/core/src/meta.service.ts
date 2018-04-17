@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
 // libs
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/fromPromise';
+import { from as observableFrom, Observable, of as observableOf } from 'rxjs';
 
 // module
 import { PageTitlePositioning } from './models/page-title-positioning';
@@ -28,7 +26,7 @@ export class MetaService {
   setTitle(title: string, override = false): void {
     const title$ = title
       ? this.callback(title)
-      : Observable.of('');
+      : observableOf('');
 
     title$
       .subscribe((res: string) => {
@@ -37,7 +35,7 @@ export class MetaService {
         if (!res) {
           const defaultTitle$ = (this.settings.defaults && this.settings.defaults['title'])
             ? this.callback(this.settings.defaults['title'])
-            : Observable.of('');
+            : observableOf('');
 
           defaultTitle$
             .subscribe((defaultTitle: string) => {
@@ -72,7 +70,7 @@ export class MetaService {
 
     const value$ = (key !== 'og:locale' && key !== 'og:locale:alternate')
       ? this.callback(value)
-      : Observable.of(value);
+      : observableOf(value);
 
     value$
       .subscribe((res: string) => {
@@ -151,13 +149,13 @@ export class MetaService {
 
       if (!isObservable(value$))
         return isPromise(value$)
-          ? Observable.fromPromise(value$)
-          : Observable.of(value$);
+          ? observableFrom(value$)
+          : observableOf(value$);
 
       return value$;
     }
 
-    return Observable.of(value);
+    return observableOf(value);
   }
 
   private getTitleWithPositioning(title: string, applicationName: string): string {

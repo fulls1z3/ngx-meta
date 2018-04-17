@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "es2015",
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "declaration": true,
+    "removeComments": true,
+    "stripInternal": true,
+    "rootDir": "./",
+    "baseUrl": "",
+    "paths": {
+      "@ngx-meta/*": ["../../../dist/@ngx-meta/*"]
+    },
+    "typeRoots": ["../../node_modules/@types"],
+    "lib": [
+      "es2015",
+      "dom"
+    ]
+  }
+}
