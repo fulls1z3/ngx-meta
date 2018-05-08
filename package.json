@@ -48,7 +48,7 @@
     "ng-packagr": "~3.0.0-rc.1",
     "ts-node": "~6.0.0",
     "reflect-metadata": "~0.1.12",
-    "tsickle": "~0.27.5",
+    "tsickle": "~0.28.0",
     "jest": "~22.4.3",
     "jest-preset-angular": "~5.2.1",
     "jest-junit-reporter": "~1.1.0",
