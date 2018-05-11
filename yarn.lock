@@ -41,9 +41,9 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/router@6.0.0-rc.5":
-  version "6.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-6.0.0-rc.5.tgz#b37f93cd81738b7a64697d1804c87c880d7bb636"
+"@angular/router@6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-6.0.1.tgz#bc4943b1798ed8f622f1a4f773ff5f01b5ab70de"
   dependencies:
     tslib "^1.9.0"
 
