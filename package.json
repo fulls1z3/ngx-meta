@@ -39,7 +39,7 @@
     "core-js": "~2.5.5",
     "rxjs": "6.0.0-uncanny-rc.7",
     "zone.js": "~0.8.26",
-    "request": "~2.85.0",
+    "request": "~2.86.0",
     "lodash": "~4.17.5",
     "@types/node": "~9.6.5",
     "@types/jest": "~22.2.3",
