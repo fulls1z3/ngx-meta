@@ -46,7 +46,7 @@
     "@types/lodash": "~4.14.107",
     "rimraf": "~2.6.2",
     "ng-packagr": "~3.0.0-rc.1",
-    "ts-node": "~6.0.0",
+    "ts-node": "~6.1.0",
     "reflect-metadata": "~0.1.12",
     "tsickle": "~0.27.5",
     "jest": "~22.4.3",
