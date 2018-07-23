@@ -14,7 +14,7 @@
     "rootDir": "./",
     "baseUrl": "",
     "paths": {
-      "@ngx-meta/*": ["../../../dist/@ngx-meta/*"]
+      "@ngx-meta/*": ["../../dist/@ngx-meta/*"]
     },
     "typeRoots": ["../../node_modules/@types"],
     "lib": [
