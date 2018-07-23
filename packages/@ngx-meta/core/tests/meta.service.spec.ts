@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 // libs
 import { of as observableOf } from 'rxjs';
-import * as _ from 'lodash';
+import { cloneDeep } from 'lodash/fp';
 
 // module
 import { MetaLoader, MetaService, MetaStaticLoader, PageTitlePositioning } from '../index';
@@ -16,7 +16,7 @@ describe('@ngx-meta/core:',
     describe('MetaService',
       () => {
         beforeEach(() => {
-          const settings = _.cloneDeep(testSettings);
+          const settings = cloneDeep(testSettings);
           const metaFactory = () => new MetaStaticLoader(settings);
 
           testModuleConfig({
@@ -40,7 +40,7 @@ describe('@ngx-meta/core:',
     describe('MetaService',
       () => {
         beforeEach(() => {
-          const settings = _.cloneDeep(testSettings);
+          const settings = cloneDeep(testSettings);
           const metaFactory = () => new MetaStaticLoader(settings);
 
           testModuleConfig({
@@ -130,7 +130,7 @@ describe('@ngx-meta/core:',
         it('should be able to set meta tags using routes w/o default settings',
           fakeAsync(inject([Meta, Title],
             (meta: Meta, title: Title) => {
-              const settings = _.cloneDeep(emptySettings);
+              const settings = cloneDeep(emptySettings);
               const metaFactory = () => new MetaStaticLoader(settings);
 
               testModuleConfig({
@@ -157,7 +157,7 @@ describe('@ngx-meta/core:',
         it('should be able to set meta tags using routes w/o default `title` w/o `meta` property',
           fakeAsync(inject([Meta, Title],
             (meta: Meta, title: Title) => {
-              const settings = _.cloneDeep(defaultSettings);
+              const settings = cloneDeep(defaultSettings);
               settings.applicationName = 'Tour of (lazy/busy) heroes';
               settings.defaults = {
                 description: 'Mighty Mouse is an animated superhero mouse character'
@@ -189,7 +189,7 @@ describe('@ngx-meta/core:',
         it('should be able to set meta tags using routes w/o default settings w/o `meta` property',
           fakeAsync(inject([Meta, Title],
             (meta: Meta, title: Title) => {
-              const settings = _.cloneDeep(emptySettings);
+              const settings = cloneDeep(emptySettings);
               const metaFactory = () => new MetaStaticLoader(settings);
 
               testModuleConfig({
@@ -244,7 +244,7 @@ describe('@ngx-meta/core:',
         it('should be able to set `title` (appended)',
           fakeAsync(inject([Title],
             (title: Title) => {
-              const settings = _.cloneDeep(testSettings);
+              const settings = cloneDeep(testSettings);
               settings.pageTitlePositioning = PageTitlePositioning.AppendPageTitle;
 
               const metaFactory = () => new MetaStaticLoader(settings);
@@ -285,7 +285,7 @@ describe('@ngx-meta/core:',
         it('should be able to set `title` w/o default settings',
           fakeAsync(inject([Title],
             (title: Title) => {
-              const settings = _.cloneDeep(defaultSettings);
+              const settings = cloneDeep(defaultSettings);
               const metaFactory = () => new MetaStaticLoader(settings);
 
               testModuleConfig({
@@ -310,7 +310,7 @@ describe('@ngx-meta/core:',
         it('should be able to set `title` w/o default settings (appended)',
           fakeAsync(inject([Title],
             (title: Title) => {
-              const settings = _.cloneDeep(defaultSettings);
+              const settings = cloneDeep(defaultSettings);
               settings.pageTitlePositioning = PageTitlePositioning.AppendPageTitle;
 
               const metaFactory = () => new MetaStaticLoader(settings);
@@ -336,7 +336,7 @@ describe('@ngx-meta/core:',
 
         it('should be able to set `title` as blank if you provide an invalid `PageTitlePositioning`',
           inject([Title], (title: Title) => {
-            const settings = _.cloneDeep(testSettings);
+            const settings = cloneDeep(testSettings);
             settings.pageTitlePositioning = undefined;
 
             const metaFactory = () => new MetaStaticLoader(settings);
@@ -387,7 +387,7 @@ describe('@ngx-meta/core:',
         it('should be able to set meta `description` w/o default settings',
           fakeAsync(inject([Meta],
             (meta: Meta) => {
-              const settings = _.cloneDeep(emptySettings);
+              const settings = cloneDeep(emptySettings);
               const metaFactory = () => new MetaStaticLoader(settings);
 
               testModuleConfig({
@@ -528,7 +528,7 @@ describe('@ngx-meta/core:',
         it('should be able to set `og:locale` w/o default settings',
           fakeAsync(inject([Meta],
             (meta: Meta) => {
-              const settings = _.cloneDeep(emptySettings);
+              const settings = cloneDeep(emptySettings);
               const metaFactory = () => new MetaStaticLoader(settings);
 
               testModuleConfig({
@@ -560,7 +560,7 @@ describe('@ngx-meta/core:',
         it('should be able to do not set `og:locale:alternate` as current `og:locale`',
           inject([Meta],
             (meta: Meta) => {
-              const settings = _.cloneDeep(defaultSettings);
+              const settings = cloneDeep(defaultSettings);
               settings.defaults['og:locale'] = 'tr-TR';
 
               const metaFactory = () => new MetaStaticLoader(settings);
@@ -583,7 +583,7 @@ describe('@ngx-meta/core:',
         it('should be able to do not set `og:locale:alternate` using routes w/o default settings & w/o `og:locale`',
           fakeAsync(inject([Meta, Title],
             (meta: Meta, title: Title) => {
-              const settings = _.cloneDeep(defaultSettings);
+              const settings = cloneDeep(defaultSettings);
               settings.defaults['og:locale:alternate'] = 'en-US';
 
               const metaFactory = () => new MetaStaticLoader(settings);
@@ -658,7 +658,7 @@ describe('@ngx-meta/core:',
             (title: Title) => {
               const callback = (value: string) => value === 'Tour of (lazy/busy) heroes' ? '' : value;
 
-              const settings = _.cloneDeep(testSettings);
+              const settings = cloneDeep(testSettings);
               settings['callback'] = (value: string) => callback(value);
               const metaFactory = () => new MetaStaticLoader(settings);
 
@@ -686,7 +686,7 @@ describe('@ngx-meta/core:',
             (title: Title) => {
               const callback = (value: string) => value === 'Tour of (lazy/busy) heroes' ? '' : value;
 
-              const settings = _.cloneDeep(defaultSettings);
+              const settings = cloneDeep(defaultSettings);
               settings['callback'] = (value: string) => callback(value);
               settings['pageTitleSeparator'] = ' - ';
               settings['applicationName'] = 'Tour of (lazy/busy) heroes';
@@ -717,7 +717,7 @@ describe('@ngx-meta/core:',
             (title: Title) => {
               const callback = (value: string) => Promise.resolve(value);
 
-              const settings = _.cloneDeep(testSettings);
+              const settings = cloneDeep(testSettings);
               settings['callback'] = (value: string) => callback(value);
               const metaFactory = () => new MetaStaticLoader(settings);
 
@@ -741,7 +741,7 @@ describe('@ngx-meta/core:',
         it('should be able to set meta tags w/`observable` callback',
           fakeAsync(inject([Title],
             (title: Title) => {
-              const settings = _.cloneDeep(testSettings);
+              const settings = cloneDeep(testSettings);
               settings['callback'] = (value: string) => observableOf(value);
               const metaFactory = () => new MetaStaticLoader(settings);
 

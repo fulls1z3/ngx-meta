@@ -58,12 +58,12 @@ the problem before we can fix it.
 Unfortunately we are not able to investigate / fix bugs without a minimal reproduction, so if we don't hear back from you,
 we are going to close an issue that don't have enough info to be reproduced.
 
-You can file new issues by filling out our [new issue form](https://github.com/fulls1z3/ngx-meta/issues/new).
+You can file new issues by filling out our [new issue form](https://github.com/holidaylab/ngx-meta/issues/new).
 
 ### <a name="submit-pr"></a> Submitting a Pull Request (PR)
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-* Search [GitHub](https://github.com/fulls1z3/ngx-meta/pulls) for an open or closed PR that relates to your submission.
+* Search [GitHub](https://github.com/holidaylab/ngx-meta/pulls) for an open or closed PR that relates to your submission.
 You don't want to duplicate effort.
 * Make your changes in a new git branch:
      ```shell
@@ -116,7 +116,7 @@ After your pull request is merged, you can safely delete your branch and pull th
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 * All features or bug fixes **must be tested** by one or more specs (unit-tests).
 * All public API methods **must be documented**. (Details TBC).
-* We follow [fulls1z3's Angular TSLint rules][angular-tslint-rules].
+* We follow [HolidayLAB's Angular TSLint rules][angular-tslint-rules].
 
 ## <a name="commit"></a> Commit message guidelines
 We have very precise rules over how our git commit messages can be formatted. This leads to **more readable messages** that
@@ -142,7 +142,7 @@ well as in various git tools.
 Footer should contain a [closing reference to an issue](https://help.github.com/articles/closing-issues-via-commit-messages/)
 if any.
 
-Samples: (even more [samples](https://github.com/fulls1z3/ngx-meta/commits/master))
+Samples: (even more [samples](https://github.com/holidaylab/ngx-meta/commits/master))
 ```
 docs(changelog): update change log to alpha.4
 ```
@@ -196,6 +196,6 @@ this commit **Closes**.
 **Breaking Changes** should start with the word `BREAKING CHANGE:` with a space or two newlines. The rest of the commit
 message is then used for this.
 
-[coc]: https://github.com/fulls1z3/ngx-meta/blob/master/CODE_OF_CONDUCT.md
-[github]: https://github.com/fulls1z3/ngx-meta
-[angular-tslint-rules]: https://github.com/ng-seed/angular-tslint-rules
+[coc]: https://github.com/holidaylab/ngx-meta/blob/master/CODE_OF_CONDUCT.md
+[github]: https://github.com/holidaylab/ngx-meta
+[angular-tslint-rules]: https://github.com/holidaylab/angular-tslint-rules

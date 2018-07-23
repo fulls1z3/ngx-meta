@@ -4,18 +4,18 @@
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fulls1z3/ngx-meta.git"
+    "url": "https://github.com/holidaylab/ngx-meta.git"
   },
   "keywords": [],
   "author": {
     "name": "Burak Tasci",
-    "email": "me@fulls1z3.com"
+    "email": "b.tasci@holidaylab.io"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fulls1z3/ngx-meta/issues"
+    "url": "https://github.com/holidaylab/ngx-meta/issues"
   },
-  "homepage": "https://github.com/fulls1z3/ngx-meta#readme",
+  "homepage": "https://github.com/holidaylab/ngx-meta#readme",
   "scripts": {
     "clean": "rimraf dist",
     "build:core": "ts-node tools/build/packager.ts core",
@@ -29,33 +29,34 @@
     "release": "standard-version"
   },
   "devDependencies": {
-    "@angular/common": "6.0.0-rc.5",
-    "@angular/compiler": "6.0.0-rc.5",
-    "@angular/compiler-cli": "6.0.0-rc.5",
-    "@angular/core": "6.0.0-rc.5",
-    "@angular/platform-browser": "6.0.0-rc.5",
-    "@angular/platform-browser-dynamic": "6.0.0-rc.5",
-    "@angular/router": "6.0.0-rc.5",
-    "core-js": "~2.5.5",
-    "rxjs": "6.0.0-uncanny-rc.7",
+    "@angular/common": "~6.0.0",
+    "@angular/compiler": "~6.0.0",
+    "@angular/compiler-cli": "~6.0.0",
+    "@angular/core": "~6.0.0",
+    "@angular/platform-browser": "~6.0.0",
+    "@angular/platform-browser-dynamic": "~6.0.0",
+    "@angular/router": "~6.0.0",
+    "core-js": "~2.5.7",
+    "rxjs": "~6.2.2",
     "zone.js": "~0.8.26",
-    "request": "~2.85.0",
-    "lodash": "~4.17.5",
-    "@types/node": "~9.6.5",
-    "@types/jest": "~22.2.3",
-    "@types/lodash": "~4.14.107",
+    "lodash": "~4.17.10",
+    "request": "~2.87.0",
+    "@types/lodash": "~4.14.112",
+    "@types/node": "~10.5.2",
+    "@types/jest": "~23.3.0",
     "rimraf": "~2.6.2",
-    "ng-packagr": "~3.0.0-rc.1",
-    "ts-node": "~6.0.0",
+    "ts-node": "~7.0.0",
+    "ng-packagr": "~4.0.0",
     "reflect-metadata": "~0.1.12",
-    "tsickle": "~0.27.5",
-    "jest": "~22.4.3",
-    "jest-preset-angular": "~5.2.1",
+    "tsickle": "~0.32.0",
+    "jest": "~23.4.1",
+    "jest-preset-angular": "~5.2.3",
     "jest-junit-reporter": "~1.1.0",
-    "standard-version": "~4.3.0",
-    "codelyzer": "~4.2.1",
-    "tslint": "~5.9.1",
-    "angular-tslint-rules": "1.3.0",
+    "standard-version": "~4.4.0",
+    "codelyzer": "~4.4.2",
+    "tslint": "~5.11.0",
+    "angular-tslint-rules": "~1.5.0",
+    "tslib": "~1.9.0",
     "typescript": "~2.7.2"
   },
   "jest": {

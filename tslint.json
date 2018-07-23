@@ -4,5 +4,9 @@
   ],
   "extends": [
     "angular-tslint-rules"
-  ]
+  ],
+  "rules": {
+    "no-implicit-dependencies": [true, ["lodash"]],
+    "comment-format": [true, "check-lowercase", {"ignore-words": ["TODO", "NOTE"]}]
+  }
 }
