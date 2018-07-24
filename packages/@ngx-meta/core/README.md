@@ -1,8 +1,8 @@
 # @ngx-meta/core [![npm version](https://badge.fury.io/js/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core) [![npm downloads](https://img.shields.io/npm/dm/%40ngx-meta%2Fcore.svg)](https://www.npmjs.com/package/@ngx-meta/core)
 Dynamic page title &amp; meta tags generator for **Angular**
 
-[![CircleCI](https://circleci.com/gh/holidaylab/ngx-meta.svg?style=shield)](https://circleci.com/gh/holidaylab/ngx-meta)
-[![coverage](https://codecov.io/github/holidaylab/ngx-meta/coverage.svg?branch=master)](https://codecov.io/gh/holidaylab/ngx-meta)
+[![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
+[![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=master)](https://codecov.io/gh/fulls1z3/ngx-meta)
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
@@ -341,14 +341,14 @@ export class ItemComponent implements OnInit, OnDestroy {
 ## <a name="license"></a> License
 The MIT License (MIT)
 
-Copyright (c) 2018 [HolidayLAB]
+Copyright (c) 2018 [Burak Tasci]
 
-[master]: https://github.com/holidaylab/ngx-meta/core/tree/master
-[6.x.x]: https://github.com/holidaylab/ngx-meta/core/tree/6.x.x
+[master]: https://github.com/fulls1z3/ngx-meta/core/tree/master
+[6.x.x]: https://github.com/fulls1z3/ngx-meta/core/tree/6.x.x
 [@ngx-translate/core]: https://github.com/ngx-translate/core
 [ng-seed/universal]: https://github.com/ng-seed/universal
 [fulls1z3/example-app]: https://github.com/fulls1z3/example-app
-[@ngx-config/core]: https://github.com/holidaylab/ngx-config/tree/master/packages/@ngx-config/core
+[@ngx-config/core]: https://github.com/fulls1z3/ngx-config/tree/master/packages/@ngx-config/core
 [forRoot]: https://angular.io/docs/ts/latest/guide/ngmodule.html#!#core-for-root
 [AoT compilation]: https://angular.io/docs/ts/latest/cookbook/aot-compiler.html
-[HolidayLAB]: https://github.com/holidaylab
+[Burak Tasci]: https://github.com/fulls1z3

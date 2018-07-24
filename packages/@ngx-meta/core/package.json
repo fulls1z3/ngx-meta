@@ -4,7 +4,7 @@
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/holidaylab/ngx-meta.git"
+    "url": "https://github.com/fulls1z3/ngx-meta.git"
   },
   "keywords": [
     "open graph",
@@ -19,13 +19,13 @@
   ],
   "author": {
     "name": "Burak Tasci",
-    "email": "b.tasci@holidaylab.io"
+    "email": "me@fulls1z3.com"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/holidaylab/ngx-meta/core/issues"
+    "url": "https://github.com/fulls1z3/ngx-meta/core/issues"
   },
-  "homepage": "https://github.com/holidaylab/ngx-meta/tree/master/packages/@ngx-meta/core#readme",
+  "homepage": "https://github.com/fulls1z3/ngx-meta/tree/master/packages/@ngx-meta/core#readme",
   "dependencies": {
     "tslib": "~1.9.0"
   },
