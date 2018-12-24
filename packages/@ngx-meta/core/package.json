@@ -1,6 +1,6 @@
 {
   "name": "@ngx-meta/core",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
@@ -30,10 +30,10 @@
     "tslib": "~1.9.0"
   },
   "peerDependencies": {
-    "@angular/core": ">=6.0.0 <7.0.0",
-    "@angular/platform-browser": ">=6.0.0 <7.0.0",
-    "@angular/platform-browser-dynamic": ">=6.0.0 <7.0.0",
-    "@angular/router": ">=6.0.0 <7.0.0",
+    "@angular/core": ">=7.0.0 <8.0.0",
+    "@angular/platform-browser": ">=7.0.0 <8.0.0",
+    "@angular/platform-browser-dynamic": ">=7.0.0 <8.0.0",
+    "@angular/router": ">=7.0.0 <8.0.0",
     "rxjs": ">=6.0.0"
   }
 }
