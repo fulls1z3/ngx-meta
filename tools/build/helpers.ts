@@ -1,4 +1,4 @@
-// libs
+// tslint:disable
 import * as path from 'path';
 
 export function root(args: any = ''): string {

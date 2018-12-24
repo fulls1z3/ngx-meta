@@ -1,23 +1,18 @@
-// angular
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-// module
 import { MetaGuard, MetaModule, MetaService, MetaSettings, PageTitlePositioning } from '../index';
 
-@Component({template: '<router-outlet></router-outlet>'})
+@Component({ template: '<router-outlet></router-outlet>' })
 export class TestBootstrapComponent {
-  constructor(private readonly meta: MetaService) {
-  }
+  constructor(private readonly meta: MetaService) {}
 }
 
-@Component({template: ''})
-// tslint:disable-next-line
-export class TestComponent {
-}
+@Component({ template: '' })
+export class TestComponent {}
 
 const testRoutes: Routes = [
   {
@@ -105,15 +100,8 @@ export const testSettings: MetaSettings = {
 export const testModuleConfig = (moduleOptions?: any) => {
   TestBed.resetTestEnvironment();
 
-  TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting())
-    .configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes(testRoutes),
-        MetaModule.forRoot(moduleOptions)
-      ],
-      declarations: [
-        TestBootstrapComponent,
-        TestComponent
-      ]
-    });
+  TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting()).configureTestingModule({
+    imports: [RouterTestingModule.withRoutes(testRoutes), MetaModule.forRoot(moduleOptions)],
+    declarations: [TestBootstrapComponent, TestComponent]
+  });
 };
