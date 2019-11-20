@@ -9,7 +9,7 @@
   "keywords": [],
   "author": {
     "name": "Burak Tasci",
-    "email": "me@fulls1z3.com"
+    "email": "mail@buraktasci.com"
   },
   "license": "MIT",
   "bugs": {
@@ -51,14 +51,14 @@
     "jest-preset-angular": "~6.0.2",
     "lint-staged": "~8.1.0",
     "lodash": "~4.17.11",
-    "ng-packagr": "~4.4.5",
+    "ng-packagr": "^5.7.1",
     "prettier": "~1.15.3",
     "prettier-tslint": "~0.4.1",
     "reflect-metadata": "~0.1.12",
     "request": "~2.88.0",
     "rimraf": "~2.6.2",
     "rxjs": "~6.3.3",
-    "standard-version": "~4.4.0",
+    "semantic-release": "^15.13.31",
     "ts-node": "~7.0.1",
     "tsickle": "~0.34.0",
     "tslib": "~1.9.3",
@@ -91,10 +91,43 @@
       "packages/@ngx-meta/core/src/**.ts"
     ]
   },
-  "greenkeeper": {
-    "ignore": [
-      "rollup",
-      "rollup-plugin-commonjs"
+  "release": {
+    "branch": "master",
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "angular",
+          "releaseRules": "./release-rules.js",
+          "parserOpts": {
+            "noteKeywords": [
+              "BREAKING CHANGE",
+              "BREAKING CHANGES",
+              "BREAKING"
+            ]
+          }
+        }
+      ],
+      "@semantic-release/github",
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "./dist"
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "angular",
+          "parserOpts": {
+            "noteKeywords": [
+              "BREAKING CHANGE",
+              "BREAKING CHANGES",
+              "BREAKING"
+            ]
+          }
+        }
+      ]
     ]
   }
 }

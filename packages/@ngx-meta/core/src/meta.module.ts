@@ -1,20 +1,10 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 
-import { MetaGuard } from './src/meta.guard';
-import { MetaLoader, MetaStaticLoader } from './src/meta.loader';
-import { MetaService } from './src/meta.service';
+import { MetaGuard } from './meta.guard';
+import { MetaLoader, MetaStaticLoader } from './meta.loader';
+import { MetaService } from './meta.service';
 
-export * from './src/models/meta-settings';
-export * from './src/models/page-title-positioning';
-export * from './src/meta.guard';
-export * from './src/meta.loader';
-export * from './src/meta.service';
-
-// for AoT compilation
-// tslint:disable-next-line
-export function metaFactory(): MetaLoader {
-  return new MetaStaticLoader();
-}
+export const metaFactory = () => new MetaStaticLoader();
 
 @NgModule()
 export class MetaModule {

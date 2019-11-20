@@ -4,7 +4,7 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@ang
 import { Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { MetaGuard, MetaModule, MetaService, MetaSettings, PageTitlePositioning } from '../index';
+import { MetaGuard, MetaModule, MetaService, MetaSettings, PageTitlePositioning } from '../src';
 
 @Component({ template: '<router-outlet></router-outlet>' })
 export class TestBootstrapComponent {

@@ -1,6 +1,6 @@
 {
   "name": "@ngx-meta/core",
-  "version": "7.0.0",
+  "version": "0.0.0",
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   ],
   "author": {
     "name": "Burak Tasci",
-    "email": "me@fulls1z3.com"
+    "email": "mail@buraktasci.com"
   },
   "license": "MIT",
   "bugs": {
@@ -35,5 +35,8 @@
     "@angular/platform-browser-dynamic": ">=7.0.0 <8.0.0",
     "@angular/router": ">=7.0.0 <8.0.0",
     "rxjs": ">=6.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

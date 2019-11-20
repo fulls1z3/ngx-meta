@@ -1,18 +1,15 @@
-# angular gitignore
-# see https://github.com/prettier/prettier/issues/2294
+# Add files here to ignore them from prettier formatting
 
-## compiled output
-/.awcache
+# compiled output
 /dist
 /docs
 /tmp
 /out-tsc
 
-## dependencies
-/bower_components
+# dependencies
 /node_modules
 
-## IDEs and editors
+# IDEs and editors
 /.idea
 .project
 .classpath
@@ -43,8 +40,7 @@ test-report.xml
 .DS_Store
 Thumbs.db
 
-# auto-generated files
-/angular.json
-/.angular-cli.json
-/package-lock.json
-/yarn.lock
+# others
+/tools
+angular.json
+yarn.lock

@@ -2,10 +2,14 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:10-browsers
+        environment:
+          JOBS: 1
     steps:
       - checkout
       - run: sudo npm install -g yarn@0
+      - run: sudo yarn global add @angular/cli@7
+      - run: sudo yarn global add semantic-release@15
       - run: sudo yarn global add greenkeeper-lockfile@1
       - restore_cache:
           keys:
@@ -19,6 +23,7 @@ jobs:
       - run: yarn test:ci
       - run: yarn build
       - run: yarn ci:after
+      - run: npx semantic-release
       - run: bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
           path: coverage

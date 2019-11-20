@@ -2,10 +2,10 @@
 
 Dynamic page title &amp; meta tags generator for **Angular**
 
-[![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
-[![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=master)](https://codecov.io/gh/fulls1z3/ngx-meta)
-[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![CircleCI](https://circleci.com/gh/fulls1z3/ngx-meta.svg?style=shield)](https://circleci.com/gh/fulls1z3/ngx-meta)
+[![coverage](https://codecov.io/github/fulls1z3/ngx-meta/coverage.svg?branch=master)](https://codecov.io/gh/fulls1z3/ngx-meta)
+[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
 > Please support this project by simply putting a Github star. Share this library with friends on Twitter and everywhere else you can.
@@ -17,16 +17,10 @@ route configuration.
   successfully appear on HTML source, due to its platform-free workflow. This allows the SPA to be **crawled and rendered**
   by the search engines, as well as **sharing** the website **link** on social networks (facebook, twitter, etc).
 - It also supports resolving values [using a `callback` function](#using-a-callback-function) to use a custom logic on the
-  meta tag contents (_`http-get`, [@ngx-translate/core], etc._).
-
-#### NOTICE
-
-> This _[7.x.x] branch_ is intented to work with `Angular v7.x.x`. If you're developing on a later release of **Angular**
-> than `v7.x.x`, then you should probably choose the appropriate version of this library by visiting the _[master] branch_.
+  meta tag contents (`http-get`, [@ngx-translate/core]).
 
 ## Table of contents:
 
-- [Prerequisites](#prerequisites)
 - [Getting started](#getting-started)
   - [Installation](#installation) - [Examples](#examples) - [Recommended packages](#recommended-packages) - [Adding `@ngx-meta/core` to your project (SystemJS)](#adding-systemjs) - [Route configuration](#route-config)
   - [app.module configuration](#appmodule-config)
@@ -34,12 +28,6 @@ route configuration.
 - [Set meta tags programmatically](#set-meta-tags-programmatically)
 - [Credits](#credits)
 - [License](#license)
-
-## <a name="prerequisites"></a> Prerequisites
-
-This library depends on `Angular v6.0.0`. Older versions contain outdated dependencies, might produce errors.
-
-Also, please ensure that you are using **`Typescript v2.7.2`** or higher.
 
 ## <a name="getting-started"> Getting started
 
@@ -363,10 +351,8 @@ export class ItemComponent implements OnInit, OnDestroy {
 
 The MIT License (MIT)
 
-Copyright (c) 2018 [Burak Tasci]
+Copyright (c) 2019 [Burak Tasci]
 
-[master]: https://github.com/fulls1z3/ngx-meta/core/tree/master
-[7.x.x]: https://github.com/fulls1z3/ngx-meta/core/tree/7.x.x
 [@ngx-translate/core]: https://github.com/ngx-translate/core
 [ng-seed/universal]: https://github.com/ng-seed/universal
 [fulls1z3/example-app]: https://github.com/fulls1z3/example-app

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MetaLoader, MetaService, MetaSettings, MetaStaticLoader } from '../index';
+import { MetaLoader, MetaService, MetaSettings, MetaStaticLoader } from '../src';
 
 import { defaultSettings, emptySettings, testModuleConfig, testSettings } from './common';
 

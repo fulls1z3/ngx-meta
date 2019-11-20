@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { cloneDeep } from 'lodash/fp';
 import { of as observableOf } from 'rxjs';
 
-import { MetaLoader, MetaService, MetaStaticLoader, PageTitlePositioning } from '../index';
+import { MetaLoader, MetaService, MetaStaticLoader, PageTitlePositioning } from '../src';
 
 import { defaultSettings, emptySettings, TestBootstrapComponent, testModuleConfig, testSettings } from './common';
 
