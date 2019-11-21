@@ -49,7 +49,8 @@
     "jest": "~23.6.0",
     "jest-junit-reporter": "~1.1.0",
     "jest-preset-angular": "~6.0.2",
-    "lerna": "^3.19.0",
+    "lerna": "^2.11.0",
+    "lerna-semantic-release": "^9.1.0",
     "lint-staged": "~8.1.0",
     "lodash": "~4.17.11",
     "ng-packagr": "^5.7.1",
@@ -84,7 +85,9 @@
       },
       "__TRANSFORM_HTML__": true
     },
-    "moduleNameMapper": null,
+    "moduleNameMapper": {
+      "^@ngx-meta/core": "<rootDir>/packages/@ngx-meta/core/src/index.ts"
+    },
     "cache": false,
     "silent": true,
     "collectCoverage": true,
