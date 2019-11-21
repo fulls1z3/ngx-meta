@@ -9,8 +9,7 @@ jobs:
       - checkout
       - run: sudo npm install -g yarn@0
       - run: sudo yarn global add greenkeeper-lockfile@1
-      - run: sudo yarn global add lerna@2
-      - run: sudo yarn global add lerna-semantic-release@9
+      - run: sudo yarn global add lerna@3
       - restore_cache:
           keys:
           - deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
@@ -23,7 +22,7 @@ jobs:
       - run: yarn test:ci
       - run: yarn build
       - run: yarn ci:after
-      - run: lerna-semantic-release pre && lerna-semantic-release perform
+      - run: lerna version --force-publish --create-release github --no-changelog --yes && lerna publish --contents dist
       - run: bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
           path: coverage

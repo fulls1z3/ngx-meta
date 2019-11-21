@@ -1,10 +1,15 @@
 {
   "packages": ["packages/@ngx-meta/*"],
-  "version": "independent",
+  "version": "7.0.0",
   "npmClient": "yarn",
   "command": {
     "publish": {
-      "conventionalCommits": true
+      "allowBranch": "master",
+      "conventionalCommits": true,
+      "message": "chore(release): release %s"
+    },
+    "version": {
+      "push": false
     }
   }
 }
