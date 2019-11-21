@@ -37,6 +37,7 @@
     "rxjs": ">=6.0.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "directory": "../../../dist/@ngx-meta/core"
   }
 }
