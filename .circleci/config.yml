@@ -7,6 +7,7 @@ jobs:
           JOBS: 1
     steps:
       - checkout
+      - run: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
       - run: git config --global user.email ${GH_USER_EMAIL}
       - run: git config --global user.name ${GH_USER_NAME}
       - run: sudo npm install -g yarn@0
