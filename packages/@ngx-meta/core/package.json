@@ -1,6 +1,6 @@
 {
   "name": "@ngx-meta/core",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
