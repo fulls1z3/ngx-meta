@@ -60,7 +60,6 @@
     "request": "~2.88.0",
     "rimraf": "~2.6.2",
     "rxjs": "~6.3.3",
-    "semantic-release": "^15.13.31",
     "ts-node": "~7.0.1",
     "tsickle": "~0.34.0",
     "tslib": "~1.9.3",
