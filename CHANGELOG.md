@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [8.0.1](https://github.com/fulls1z3/ngx-meta/compare/v8.0.0...v8.0.1) (2019-11-21)
+
+**Note:** Version bump only for package ngx-meta
+
+
+
+
+
 # [8.0.0](https://github.com/fulls1z3/ngx-meta/compare/v7.0.10...v8.0.0) (2019-11-21)
 
 
