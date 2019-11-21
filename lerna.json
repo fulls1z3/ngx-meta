@@ -1,4 +1,10 @@
 {
   "packages": ["packages/@ngx-meta/*"],
-  "version": "independent"
+  "version": "independent",
+  "npmClient": "yarn",
+  "command": {
+    "publish": {
+      "conventionalCommits": true
+    }
+  }
 }

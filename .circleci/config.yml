@@ -23,7 +23,7 @@ jobs:
       - run: yarn test:ci
       - run: yarn build
       - run: yarn ci:after
-      - run: npx semantic-release -e semantic-release-monorepo
+      - run: npx lerna publish
       - run: bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
           path: coverage
