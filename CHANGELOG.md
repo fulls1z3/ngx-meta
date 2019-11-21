@@ -1,0 +1,11 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [7.0.1](https://github.com/fulls1z3/ngx-meta/compare/v6.0.0-rc.1...v7.0.1) (2019-11-21)
+
+
+### Bug Fixes
+
+* **packaging:** fix publish ([6b3c5c0](https://github.com/fulls1z3/ngx-meta/commit/6b3c5c0ecccecffd866e60ca8b25c84260624b89))
