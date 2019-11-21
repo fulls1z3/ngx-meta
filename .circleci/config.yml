@@ -9,6 +9,7 @@ jobs:
       - checkout
       - run: sudo npm install -g yarn@0
       - run: sudo yarn global add greenkeeper-lockfile@1
+      - run: sudo yarn global add lerna@2
       - run: sudo yarn global add lerna-semantic-release@9
       - restore_cache:
           keys:
