@@ -7,6 +7,8 @@ jobs:
           JOBS: 1
     steps:
       - checkout
+      - run: git config --global user.email ${GH_USER_EMAIL}
+      - run: git config --global user.name ${GH_USER_NAME}
       - run: sudo npm install -g yarn@0
       - run: sudo yarn global add greenkeeper-lockfile@1
       - run: sudo yarn global add lerna@3
