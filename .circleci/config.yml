@@ -23,9 +23,9 @@ jobs:
           paths: 'node_modules'
       - run: yarn ci:before
       - run: yarn test:ci
+      - run: lerna version --create-release github --yes
       - run: yarn build
       - run: yarn ci:after
-      - run: lerna version --create-release github --yes
       - run: lerna publish from-package --yes
       - run: bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
