@@ -1,0 +1,4 @@
+{
+  "packages": ["packages/@ngx-meta/*"],
+  "version": "independent"
+}
