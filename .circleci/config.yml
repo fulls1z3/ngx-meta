@@ -24,8 +24,8 @@ jobs:
       - run: yarn test:ci
       - run: yarn build
       - run: yarn ci:after
-      - run: lerna version --force-publish --create-release github --no-changelog --yes
-      - run: lerna publish --contents dist
+      - run: lerna version --force-publish --create-release github --yes
+      - run: lerna publish
       - run: bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
           path: coverage
