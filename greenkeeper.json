@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "package.json",
+        "packages/@ngx-meta/core/package.json"
+      ]
+    }
+  }
+}
