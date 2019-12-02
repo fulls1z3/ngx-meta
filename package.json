@@ -4,7 +4,7 @@
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fulls1z3/ngx-meta.git"
+    "url": "https://github.com/fulls1z3/ngx-meta"
   },
   "keywords": [],
   "author": {
@@ -41,17 +41,16 @@
     "@commitlint/config-conventional": "^8.2.0",
     "@types/jest": "^23.3.13",
     "@types/lodash": "^4.14.149",
-    "@types/node": "^12.12.11",
-    "angular-tslint-rules": "^1.20.1",
+    "@types/node": "^12.12.14",
+    "angular-tslint-rules": "^1.20.2",
     "codelyzer": "^5.2.0",
-    "core-js": "^2.6.10",
     "cz-conventional-changelog": "^3.0.2",
     "husky": "^3.1.0",
     "jest": "^23.6.0",
     "jest-junit-reporter": "^1.1.0",
     "jest-preset-angular": "^8.0.0",
     "lerna": "^3.19.0",
-    "lint-staged": "^9.4.3",
+    "lint-staged": "^9.5.0",
     "lodash": "^4.17.15",
     "ng-packagr": "^5.7.1",
     "prettier": "^1.19.1",
@@ -60,7 +59,7 @@
     "request": "^2.88.0",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
-    "ts-node": "^8.5.2",
+    "ts-node": "^8.5.4",
     "tsickle": "^0.37.1",
     "tslib": "^1.10.0",
     "tslint": "^5.20.1",
