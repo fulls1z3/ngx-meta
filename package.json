@@ -4,7 +4,7 @@
   "description": "Dynamic page title & meta tags utility for Angular (w/server-side rendering)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fulls1z3/ngx-meta"
+    "url": "https://github.com/fulls1z3/ngx-meta.git"
   },
   "keywords": [],
   "author": {
