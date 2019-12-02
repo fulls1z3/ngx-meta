@@ -1480,10 +1480,10 @@ ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-angular-tslint-rules@^1.20.2:
-  version "1.20.2"
-  resolved "https://registry.yarnpkg.com/angular-tslint-rules/-/angular-tslint-rules-1.20.2.tgz#1815efa753047dc2cc5422a37a40b4a2c85afe95"
-  integrity sha512-z6AFKfAqbXqia+9+VD7D1sardEvsUBpkAN6Nue7vk+6vs2VyvFVUEBUxuv9sIozoXBppmUz4Ot6En1zxfoDHEA==
+angular-tslint-rules@^1.20.3:
+  version "1.20.3"
+  resolved "https://registry.yarnpkg.com/angular-tslint-rules/-/angular-tslint-rules-1.20.3.tgz#389d8d5ba5b6035994a5ac947a2184d227164fc2"
+  integrity sha512-jd9G8fIxC1BP3nqFMGZG8fLKYgjuTHsNwTjP2QcuEOWXRye6NrBWIXrOuzBfImnM97PDC+2KLppee6DyYIYbkQ==
 
 ansi-align@^3.0.0:
   version "3.0.0"

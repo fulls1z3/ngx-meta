@@ -42,7 +42,7 @@
     "@types/jest": "^23.3.13",
     "@types/lodash": "^4.14.149",
     "@types/node": "^12.12.14",
-    "angular-tslint-rules": "^1.20.2",
+    "angular-tslint-rules": "^1.20.3",
     "codelyzer": "^5.2.0",
     "cz-conventional-changelog": "^3.0.2",
     "husky": "^3.1.0",
