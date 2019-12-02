@@ -23,10 +23,10 @@ jobs:
           paths: 'node_modules'
       - run: yarn ci:before
       - run: yarn test:ci
-      - run: lerna version --create-release github --yes
+      - run: if [ $TRAVIS_BRANCH == "master" ] || [[ -n "$TRAVIS_TAG" ]]; then lerna version --create-release github --yes; fi
       - run: yarn build
       - run: yarn ci:after
-      - run: lerna publish from-package --yes
+      - run: if [ $TRAVIS_BRANCH == "master" ] || [[ -n "$TRAVIS_TAG" ]]; then lerna publish from-package --yes; fi
       - run: bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
           path: coverage
