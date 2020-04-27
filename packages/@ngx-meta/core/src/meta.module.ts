@@ -13,7 +13,7 @@ export class MetaModule {
       provide: MetaLoader,
       useFactory: metaFactory
     }
-  ): ModuleWithProviders {
+  ): ModuleWithProviders<MetaModule> {
     return {
       ngModule: MetaModule,
       providers: [configuredProvider, MetaGuard, MetaService]

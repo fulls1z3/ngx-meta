@@ -1,3 +1,4 @@
+// tslint:disable:max-file-line-count
 import { fakeAsync, inject, TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
