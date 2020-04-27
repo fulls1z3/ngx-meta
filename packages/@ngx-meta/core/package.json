@@ -26,9 +26,6 @@
     "url": "https://github.com/fulls1z3/ngx-meta/core/issues"
   },
   "homepage": "https://github.com/fulls1z3/ngx-meta/tree/master/packages/@ngx-meta/core#readme",
-  "dependencies": {
-    "tslib": "^1.10.0"
-  },
   "peerDependencies": {
     "@angular/core": ">=9.0.0 <10.0.0",
     "@angular/platform-browser": ">=9.0.0 <10.0.0",
