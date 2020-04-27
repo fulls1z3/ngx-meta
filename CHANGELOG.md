@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.0.0](https://github.com/fulls1z3/ngx-meta/compare/v8.1.0...v9.0.0) (2020-04-27)
+
+
+### Features
+
+* **package:** migrate to ng9 ([bcc28c9](https://github.com/fulls1z3/ngx-meta/commit/bcc28c97dcff86fb90ee3f7f985ab3fc0c5456d5))
+* **package:** migrate to ng9 ([e9b933a](https://github.com/fulls1z3/ngx-meta/commit/e9b933ae7447860329ef15014bcfb37b8d0620a8))
+
+
+### BREAKING CHANGES
+
+* **package:** ng9
+* **package:** ng9
+
+
+
+
+
 # [8.1.0](https://github.com/fulls1z3/ngx-meta/compare/v8.0.2...v8.1.0) (2020-04-27)
 
 
