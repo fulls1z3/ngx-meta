@@ -2,7 +2,7 @@
   "packages": [
     "packages/@ngx-meta/*"
   ],
-  "version": "8.0.2",
+  "version": "8.1.0",
   "npmClient": "yarn",
   "command": {
     "publish": {
