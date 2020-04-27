@@ -1,19 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
     "importHelpers": true,
-    "baseUrl": ".",
+    "target": "es2015",
+    "module": "commonjs",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
     "paths": {
       "@ngx-meta/core": ["packages/@ngx-meta/core/src/index.ts"]
-    }
+    },
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true
   },
   "include": ["tools/**/*.ts", "packages/**/*.ts"]
 }
