@@ -1,5 +1,7 @@
 // tslint:disable
 import 'jest-preset-angular';
+import 'zone.js';
+import 'zone.js/testing';
 
 const mock = () => {
   let storage = {};
