@@ -1,4 +1,4 @@
-import { PageTitlePositioning } from './page-title-positioning';
+import { PageTitlePositioning } from "./page-title-positioning";
 
 export interface MetaSettings {
   /**

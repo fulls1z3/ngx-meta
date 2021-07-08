@@ -41,7 +41,7 @@ npm install @ngx-meta/core --save
 
 ### <a name="examples"></a> Examples
 
-- [ng-seed/universal] and [fulls1z3/example-app] are officially maintained projects, showcasing common patterns and best
+- [fulls1z3/universal] and [fulls1z3/example-app] are officially maintained projects, showcasing common patterns and best
   practices for **`@ngx-meta/core`**.
 
 ### <a name="recommended-packages"></a> Recommended packages
@@ -313,7 +313,7 @@ export const routes: Routes = [
 ];
 ```
 
-You can find out in-depth examples about the use of **`callback`** function on [ng-seed/universal] and on [fulls1z3/example-app],
+You can find out in-depth examples about the use of **`callback`** function on [fulls1z3/universal] and on [fulls1z3/example-app],
 which are officially maintained seed projects showcasing common patterns and best practices.
 
 ## <a name="set-meta-tags-programmatically"></a> Set meta tags programmatically
@@ -351,10 +351,10 @@ export class ItemComponent implements OnInit, OnDestroy {
 
 The MIT License (MIT)
 
-Copyright (c) 2019 [Burak Tasci]
+Copyright (c) 2021 [Burak Tasci]
 
 [@ngx-translate/core]: https://github.com/ngx-translate/core
-[ng-seed/universal]: https://github.com/ng-seed/universal
+[fulls1z3/universal]: https://github.com/fulls1z3/universal
 [fulls1z3/example-app]: https://github.com/fulls1z3/example-app
 [@ngx-config/core]: https://github.com/fulls1z3/ngx-config/tree/master/packages/@ngx-config/core
 [forroot]: https://angular.io/docs/ts/latest/guide/ngmodule.html#!#core-for-root

@@ -28,7 +28,7 @@ configuration.
 
 ### Examples
 
-- [ng-seed/universal] and [fulls1z3/example-app] are officially maintained projects, showcasing common patterns and best
+- [fulls1z3/universal] and [fulls1z3/example-app] are officially maintained projects, showcasing common patterns and best
   practices for **`ngx-meta`**.
 
 ## Contributing
@@ -48,10 +48,10 @@ If you want to file a bug, contribute some code, or improve documentation, pleas
 
 The MIT License (MIT)
 
-Copyright (c) 2019 [Burak Tasci]
+Copyright (c) 2021 [Burak Tasci]
 
 [@ngx-translate/core]: https://github.com/ngx-translate/core
-[ng-seed/universal]: https://github.com/ng-seed/universal
+[fulls1z3/universal]: https://github.com/fulls1z3/universal
 [fulls1z3/example-app]: https://github.com/fulls1z3/example-app
 [jetbrains]: https://www.jetbrains.com/community/opensource
 [webstorm]: https://www.jetbrains.com/webstorm
