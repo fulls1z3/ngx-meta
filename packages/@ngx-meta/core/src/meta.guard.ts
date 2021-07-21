@@ -5,7 +5,8 @@ import { MetaService } from './meta.service';
 
 @Injectable()
 export class MetaGuard implements CanActivate, CanActivateChild {
-  constructor(private readonly meta: MetaService) {}
+  constructor(private readonly meta: MetaService) {
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const url = state.url;

@@ -8,11 +8,13 @@ import { MetaGuard, MetaModule, MetaService, MetaSettings, PageTitlePositioning 
 
 @Component({ template: '<router-outlet></router-outlet>' })
 export class TestBootstrapComponent {
-  constructor(private readonly meta: MetaService) {}
+  constructor(private readonly meta: MetaService) {
+  }
 }
 
 @Component({ template: '' })
-export class TestComponent {}
+export class TestComponent {
+}
 
 const testRoutes: Routes = [
   {

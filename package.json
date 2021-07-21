@@ -18,7 +18,7 @@
   "homepage": "https://github.com/fulls1z3/ngx-meta#readme",
   "scripts": {
     "clean": "rimraf dist",
-    "build:core": "ts-node tools/build/packager.ts core",
+    "build:core": "ng-packagr -p packages/@ngx-meta/core/package.json",
     "build": "npm run build:core",
     "lint": "tslint -p ./tsconfig.lint.json --force",
     "lint:check": "tslint-config-prettier-check ./tslint.lint.json",
@@ -27,73 +27,44 @@
     "ci:after": "greenkeeper-lockfile-upload",
     "test": "jest --runInBand --colors",
     "test:ci": "jest --ci --updateSnapshot --colors",
-    "release": "standard-version"
+    "release": "standard-version",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "@angular/common": "^9.1.0",
-    "@angular/compiler": "^9.1.0",
-    "@angular/compiler-cli": "^9.1.0",
-    "@angular/core": "^9.1.0",
-    "@angular/platform-browser": "^9.1.0",
-    "@angular/platform-browser-dynamic": "^9.1.0",
-    "@angular/router": "^9.1.0",
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
-    "@types/jest": "^23.3.14",
-    "@types/lodash": "^4.14.150",
-    "@types/node": "^10.0.0",
+    "@angular/common": "^10.1.0",
+    "@angular/compiler": "^10.1.0",
+    "@angular/compiler-cli": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "@angular/platform-browser": "^10.1.0",
+    "@angular/platform-browser-dynamic": "^10.1.0",
+    "@angular/router": "^10.1.0",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@types/jest": "26.0.8",
+    "@types/lodash": "^4.14.171",
+    "@types/node": "~8.9.4",
     "angular-tslint-rules": "^1.20.4",
     "codelyzer": "^5.2.2",
-    "cz-conventional-changelog": "^3.1.0",
-    "husky": "^4.2.0",
-    "jest": "^23.6.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^7.0.1",
+    "jest": "26.2.2",
     "jest-junit-reporter": "^1.1.0",
-    "jest-preset-angular": "8.1.2",
+    "jest-preset-angular": "8.3.1",
     "lerna": "^3.20.2",
-    "lint-staged": "^10.0.0",
-    "lodash": "^4.17.15",
-    "ng-packagr": "^9.0.0",
-    "prettier": "1.19.1",
+    "lint-staged": "~11.0.0",
+    "lodash": "^4.17.21",
+    "ng-packagr": "^10.1.2",
+    "prettier": "2.3.2",
     "prettier-tslint": "^0.4.2",
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
-    "rxjs": "~6.5.4",
-    "ts-node": "^8.9.0",
-    "tsickle": "^0.38.0",
+    "rxjs": "~6.5.5",
+    "tsickle": "^0.43.0",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "~3.8.3",
+    "typescript": "~4.0.8",
     "zone.js": "^0.10.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "jest": {
-    "preset": "jest-preset-angular",
-    "setupTestFrameworkScriptFile": "./tools/test/jest.setup.ts",
-    "testResultsProcessor": "./node_modules/jest-junit-reporter",
-    "testMatch": [
-      "**/+(*.)+(spec|test).+(ts|js)?(x)"
-    ],
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "./tsconfig.json"
-      },
-      "__TRANSFORM_HTML__": true
-    },
-    "moduleNameMapper": {
-      "^@ngx-meta/core": "<rootDir>/packages/@ngx-meta/core/src/index.ts"
-    },
-    "cache": false,
-    "silent": true,
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "packages/@ngx-meta/core/src/**.ts"
-    ]
   },
   "config": {
     "commitizen": {

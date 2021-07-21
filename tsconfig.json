@@ -8,7 +8,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
-    "module": "commonjs",
+    "module": "esnext",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
@@ -16,9 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@ngx-meta/core": ["packages/@ngx-meta/core/src/index.ts"]
-    },
-    "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true
+    }
   },
-  "include": ["tools/**/*.ts", "packages/**/*.ts"]
+  "include": ["packages/**/*.ts"]
 }

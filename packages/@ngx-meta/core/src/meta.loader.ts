@@ -15,5 +15,6 @@ export class MetaStaticLoader implements MetaLoader {
       pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
       defaults: {}
     }
-  ) {}
+  ) {
+  }
 }
